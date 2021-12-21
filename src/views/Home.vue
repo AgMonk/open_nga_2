@@ -2,7 +2,13 @@
   <div class="home">
     <el-input v-model="cookie"  />
     <el-button  @click="setCookie">设置cookie</el-button>
-    <el-button @click="test">测试</el-button>
+
+
+    <div>
+      <el-input v-model="fid"/>
+      <el-button @click="test">测试</el-button>
+    </div>
+
 
   </div>
 </template>
@@ -19,6 +25,7 @@ export default {
   data(){
     return {
       cookie:'',
+      fid:-547859,
     }
   },
   methods:{
@@ -29,7 +36,7 @@ export default {
       requestUnity({
         url:"thread.php",
         data:{
-          fid:-547859,
+          fid:this.fid,
         }
       }).then(res=>{
         console.log(res)

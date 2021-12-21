@@ -23,6 +23,54 @@ const transformRequest = [
     },
 ]
 
+const handleColor = thread => {
+    const bitData = thread.hasOwnProperty('titlefont') ? parseColor(thread.titlefont) : parseColor(thread.topic_misc)
+    if (bitData) {
+        const colorData = bitData.substring(0, 5)
+        const fontData = bitData.substring(5)
+        let color = 'black';
+        const bold = fontData[0] === '1'
+        const italic = fontData[1] === '1'
+        const lineThrough = fontData[2] === '1'
+
+        if (colorData.includes("1")) {
+            const index = colorData.indexOf("1");
+            switch (index) {
+                case 0:
+                    color = 'red';
+                    break;
+                case 1:
+                    color = 'blue';
+                    break;
+                case 2:
+                    color = 'green';
+                    break;
+                case 3:
+                    color = 'orange';
+                    break;
+                case 4:
+                    color = 'silver';
+                    break;
+                default:
+                    color = undefined;
+                    break;
+            }
+        }
+        const style = {
+            color,
+            "text-decoration": lineThrough ? 'line-through' : 'none',
+            "font-weight": bold ? 'bold' : 'normal',
+            "font-style": italic ? 'italic' : 'normal',
+        }
+
+        thread.titleFont = {
+            color, bold, italic, lineThrough, style
+        }
+        delete thread.titlefont
+        delete thread.topic_misc
+    }
+};
+
 // 对返回值进行预处理
 const transformResponse = [
     //读取响应内容
@@ -136,9 +184,8 @@ const transformResponse = [
             console.log(threads)
             threads.forEach(thread => {
                 //    处理单个主题数据
-                if (thread.titlefont) {
-                    thread.color = parseColor(thread.titlefont)
-                }
+                //处理标题颜色
+                handleColor(thread);
             })
 
             if (threads.length === 1) {

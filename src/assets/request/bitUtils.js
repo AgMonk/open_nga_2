@@ -26,7 +26,9 @@ export const parseBitData = (num) => {
 
 export const parseColor = (data) => {
     const s = window.atob(data).split("");
-    return s.map(i=>bin2UInt(i).toString(2))
+    const array = s.map(i=>bin2UInt(i).toString(2));
+    const bit = array[array.length-1].split("").reverse().join('')+'00000000'
+    return bit.substring(0,8)
 }
 
 //二进制字符串转为多字节整数(big-endian)

@@ -1,7 +1,7 @@
 import axios from "axios";
 import {second2String} from "@/assets/utils/DateFormat";
 import {obj2Array} from "@/assets/utils/ObjectUtils";
-import {parseColor} from "@/assets/request/bitUtils";
+import {parseColor, parseThreadTypeBit} from "@/assets/request/bitUtils";
 
 // 配合Form-Data传递参数
 const transformRequest = [
@@ -104,6 +104,10 @@ const handleAuthor = thread => {
         id: authorid
     }
     delete thread.authorid;
+};
+
+const handleThreadType = thread => {
+    thread.type = parseThreadTypeBit(thread.type)
 };
 
 // 对返回值进行预处理
@@ -225,9 +229,12 @@ const transformResponse = [
                 handleTime(thread);
                 //处理镜像字段
                 handleMirror(thread);
-                //    处理作者信息
+                //处理作者信息
                 handleAuthor(thread);
+                //处理主题类型
+                handleThreadType(thread);
 
+                delete thread.tpcurl;
             })
 
             if (threads.length === 1) {

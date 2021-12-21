@@ -6,6 +6,7 @@
 
     <div>
       <el-input v-model="fid"/>
+      <el-input v-model="page"/>
       <el-button @click="test">测试</el-button>
     </div>
 
@@ -26,6 +27,7 @@ export default {
     return {
       cookie:'',
       fid:-547859,
+      page:1,
     }
   },
   methods:{
@@ -38,6 +40,7 @@ export default {
         url:"thread.php",
         data:{
           fid:this.fid,
+          page:this.page,
         }
       }).then(res=>{
         console.log(res)

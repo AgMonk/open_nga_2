@@ -15,7 +15,7 @@ export const parseThreadTypeBit = (num) => {
     Object.keys(obj).forEach(key => {
         obj[key] = obj[key] === "1"
     })
-    return obj;
+    return {...obj,binaryString};
 }
 
 //解析bit数据到二进制

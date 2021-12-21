@@ -33,6 +33,7 @@ export default {
       setCookies(this.cookie,90,'/nga-api')
     },
     test(){
+      console.clear()
       requestUnity({
         url:"thread.php",
         data:{

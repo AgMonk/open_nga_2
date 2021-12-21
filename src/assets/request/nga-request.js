@@ -97,6 +97,15 @@ const handleMirror = thread => {
     delete thread.quote_to
 };
 
+const handleAuthor = thread => {
+    const {author, authorid} = thread;
+    thread.author = {
+        name: author,
+        id: authorid
+    }
+    delete thread.authorid;
+};
+
 // 对返回值进行预处理
 const transformResponse = [
     //读取响应内容
@@ -216,6 +225,8 @@ const transformResponse = [
                 handleTime(thread);
                 //处理镜像字段
                 handleMirror(thread);
+                //    处理作者信息
+                handleAuthor(thread);
 
             })
 

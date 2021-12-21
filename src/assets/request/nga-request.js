@@ -85,16 +85,44 @@ const handleTime = thread => {
 };
 
 const handleMirror = thread => {
-    const {quote_from, quote_to} = thread;
+    const {quote_from, quote_to, parent, topic_misc_var} = thread;
     thread.mirror = {}
-    if (quote_from !== 0){
+    if (quote_from !== 0) {
         thread.mirror.from = quote_from
+        thread.mirror.type = '镜像'
     }
-    if (quote_to !== ''){
+    if (quote_to !== '') {
         thread.mirror.to = quote_to
+        thread.mirror.type = '镜像源'
     }
     delete thread.quote_from
     delete thread.quote_to
+
+//   版面镜像
+    if (parent) {
+        if (parent[0] === 635) {
+            thread.mirror.fid = topic_misc_var['3']
+            thread.mirror.type = '版面'
+            delete thread.topic_misc_var
+        } else if (parent[1]){
+            thread.mirror.type = '合集主题'
+            thread.mirror.fid = parent[0];
+            thread.mirror.stid = parent[1];
+            thread.mirror.collection = parent[2];
+        } else {
+            thread.mirror.type = '子版主题'
+            thread.mirror.fid = parent[0];
+            thread.mirror.forum = parent[2];
+        }
+        delete thread.parent
+    }
+    if (topic_misc_var && topic_misc_var[1]===33){
+        thread.mirror.type = '合集'
+        delete thread.topic_misc_var
+    }
+    if (!thread.mirror.type) {
+        delete thread.mirror
+    }
 };
 
 const handleAuthor = thread => {

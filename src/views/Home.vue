@@ -5,7 +5,7 @@
 
 
     <div>
-      <el-input v-model="fid"/>
+      <el-input v-model="tid"/>
       <el-input v-model="page"/>
       <el-button @click="test">测试</el-button>
     </div>
@@ -27,6 +27,7 @@ export default {
     return {
       cookie:'',
       fid:-547859,
+      tid:25968165,
       page:1,
     }
   },
@@ -37,9 +38,9 @@ export default {
     test(){
       console.clear()
       requestUnity({
-        url:"thread.php",
+        url:"read.php",
         data:{
-          fid:this.fid,
+          tid:this.tid,
           page:this.page,
         }
       }).then(res=>{

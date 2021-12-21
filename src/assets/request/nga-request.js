@@ -1,6 +1,6 @@
 import axios from "axios";
 import {second2String} from "@/assets/utils/DateFormat";
-import {obj2Array} from "@/assets/utils/ObjectUtils";
+import {copyObj, obj2Array} from "@/assets/utils/ObjectUtils";
 import {parseColor, parseThreadTypeBit} from "@/assets/request/bitUtils";
 
 // 配合Form-Data传递参数
@@ -138,6 +138,21 @@ const handleThreadType = thread => {
     thread.type = parseThreadTypeBit(thread.type)
 };
 
+function handleThread(thread) {
+    //处理标题颜色
+    handleColor(thread);
+    //处理时间戳
+    handleTime(thread);
+    //处理镜像字段
+    handleMirror(thread);
+    //处理作者信息
+    handleAuthor(thread);
+    //处理主题类型
+    handleThreadType(thread);
+
+    delete thread.tpcurl;
+}
+
 // 对返回值进行预处理
 const transformResponse = [
     //读取响应内容
@@ -247,29 +262,18 @@ const transformResponse = [
             delete data.__T__ROWS
 
             //主题数据
-            const threads = obj2Array(__T);
-            console.log(threads)
-            threads.forEach(thread => {
-                //    处理单个主题数据
-                //处理标题颜色
-                handleColor(thread);
-                //处理时间戳
-                handleTime(thread);
-                //处理镜像字段
-                handleMirror(thread);
-                //处理作者信息
-                handleAuthor(thread);
-                //处理主题类型
-                handleThreadType(thread);
-
-                delete thread.tpcurl;
-            })
-
-            if (threads.length === 1) {
-                data.thread = threads[0]
-            } else {
-                data.threads = threads
+            if (!__T.tid) {
+                const threads = obj2Array(__T);
+                console.log(threads)
+                threads.forEach(thread => {
+                    //    处理单个主题数据
+                    handleThread(thread);
+                })
+            }else{
+               data.thread = copyObj(__T)
+                handleThread(data.thread);
             }
+
             delete data.__T
 
             return res

@@ -84,6 +84,19 @@ const handleTime = thread => {
     delete thread.postdate
 };
 
+const handleMirror = thread => {
+    const {quote_from, quote_to} = thread;
+    thread.mirror = {}
+    if (quote_from !== 0){
+        thread.mirror.from = quote_from
+    }
+    if (quote_to !== ''){
+        thread.mirror.to = quote_to
+    }
+    delete thread.quote_from
+    delete thread.quote_to
+};
+
 // 对返回值进行预处理
 const transformResponse = [
     //读取响应内容
@@ -201,6 +214,8 @@ const transformResponse = [
                 handleColor(thread);
                 //处理时间戳
                 handleTime(thread);
+                //处理镜像字段
+                handleMirror(thread);
 
             })
 

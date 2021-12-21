@@ -23,12 +23,14 @@ export const parseBitData = (num) => {
     return num.toString(2).split('').reverse().join('');
 }
 
-
 export const parseColor = (data) => {
     const s = window.atob(data).split("");
-    const array = s.map(i=>bin2UInt(i).toString(2));
-    const bit = array[array.length-1].split("").reverse().join('')+'00000000'
-    return bit.substring(0,8)
+    const array = s
+        .map(i=>bin2UInt(i).toString(2))
+        .map(i=>('00000000'+i).slice(-8))
+        .map(i=>i.split("").reverse().join(''))
+    ;
+    return array[array.length-1]
 }
 
 //二进制字符串转为多字节整数(big-endian)

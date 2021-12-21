@@ -66,9 +66,22 @@ const handleColor = thread => {
         thread.titleFont = {
             color, bold, italic, lineThrough, style
         }
-        delete thread.titlefont
-        delete thread.topic_misc
     }
+    delete thread.titlefont
+    delete thread.topic_misc
+};
+
+const handleTime = thread => {
+    const {lastmodify, lastpost, postdate} = thread;
+    const lastModify = second2String(lastmodify)
+    const lastPost = second2String(lastpost)
+    const post = second2String(postdate)
+    thread.timestamp = {
+        post, lastPost, lastModify
+    }
+    delete thread.lastmodify
+    delete thread.lastpost
+    delete thread.postdate
 };
 
 // 对返回值进行预处理
@@ -186,6 +199,9 @@ const transformResponse = [
                 //    处理单个主题数据
                 //处理标题颜色
                 handleColor(thread);
+                //处理时间戳
+                handleTime(thread);
+
             })
 
             if (threads.length === 1) {

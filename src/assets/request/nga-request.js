@@ -88,7 +88,6 @@ const handleTime = obj => {
     setTimestamp(obj, 'lastmodify', 'lastModify')
     setTimestamp(obj, 'lastpost', 'lastPost')
     setTimestamp(obj, 'postdate', 'post')
-
     setTimestamp(obj, 'regdate', 'reg');
     /*todo 疑似为上次登陆时间*/
     setTimestamp(obj, 'thisvisit', 'thisVisit');

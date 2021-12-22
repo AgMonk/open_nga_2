@@ -71,17 +71,28 @@ const handleColor = thread => {
     delete thread.topic_misc
 };
 
-const handleTime = thread => {
-    const {lastmodify, lastpost, postdate} = thread;
-    const lastModify = second2String(lastmodify)
-    const lastPost = second2String(lastpost)
-    const post = second2String(postdate)
-    thread.timestamp = {
-        post, lastPost, lastModify
+const setTimestamp = (obj, srcKey, destKey) => {
+    if (!obj.hasOwnProperty('timestamp')) {
+        obj.timestamp = {}
     }
-    delete thread.lastmodify
-    delete thread.lastpost
-    delete thread.postdate
+    if (obj.hasOwnProperty(srcKey)) {
+        obj.timestamp[destKey] = {
+            time: obj[srcKey],
+            value: second2String(obj[srcKey])
+        }
+        delete obj[srcKey]
+    }
+}
+
+const handleTime = obj => {
+    setTimestamp(obj,'lastmodify','lastModify')
+    setTimestamp(obj,'lastpost','lastPost')
+    setTimestamp(obj,'postdate','post')
+
+    setTimestamp(obj, 'regdate', 'reg');
+    /*todo 疑似为上次登陆时间*/
+    setTimestamp(obj, 'thisvisit', 'thisVisit');
+
 };
 
 const handleMirror = thread => {
@@ -497,6 +508,29 @@ const transformResponse = [
 
                     const data = obj2Array(reputations)[0]
                     user.reputation = data[user.uid]
+
+                    //    金币
+                    let money = user.money
+                    if (money && money > 0) {
+                        const copper = money % 100
+                        money -= copper;
+                        money /= 100;
+                        const silver = money % 100
+                        money -= silver;
+                        money /= 100;
+                        const gold = money
+                        user.money = {
+                            gold, silver, copper
+                        }
+                    }
+                    //回复数
+                    user.postCount = user.postnum;
+                    delete user.postnum;
+
+                   handleTime(user)
+
+                    // 威望
+                    user.rvrc /= 10
                 })
 
 

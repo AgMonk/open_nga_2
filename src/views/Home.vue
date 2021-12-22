@@ -5,9 +5,12 @@
 
 
     <div>
-      <el-input v-model="tid"/>
-      <el-input v-model="page"/>
-      <el-button @click="test">测试</el-button>
+      <el-form>
+        <el-form-item label="主题列表"><el-input v-model="fid"/><el-button @click="thread"  type="primary">发送</el-button></el-form-item>
+        <el-form-item label="主题详情"><el-input  v-model="tid"/><el-button @click="read" type="primary">发送</el-button></el-form-item>
+        <el-form-item label="页码"><el-input v-model="page"/></el-form-item>
+      </el-form>
+
     </div>
 
 
@@ -28,15 +31,26 @@ export default {
       cookie:'',
       fid:-547859,
       tid:25968165,
-      // tid:26639977,
-      page:5,
+      page:1,
     }
   },
   methods:{
     setCookie(){
       setCookies(this.cookie,90,'/nga-api')
     },
-    test(){
+    thread(){
+      console.clear()
+      requestUnity({
+        url:"thread.php",
+        data:{
+          tid:this.tid,
+          page:this.page,
+        }
+      }).then(res=>{
+        console.log(res)
+      })
+    },
+    read(){
       console.clear()
       requestUnity({
         url:"read.php",
@@ -47,7 +61,8 @@ export default {
       }).then(res=>{
         console.log(res)
       })
-    }
+    },
+
   }
 }
 </script>

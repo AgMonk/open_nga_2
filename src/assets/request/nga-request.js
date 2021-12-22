@@ -85,9 +85,9 @@ const setTimestamp = (obj, srcKey, destKey) => {
 }
 
 const handleTime = obj => {
-    setTimestamp(obj,'lastmodify','lastModify')
-    setTimestamp(obj,'lastpost','lastPost')
-    setTimestamp(obj,'postdate','post')
+    setTimestamp(obj, 'lastmodify', 'lastModify')
+    setTimestamp(obj, 'lastpost', 'lastPost')
+    setTimestamp(obj, 'postdate', 'post')
 
     setTimestamp(obj, 'regdate', 'reg');
     /*todo 疑似为上次登陆时间*/
@@ -165,10 +165,10 @@ const handleThread = thread => {
 };
 
 const handleReply = reply => {
-    handleAuthor(reply)
     handleThreadType(reply)
 
     const {postdatetimestamp, score, score_2, alterinfo, hotreply, from_client, comment, attachs} = reply
+
     // 时间戳
     const timestamp = {}
     timestamp.post = second2String(postdatetimestamp)
@@ -294,6 +294,133 @@ const handleReply = reply => {
 
 
 };
+
+function handleUserData(__U, data) {
+    const {__GROUPS, __MEDALS, __REPUTATIONS} = __U
+    // console.log(__U)
+    //用户组
+    const groups = {}
+    obj2Array(__GROUPS).forEach(i => {
+        groups[i[2]] = i[0]
+    })
+    // console.log(groups)
+    delete __U.__GROUPS
+
+    // 徽章
+    const medals = {}
+    if (__MEDALS) {
+        obj2Array(__MEDALS).forEach(i => {
+            medals[i[3]] = {
+                // 地址： https://img4.nga.178.com/ngabbs/medal/{filename}
+                filename: i[0],
+                name: i[1],
+                dsc: i[2]
+            }
+        })
+        delete __U.__MEDALS
+    }
+
+    //声望等级
+    const reputations = {}
+    const level = data.forum.reputationLevel
+    Object.keys(__REPUTATIONS).forEach(key => {
+        reputations[key] = {}
+        const item = __REPUTATIONS[key]
+        const rName = item[0]
+        delete item[0]
+        Object.keys(item).forEach(uid => {
+            const value = item[uid];
+            let name;
+            for (let i = 0; i < level.length; i++) {
+                if (value >= level[i].r) {
+                    name = level[i].n
+                    break;
+                }
+            }
+
+            reputations[key][uid] = {
+                name, value, rName
+            };
+        })
+    })
+    delete __U.__REPUTATIONS
+
+    //用户
+    const users = obj2Array(__U)
+
+    //用户数据 整合：徽章、用户组、声望数据
+
+    users.forEach(user => {
+        //    用户组
+        user.memberName = groups[user.memberid]
+        delete user.memberid;
+        //    徽章
+        if (user.medal.length > 0) {
+            user.medals = user.medal.split(",").map(i => medals[i])
+        }
+        delete user.medal;
+        //    声望
+
+        const data = obj2Array(reputations)[0]
+        user.reputation = data[user.uid]
+
+        //    金币
+        let money = user.money
+        if (money && money > 0) {
+            const copper = money % 100
+            money -= copper;
+            money /= 100;
+            const silver = money % 100
+            money -= silver;
+            money /= 100;
+            const gold = money
+            user.money = {
+                gold, silver, copper
+            }
+        }
+        //回复数
+        user.postCount = user.postnum;
+        delete user.postnum;
+
+        handleTime(user)
+        //个人版面
+        if (user.site) {
+            user.personalForum = {
+                fid: -1 * user.uid,
+                name: user.site
+            }
+            delete user.site;
+        }
+        // 威望
+        user.rvrc /= 10
+
+        let avatar = user.avatar
+        if (avatar && avatar.length > 0) {
+            const prefix = 'https://img.nga.178.com/avatars'
+            // noinspection HttpUrlsUsage
+            const prefix1 = 'http://img.nga.178.com/avatars'
+            if (avatar.startsWith(prefix) || avatar.startsWith(prefix1)) {
+                avatar = avatar.replace(prefix, "").replace(prefix1, "")
+                avatar = avatar.replace(/\.a\//g, "").replace(/\?\d+/g, "")
+                const p = avatar.substring(0, avatar.lastIndexOf('/') + 1)
+                user.avatar = {
+                    prefix,
+                    middlePart: p,
+                    files: avatar.substring(avatar.lastIndexOf('/') + 1).split("|")
+                }
+
+            } else {
+                console.log(`未识别的头像链接格式：` + avatar)
+            }
+        }
+    })
+
+
+    data.userData = {
+        groups, medals, reputations, users
+    }
+    delete data.__U
+}
 
 // 对返回值进行预处理
 const transformResponse = [
@@ -439,112 +566,7 @@ const transformResponse = [
 
             // 处理用户
             if (__U) {
-                const {__GROUPS, __MEDALS, __REPUTATIONS} = __U
-                // console.log(__U)
-                //用户组
-                const groups = {}
-                obj2Array(__GROUPS).forEach(i => {
-                    groups[i[2]] = i[0]
-                })
-                // console.log(groups)
-                delete __U.__GROUPS
-
-                // 徽章
-                const medals = {}
-                obj2Array(__MEDALS).forEach(i => {
-                    medals[i[3]] = {
-                        // 地址： https://img4.nga.178.com/ngabbs/medal/{filename}
-                        filename: i[0],
-                        name: i[1],
-                        dsc: i[2]
-                    }
-                })
-                delete __U.__MEDALS
-
-                //声望等级
-                const reputations = {}
-                const level = data.forum.reputationLevel
-                Object.keys(__REPUTATIONS).forEach(key => {
-                    reputations[key] = {}
-                    const item = __REPUTATIONS[key]
-                    const rName = item[0]
-                    delete item[0]
-                    Object.keys(item).forEach(uid => {
-                        const value = item[uid];
-                        let name;
-                        for (let i = 0; i < level.length; i++) {
-                            if (value >= level[i].r) {
-                                name = level[i].n
-                                break;
-                            }
-                        }
-
-                        reputations[key][uid] = {
-                            name, value, rName
-                        };
-                    })
-                })
-                delete __U.__REPUTATIONS
-
-                //用户
-                const users = obj2Array(__U)
-
-                data.userData = {
-                    groups, medals, reputations, users
-                }
-
-                //用户数据 整合：徽章、用户组、声望数据
-
-                users.forEach(user => {
-                    //    用户组
-                    user.memberName = groups[user.memberid]
-                    delete user.memberid;
-                    //    徽章
-                    if (user.medal.length > 0) {
-                        user.medals = user.medal.split(",").map(i => medals[i])
-                    }
-                    delete user.medal;
-                    //    声望
-
-                    const data = obj2Array(reputations)[0]
-                    user.reputation = data[user.uid]
-
-                    //    金币
-                    let money = user.money
-                    if (money && money > 0) {
-                        const copper = money % 100
-                        money -= copper;
-                        money /= 100;
-                        const silver = money % 100
-                        money -= silver;
-                        money /= 100;
-                        const gold = money
-                        user.money = {
-                            gold, silver, copper
-                        }
-                    }
-                    //回复数
-                    user.postCount = user.postnum;
-                    delete user.postnum;
-
-                   handleTime(user)
-                    //个人版面
-                    if (user.site){
-                        user.personalForum = {
-                            fid:-1*user.uid,
-                            name:user.site
-                        }
-                        delete user.site;
-                    }
-                    // 威望
-                    user.rvrc /= 10
-                })
-
-
-                delete data.__U
-
-                console.log(data.userData)
-
+                handleUserData(__U, data);
             }
 
             //处理回复列表

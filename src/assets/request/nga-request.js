@@ -497,8 +497,8 @@ const transformResponse = [
 
             //整理子版面
             if (__F) {
-                const {fid, name, sub_forums, topped_topic, custom_level,set_topic_tid,set_topic_subject} = __F;
-                const toppedTid = set_topic_tid?set_topic_tid:topped_topic
+                const {fid, name, sub_forums, topped_topic, custom_level, set_topic_tid, set_topic_subject} = __F;
+                const toppedTid = set_topic_tid ? set_topic_tid : topped_topic
                 const children = []
                 if (sub_forums) {
                     Object.keys(sub_forums).forEach(key => {
@@ -532,7 +532,7 @@ const transformResponse = [
                 if (reputationLevel && reputationLevel.length > 0) {
                     forum.reputationLevel = reputationLevel;
                 }
-                 if (children && children.length > 0) {
+                if (children && children.length > 0) {
                     forum.children = children;
                 }
 
@@ -551,8 +551,8 @@ const transformResponse = [
             //分页情况
             const total = __ROWS
             const pageSize = __T__ROWS_PAGE ? __T__ROWS_PAGE : __R__ROWS_PAGE
-            const currentPage = __PAGE?__PAGE:1;
-            data.pageData = {total,pageSize,currentPage}
+            const currentPage = __PAGE ? __PAGE : 1;
+            data.pageData = {total, pageSize, currentPage}
 
             delete data.__ROWS
             delete data.__PAGE
@@ -619,4 +619,43 @@ export const requestUnity = axios.create({
 
 })
 
+
 requestUnity.interceptors.response.use(response => response.data, (error) => Promise.reject(error));
+
+
+export const thread = ({
+                           page = 1,
+                           fid,
+                           stid,
+                           key,
+                           authorid,
+                           favor = false,
+                           orderByPostDateDesc = false,
+                           content = false,
+                           recommend = false,
+                           searchpost = false,
+                       }) => {
+    // 初始值中 要么为空 要么一定有特定值
+    const data = {page, fid, stid, key, authorid}
+    //以下为值仅为 是 / 否 的字段
+    if (recommend) {
+        data.recommend = 1
+    }
+    if (favor) {
+        data.favor = 1
+    }
+    if (content) {
+        data.content = 1
+    }
+    if (searchpost) {
+        data.searchpost = 1
+    }
+    if (orderByPostDateDesc) {
+        // noinspection SpellCheckingInspection
+        data.order_by = "postdatedesc"
+    }
+    return requestUnity({
+        url:"thread.php",
+        data
+    })
+}

@@ -528,7 +528,14 @@ const transformResponse = [
                     delete user.postnum;
 
                    handleTime(user)
-
+                    //个人版面
+                    if (user.site){
+                        user.personalForum = {
+                            fid:-1*user.uid,
+                            name:user.site
+                        }
+                        delete user.site;
+                    }
                     // 威望
                     user.rvrc /= 10
                 })

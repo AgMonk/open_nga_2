@@ -43,7 +43,8 @@ export default {
       requestUnity({
         url:"thread.php",
         data:{
-          fid:this.fid,
+          stid:22043948,
+          // fid:this.fid,
           page:this.page,
         }
       }).then(res=>{

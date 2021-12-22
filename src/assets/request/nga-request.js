@@ -489,6 +489,7 @@ const transformResponse = [
         })
     },
     (data) => {
+        // noinspection JSUnresolvedVariable
         return data.then(res => {
             console.log(copyObj(res))
             const {error, data, time} = res;
@@ -496,7 +497,8 @@ const transformResponse = [
 
             //整理子版面
             if (__F) {
-                const {fid, name, sub_forums, topped_topic, custom_level} = __F;
+                const {fid, name, sub_forums, topped_topic, custom_level,set_topic_tid,set_topic_subject} = __F;
+                const toppedTid = set_topic_tid?set_topic_tid:topped_topic
                 const children = []
                 if (sub_forums) {
                     Object.keys(sub_forums).forEach(key => {
@@ -523,7 +525,17 @@ const transformResponse = [
                     reputationLevel = JSON.parse(s).reverse()
                 }
 
-                const forum = {fid, name, children, toppedTid: topped_topic, reputationLevel}
+                const forum = {fid, name, toppedTid}
+                if (set_topic_subject) {
+                    forum.setName = set_topic_subject;
+                }
+                if (reputationLevel && reputationLevel.length > 0) {
+                    forum.reputationLevel = reputationLevel;
+                }
+                 if (children && children.length > 0) {
+                    forum.children = children;
+                }
+
                 delete data.__F
                 data.forum = forum;
             }

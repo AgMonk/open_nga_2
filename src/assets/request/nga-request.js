@@ -104,7 +104,7 @@ const handleMirror = thread => {
             thread.mirror.fid = topic_misc_var['3']
             thread.mirror.type = '版面'
             delete thread.topic_misc_var
-        } else if (parent[1]){
+        } else if (parent[1]) {
             thread.mirror.type = '合集主题'
             thread.mirror.fid = parent[0];
             thread.mirror.stid = parent[1];
@@ -116,7 +116,7 @@ const handleMirror = thread => {
         }
         delete thread.parent
     }
-    if (topic_misc_var && topic_misc_var[1]===33){
+    if (topic_misc_var && topic_misc_var[1] === 33) {
         thread.mirror.type = '合集'
         delete thread.topic_misc_var
     }
@@ -138,7 +138,7 @@ const handleThreadType = thread => {
     thread.type = parseThreadTypeBit(thread.type)
 };
 
-function handleThread(thread) {
+const handleThread = thread => {
     //处理标题颜色
     handleColor(thread);
     //处理时间戳
@@ -151,7 +151,76 @@ function handleThread(thread) {
     handleThreadType(thread);
 
     delete thread.tpcurl;
-}
+};
+
+const handleReply = reply => {
+    handleAuthor(reply)
+    handleThreadType(reply)
+
+    const {postdatetimestamp, score, score_2, alterinfo} = reply
+   // 时间戳
+    const timestamp = {}
+    timestamp.post = second2String(postdatetimestamp)
+    reply.timestamp = timestamp
+    delete reply.postdatetimestamp;
+    delete reply.postdate;
+    //楼层
+    reply.level = reply.lou
+    delete reply.lou;
+    // 赞踩
+    reply.score = {
+        agree: score,
+        disagree: score_2
+    }
+    delete reply.score_2;
+
+    // 改动记录
+    if (alterinfo.length > 0) {
+        const operationLog = []
+        alterinfo.split("]")
+            .filter(s => s !== '')
+            .map(s => s.replace("[", ""))
+            .map(s => {
+                return {
+                    type: s[0],
+                    data: s.substring(1).split(" ")
+                }
+            })
+            .forEach(log => {
+                if (log.type === "E") {
+                    // 编辑记录
+                    timestamp.edit = second2String(log.data[0])
+                }
+                if (log.type === "L") {
+                    // 禁言
+                    operationLog.push({
+                        //L6 0 0 300 20 引战/转进/AOE
+                        type: "禁言",
+                        days: log.data[0],
+                        fid: log.data[1],
+                        reputation: log.data[3] * (-1),
+                        rvrc: log.data[4] / 10 * (-1),
+                        reason: log.data[5],
+                    })
+                }
+                if (log.type === "U") {
+                    // 取消操作
+                    operationLog.push({
+                        // [U0 0 0 UB105]
+                        type: "取消操作",
+                        days: log.data[0],
+                        reputation: log.data[1],
+                        rvrc: log.data[2] / 10,
+                    })
+                }
+            })
+        if (operationLog.length > 0) {
+            reply.operationLog = operationLog;
+        }
+
+    }
+    delete reply.alterinfo
+};
 
 // 对返回值进行预处理
 const transformResponse = [
@@ -255,26 +324,41 @@ const transformResponse = [
 
             //分页情况
             data.total = __ROWS
-            delete data.__ROWS
             data.pageSize = __T__ROWS_PAGE ? __T__ROWS_PAGE : __R__ROWS_PAGE
+            data.page = __PAGE;
+            delete data.__ROWS
+            delete data.__PAGE
             delete data.__T__ROWS_PAGE
             delete data.__R__ROWS_PAGE
             delete data.__T__ROWS
+            delete data.__R__ROWS
 
             //主题数据
             if (!__T.tid) {
+                //主题列表
                 const threads = obj2Array(__T);
                 console.log(threads)
                 threads.forEach(thread => {
                     //    处理单个主题数据
                     handleThread(thread);
                 })
-            }else{
-               data.thread = copyObj(__T)
+                data.threads = threads;
+            } else {
+                // 主题详情
+                data.thread = copyObj(__T)
                 handleThread(data.thread);
             }
-
             delete data.__T
+
+            //处理回复列表
+            if (__R) {
+                const replies = obj2Array(__R)
+                console.log(replies)
+                replies.forEach(reply => handleReply(reply))
+                data.replies = replies;
+                delete data.__R
+            }
+
 
             return res
         })

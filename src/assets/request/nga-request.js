@@ -149,6 +149,19 @@ const handleThreadType = thread => {
     thread.type = parseThreadTypeBit(thread.type)
 };
 
+const handleReplyInThread = thread => {
+    const reply = thread.__P;
+    if (reply) {
+        setTimestamp(reply,'postdate','post')
+        const {authorid,content,pid,subject,timestamp} = reply
+        thread.reply = {
+            authorId :authorid,
+            content,pid,subject,timestamp
+        }
+    }
+    delete thread.__P
+};
+
 const handleThread = thread => {
     //处理标题颜色
     handleColor(thread);
@@ -160,6 +173,8 @@ const handleThread = thread => {
     handleAuthor(thread);
     //处理主题类型
     handleThreadType(thread);
+    //处理搜索用户发言时主题下的回复
+    handleReplyInThread(thread);
 
     delete thread.tpcurl;
 };
@@ -622,24 +637,51 @@ export const requestUnity = axios.create({
 
 requestUnity.interceptors.response.use(response => response.data, (error) => Promise.reject(error));
 
-
-export const thread = ({
+/**
+ * 规范的 thread请求
+ * @param page 页码
+ * @param fid 版面
+ * @param stid 合集
+ * @param key  搜索关键字
+ * @param authorid  作者uid
+ * @param favor 是否为 我的收藏主题
+ * @param orderByPostDateDesc 是否 按发布时间倒序
+ * @param content 是否搜索主楼正文部分
+ * @param recommend 是否仅显示精华帖
+ * @param searchpost 含有authorid 时 是否搜索该用户回复
+ * @returns {AxiosPromise} Promise
+ */
+const threadRequest = ({
                            page = 1,
                            fid,
                            stid,
                            key,
                            authorid,
                            favor = false,
+                           recommend = false,
                            orderByPostDateDesc = false,
                            content = false,
-                           recommend = false,
                            searchpost = false,
                        }) => {
     // 初始值中 要么为空 要么一定有特定值
-    const data = {page, fid, stid, key, authorid}
+    const data = {page}
     //以下为值仅为 是 / 否 的字段
+    if (stid) {
+        data.stid = stid
+    } else if (fid) {
+        data.fid = fid
+    }
+    if (key) {
+        data.key = key
+    }
+    if (authorid) {
+        data.authorid = authorid
+    }
     if (recommend) {
         data.recommend = 1
+    }
+    if (searchpost) {
+        data.searchpost = 1
     }
     if (favor) {
         data.favor = 1
@@ -647,15 +689,53 @@ export const thread = ({
     if (content) {
         data.content = 1
     }
-    if (searchpost) {
-        data.searchpost = 1
-    }
     if (orderByPostDateDesc) {
         // noinspection SpellCheckingInspection
         data.order_by = "postdatedesc"
     }
     return requestUnity({
-        url:"thread.php",
+        url: "thread.php",
         data
+    })
+}
+
+/*
+* 浏览：版面（是否精华）、合集
+* 搜索：
+*   关键字：版面（是否精华）、合集
+*   用户发言：主题、回复
+* */
+
+//搜索版面主题
+export const searchInThread = ({page, key, fid, recommend, content}) => {
+    return threadRequest({page, key, fid, recommend, content})
+}
+//搜索合集主题
+export const searchInSet = ({page, key, stid, content}) => {
+    return threadRequest({page, key, stid, content})
+}
+//搜索用户发言
+export const searchByUser = ({page, fid, authorid, searchpost}) => {
+    return threadRequest({page, fid, authorid, searchpost})
+}
+//浏览版面
+export const threadByForum = ({page, fid, orderByPostDateDesc, recommend}) => {
+    return threadRequest({page, fid, orderByPostDateDesc, recommend})
+}
+//浏览合集
+export const threadBySet = ({page, stid, orderByPostDateDesc}) => {
+    return threadRequest({page, stid, orderByPostDateDesc})
+}
+
+const readRequest = ({pid, tid, page, authorid}) => {
+    if (pid) {
+        return requestUnity({
+            url: "read.php",
+            data: {pid}
+        })
+    }
+    return requestUnity({
+        url: "read.php",
+        data: {tid, page, authorid}
     })
 }

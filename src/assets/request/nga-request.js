@@ -157,8 +157,8 @@ const handleReply = reply => {
     handleAuthor(reply)
     handleThreadType(reply)
 
-    const {postdatetimestamp, score, score_2, alterinfo} = reply
-   // 时间戳
+    const {postdatetimestamp, score, score_2, alterinfo, hotreply, from_client,comment,attachs} = reply
+    // 时间戳
     const timestamp = {}
     timestamp.post = second2String(postdatetimestamp)
     reply.timestamp = timestamp
@@ -175,7 +175,7 @@ const handleReply = reply => {
     delete reply.score_2;
 
     // 改动记录
-    if (alterinfo.length > 0) {
+    if (alterinfo && alterinfo.length > 0) {
         const operationLog = []
         alterinfo.split("]")
             .filter(s => s !== '')
@@ -220,6 +220,63 @@ const handleReply = reply => {
 
     }
     delete reply.alterinfo
+
+    // 设备
+    if (from_client && from_client.length > 0) {
+        let s = from_client.split(" ");
+        switch (s[0]) {
+            case "0" : reply.client = 'PC';break;
+            case "7" : reply.client = '苹果';break;
+            case "8" : reply.client = '安卓';break;
+            default:reply.client = s[1];
+        }
+        delete reply.from_client
+    }
+
+    // 附件
+    if (attachs){
+        //ext 的可能项为 jpg png gif mp4 mp3 zip
+        reply.attachs = obj2Array(attachs)
+            .map(i=>{
+                const {attachurl,dscp,ext,size,url_utf8_org_name} = i;
+                let type = '其他';
+                if (["jpg","png","gif"].includes(ext)){
+                    type = '图片'
+                }
+                if (["mp4","mp3"].includes(ext)){
+                    type = '媒体'
+                }
+                if ('zip'===ext){
+                    type = '压缩包'
+                }
+                return {
+                    url:attachurl,
+                    dsc:dscp,
+                    name:decodeURI(url_utf8_org_name),
+                    ext,size,type,
+                }
+            })
+    }
+
+    // 热评
+    if (hotreply) {
+        const hotReply = obj2Array(hotreply)
+        hotReply.forEach(r => handleReply(r))
+        reply.hotReply = hotReply;
+        delete reply.hotreply
+        delete reply.hotreply_id
+    }
+    // 贴条
+    if (comment) {
+        const a = obj2Array(comment)
+        a.forEach(r => handleReply(r))
+        reply.comment = a;
+        delete reply.comment_id
+    }
+
+
+
+
 };
 
 // 对返回值进行预处理

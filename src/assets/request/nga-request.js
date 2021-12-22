@@ -537,9 +537,11 @@ const transformResponse = [
             }
 
             //分页情况
-            data.total = __ROWS
-            data.pageSize = __T__ROWS_PAGE ? __T__ROWS_PAGE : __R__ROWS_PAGE
-            data.page = __PAGE;
+            const total = __ROWS
+            const pageSize = __T__ROWS_PAGE ? __T__ROWS_PAGE : __R__ROWS_PAGE
+            const currentPage = __PAGE?__PAGE:1;
+            data.pageData = {total,pageSize,currentPage}
+
             delete data.__ROWS
             delete data.__PAGE
             delete data.__T__ROWS_PAGE

@@ -43,7 +43,7 @@ export default {
       requestUnity({
         url:"thread.php",
         data:{
-          tid:this.tid,
+          fid:this.fid,
           page:this.page,
         }
       }).then(res=>{

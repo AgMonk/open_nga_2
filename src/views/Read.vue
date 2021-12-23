@@ -1,13 +1,9 @@
 <template>
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
-    <el-header>
-      <div>{{ $route.name }}</div>
-    </el-header>
+    <el-header></el-header>
 
-    <el-main>
-      <div>{{ $route.params }}</div>
-      <div>{{ $route.query }}</div>
+    <el-main>      <router-view/>
     </el-main>
     <el-footer></el-footer>
   </el-container>
@@ -16,7 +12,7 @@
 
 <script>
 export default {
-  name: "SearchTab",
+  name: "Read",
   data() {
     return {}
   },

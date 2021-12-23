@@ -9,7 +9,7 @@ const transformRequest = [
         //构造地址栏参数
         const a = [];
         for (let key in data) {
-            if (data.hasOwnProperty(key)) {
+            if (data.hasOwnProperty(key) && data[key]) {
                 const k = encodeURIComponent(key)
                 const v = encodeURIComponent(data[key])
                 a.push(`${k}=${v}`)

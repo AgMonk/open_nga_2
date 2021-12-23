@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: "SearchTab",
+  name: "ReadTab",
   data() {
     return {}
   },

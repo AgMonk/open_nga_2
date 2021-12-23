@@ -28,7 +28,9 @@ let format = function (template, ...data) {
 }
 
 //格式化日志方法
-console.slf4j = function (template, ...data) {
+export const slf4j = function (template, ...data) {
+
     const timestamp = new Date().format("yyyy-MM-dd hh:mm:ss");
     console.log(`[${timestamp}] ${format(template, ...data)}`)
 }
+console.slf4j = slf4j

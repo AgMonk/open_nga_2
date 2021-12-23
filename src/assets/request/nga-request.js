@@ -17,10 +17,10 @@ const transformRequest = [
         }
         return a.join("&")
     },
-    (data) => {
-        console.log(data)
-        return data
-    },
+    // (data) => {
+    //     console.log(data)
+    //     return data
+    // },
 ]
 
 const handleColor = thread => {
@@ -161,6 +161,15 @@ const handleReplyInThread = thread => {
     delete thread.__P
 };
 
+const handleSetInThread = thread => {
+    const {__ST} = thread;
+    if (__ST){
+        handleThread(__ST)
+        thread.subForum = __ST;
+    }
+    delete thread.__ST
+};
+
 const handleThread = thread => {
     //处理标题颜色
     handleColor(thread);
@@ -174,6 +183,8 @@ const handleThread = thread => {
     handleThreadType(thread);
     //处理搜索用户发言时主题下的回复
     handleReplyInThread(thread);
+    //处理主题中的合集信息
+    handleSetInThread(thread);
 
     delete thread.tpcurl;
 };
@@ -505,7 +516,7 @@ const transformResponse = [
     (data) => {
         // noinspection JSUnresolvedVariable
         return data.then(res => {
-            console.log(copyObj(res))
+            // console.log(copyObj(res))
             const {error, data, time} = res;
             const {__CU, __F, __PAGE, __R, __ROWS, __T, __U, __T__ROWS_PAGE, __R__ROWS_PAGE} = data;
 
@@ -600,13 +611,13 @@ const transformResponse = [
             //处理回复列表
             if (__R) {
                 const replies = obj2Array(__R)
-                console.log(replies)
+                // console.log(replies)
                 replies.forEach(reply => handleReply(reply))
                 data.replies = replies;
                 delete data.__R
             }
 
-
+            delete data.__GLOBAL
             return res
         })
     }
@@ -726,7 +737,7 @@ export const threadBySet = ({page, stid, orderByPostDateDesc}) => {
     return threadRequest({page, stid, orderByPostDateDesc})
 }
 
-const readRequest = ({pid, tid, page, authorid}) => {
+export const readRequest = ({pid, tid, page, authorid}) => {
     if (pid) {
         return requestUnity({
             url: "read.php",

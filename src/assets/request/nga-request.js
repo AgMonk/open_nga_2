@@ -590,7 +590,7 @@ const transformResponse = [
             if (!__T.tid) {
                 //主题列表
                 const threads = obj2Array(__T);
-                console.log(threads)
+                // console.log(threads)
                 threads.forEach(thread => {
                     //    处理单个主题数据
                     handleThread(thread);

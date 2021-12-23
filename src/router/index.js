@@ -24,7 +24,7 @@ const routes = [
     },
     {
         path: '/thread',
-        name: '搜索',
+        name: '主题列表',
         children: [
             {path: "f/:fid/:page",name:"浏览版面主题",component:ThreadTab},
             {path: "s/:stid/:page",name:"浏览合集主题",component:ThreadTab},

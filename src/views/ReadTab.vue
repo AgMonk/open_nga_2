@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapMutations} from "vuex";
 import {setTitle} from "@/assets/request/ProjectUtils";
 
 export default {
@@ -32,15 +32,24 @@ export default {
   },
   methods: {
     ...mapActions("read", [`getReplies`]),
+    ...mapMutations("history",[`addHistoryThread`,`addHistoryForum`,`addHistorySet`]),
     async get(force) {
       const {pid, tid, page, authorid} = Object.assign({}, this.$route.query, this.$route.params)
       const res = await this.getReplies({pid, tid, page, authorid, force})
       const data = res.data;
+      const {forum,thread} = data;
+      const subForum = thread.subForum
       console.log(data);
-      setTitle(data.forum.name)
+      setTitle(forum.name)
 
       this.pageData = data.pageData;
       this.replies = data.replies;
+
+      this.addHistoryThread({tid,name:thread.subject})
+      this.addHistoryForum({fid:thread.fid,name:forum.name})
+      if (subForum){
+        this.addHistorySet({stid:subForum.tid,name:subForum.subject,forumName:forum.name})
+      }
     }
   },
   mounted() {

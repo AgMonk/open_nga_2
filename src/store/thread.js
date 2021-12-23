@@ -22,6 +22,7 @@ export default {
             }).then(res => {
                 //设置面包屑
                 commit("breadcrumb/setWithThread",{forum:res.data.forum,recommend},{root:true})
+                commit("history/addHistoryForum",{fid,name:res.data.forum.name,recommend},{root:true})
                 return res
             })
         },
@@ -35,7 +36,9 @@ export default {
                 force
             }).then(res => {
                 //设置面包屑
-                commit("breadcrumb/setWithThread", {forum:res.data.forum},{root:true})
+                const forum = res.data.forum
+                commit("breadcrumb/setWithThread", {forum},{root:true})
+                commit("history/addHistorySet",{stid:forum.toppedTid,name:forum.setName,forumName:forum.name},{root:true})
                 return res
             })
         },

@@ -2,6 +2,7 @@
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
     <el-header>
+      <my-breadcrumb />
       {{$route.params.key}}
     </el-header>
 
@@ -13,8 +14,10 @@
 </template>
 
 <script>
+import MyBreadcrumb from "@/components/my/my-breadcrumb";
 export default {
   name: "Search",
+  components: {MyBreadcrumb},
   data() {
     return {}
   },

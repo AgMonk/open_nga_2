@@ -1,7 +1,10 @@
 <template>
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
-    <el-header></el-header>
+    <el-header>
+      <my-breadcrumb />
+
+    </el-header>
 
     <el-main><router-view/></el-main>
     <el-footer></el-footer>
@@ -10,8 +13,10 @@
 </template>
 
 <script>
+import MyBreadcrumb from "@/components/my/my-breadcrumb";
 export default {
   name: "Thread",
+  components: {MyBreadcrumb},
   data() {
     return {}
   },

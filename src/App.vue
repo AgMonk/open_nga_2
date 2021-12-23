@@ -1,11 +1,5 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link>
-    |
-  </div>
-  <div>
-    <my-breadcrumb/>
-  </div>
+  <my-navigation />
   <router-view/>
 </template>
 
@@ -33,8 +27,9 @@
 </style>
 <script>
 import MyBreadcrumb from "@/components/my/my-breadcrumb";
+import MyNavigation from "@/components/my/my-navigation";
 
 export default {
-  components: {MyBreadcrumb}
+  components: {MyNavigation, MyBreadcrumb}
 }
 </script>

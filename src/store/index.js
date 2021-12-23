@@ -1,4 +1,7 @@
 import { createStore } from 'vuex'
+import read from "@/store/read";
+import users from "@/store/users";
+import breadcrumb from "@/store/breadcrumb";
 
 export default createStore({
   state: {
@@ -7,6 +10,6 @@ export default createStore({
   },
   actions: {
   },
-  modules: {
+  modules: {read,users,breadcrumb
   }
 })

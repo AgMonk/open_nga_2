@@ -1,6 +1,10 @@
 <template>
   <div id="nav">
-    <router-link to="/">Home</router-link> |
+    <router-link to="/">Home</router-link>
+    |
+  </div>
+  <div>
+    <my-breadcrumb/>
   </div>
   <router-view/>
 </template>
@@ -27,3 +31,10 @@
   color: #42b983;
 }
 </style>
+<script>
+import MyBreadcrumb from "@/components/my/my-breadcrumb";
+
+export default {
+  components: {MyBreadcrumb}
+}
+</script>

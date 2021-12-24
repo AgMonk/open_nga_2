@@ -17,7 +17,7 @@ export default {
                 cacheObj: state.cache,
                 key: JSON.stringify({pid, tid, page, authorid}),
                 requestMethod: () => readRequest({pid, tid, page, authorid}),
-                expires: 3,
+                expires: 3*60,
                 force
             }).then(res=>{
                 //设置面包屑

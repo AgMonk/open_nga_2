@@ -381,7 +381,7 @@ const handleUserData = (__U, data) => {
         //匿名用户
         if (id < 0) {
             user.uid = user.username
-            replies.filter(reply=>reply.authorid===parseInt(id)).forEach(reply=>reply.authorid=user.username)
+            replies.filter(reply => reply.authorid === parseInt(id)).forEach(reply => reply.authorid = user.username)
         }
         //    用户组
         user.groupName = groups[user.memberid]
@@ -621,7 +621,6 @@ const transformResponse = [
             delete data.__T
 
 
-
             //处理回复列表
             if (__R) {
                 const replies = obj2Array(__R)
@@ -748,7 +747,7 @@ const transformResponse = [
                     res.data.user = user;
                 } else {
                     //    收藏版面
-                    /*todo*/
+                    res.data.favorForums = obj2Array(nukeData).sort((a, b) => a.id - b.id)
                 }
                 console.log(res.data)
 

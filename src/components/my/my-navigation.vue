@@ -23,10 +23,10 @@ export default {
   data() {
     return {
       routes:[
-        {path:'/forum',name:'社区'},
+        {path:'/home',name:'社区'},
         {path:'/my',name:'我的'},
       ],
-      activeIndex:location.pathname,
+      activeIndex:"",
       url:"",
     }
   },
@@ -38,9 +38,12 @@ export default {
     },
 
     select(index,indexPath){
+      console.log(this.activeIndex)
     }
   },
   mounted() {
+    this.activeIndex = this.$route.path
+    console.log(location.pathname)
   },
 }
 

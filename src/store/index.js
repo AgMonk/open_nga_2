@@ -4,6 +4,7 @@ import users from "@/store/users";
 import breadcrumb from "@/store/breadcrumb";
 import thread from "@/store/thread";
 import history from "@/store/history";
+import forums from "@/store/forums";
 
 export default createStore({
   state: {
@@ -12,6 +13,6 @@ export default createStore({
   },
   actions: {
   },
-  modules: {read,users,breadcrumb,thread,history
+  modules: {read,users,breadcrumb,thread,history,forums
   }
 })

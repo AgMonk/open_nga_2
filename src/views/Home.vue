@@ -1,40 +1,62 @@
 <template>
-  <div class="home">
-    <el-input v-model="cookie"/>
-    <el-button @click="setCookie">设置cookie</el-button>
+  <el-container direction="vertical">
+    <!--  <el-container direction="horizontal">-->
+<!--    <el-header></el-header>-->
+
+    <el-main>
+      <el-tabs type="border-card">
+        <el-tab-pane label="我的收藏">
+          <forum-avatar v-for="forum in favorForums" :fid="forum.fid" :name="forum.name"    />
+        </el-tab-pane>
 
 
-    <div>
+        <el-tab-pane label="Config">Config</el-tab-pane>
+        <el-tab-pane label="Role">Role</el-tab-pane>
+        <el-tab-pane label="Task">Task</el-tab-pane>
+      </el-tabs>
 
-    </div>
+    </el-main>
+    <el-footer>
+      <div>
+
+        <el-input v-model="cookie"/>
+        <el-button @click="setCookie">设置cookie</el-button>
+      </div>
+    </el-footer>
+  </el-container>
 
 
-  </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import {setCookies} from "@/assets/utils/CookieUtils";
-import {nukeRequest} from "@/assets/request/nga-request";
+import {mapActions} from "vuex";
+import ForumAvatar from "@/components/my-icon/forum-avatar";
 
 export default {
   name: 'Home',
-  components: {},
+  components: {ForumAvatar},
   data() {
     return {
       cookie: '',
-      fid: -547859,
-      tid: 25968165,
-      page: 1,
+      favorForums:[],
     }
   },
   methods: {
+    ...mapActions("forums",[`getFavorForums`]),
     setCookie() {
       setCookies(this.cookie, 90, '/nga-api')
     },
-
+    refresh(force){
+      this.getFavorForums(force).then(res=>{
+        this.favorForums = res.data.favorForums;
+        console.log(this.favorForums)
+      })
+    }
   },
-  async mounted() {
+  mounted() {
+    this.refresh(false)
   }
 }
 </script>

@@ -17,7 +17,7 @@ export default {
                 cacheObj: state.cache,
                 key: JSON.stringify(param),
                 requestMethod: () => threadByForum(param),
-                expires: 3,
+                expires: 3*60,
                 force
             }).then(res => {
                 //设置面包屑
@@ -32,7 +32,7 @@ export default {
                 cacheObj: state.cache,
                 key: JSON.stringify(param),
                 requestMethod: () => threadBySet(param),
-                expires: 3,
+                expires: 3*60,
                 force
             }).then(res => {
                 //设置面包屑

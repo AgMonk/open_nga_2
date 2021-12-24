@@ -337,6 +337,7 @@ function handleUserData(__U, data) {
         obj2Array(__MEDALS).forEach(i => {
             medals[i[3]] = {
                 // 地址： https://img4.nga.178.com/ngabbs/medal/{filename}
+                id:i[3],
                 filename: i[0],
                 name: i[1],
                 dsc: i[2]
@@ -377,12 +378,14 @@ function handleUserData(__U, data) {
 
     users.forEach(user => {
         //    用户组
-        user.memberName = groups[user.memberid]
-        user.memberId = user.memberid
+        user.groupName = groups[user.memberid]
+        user.groupId = user.memberid
         delete user.memberid;
+        delete user.groupid;
         //    徽章
         if (user.medal.length > 0) {
-            user.medals = user.medal.split(",").map(i => medals[i])
+            user.medals = user.medal.split(",")
+                // .map(i => medals[i])
         }
         delete user.medal;
         //    声望
@@ -716,8 +719,23 @@ const transformResponse = [
                     delete res.data["0"]
                 } else if (nukeData.uid) {
                     //    用户信息
-                    /*todo*/
-                    const {} = nukeData
+                    const {group,groupid,medal,more_info,regdate,uid} = nukeData
+                    const user = {
+                        uid,
+                        groupId:groupid,
+                        groupName:group,
+                        medals:medal.split(","),
+                        timestamp:{
+                            reg:{time:regdate,value:second2String(regdate)}
+                        },
+                    }
+                    //总赞数
+                    const a = obj2Array(more_info).filter(i=>i.type===8)[0]
+                    if (a){
+                        user.totalAgreement = a.data
+                    }
+
+                    res.data.user = user;
                 } else {
                     //    收藏版面
                     /*todo*/

@@ -1,4 +1,3 @@
-
 <template>
   <el-menu
       :default-active.sync="activeIndex"
@@ -9,42 +8,50 @@
       @select="select"
       router
       active-text-color="#ffd04b">
-  <my-navigation-item v-for="(route,i) in routes" :key="i" :route="route" parent-path=""/>
+    <my-navigation-item v-for="(route,i) in routes" :key="i" :route="route" parent-path=""/>
   </el-menu>
 </template>
 
 <script>
 import MyNavigationItem from "@/components/my/my-navigation-item";
-import {mapState} from "vuex";
+import Config from "@/views/Config";
 
 export default {
   name: "my-navigation",
   components: {MyNavigationItem},
   data() {
     return {
-      routes:[
-        {path:'/home',name:'社区'},
-        {path:'/my',name:'我的'},
+      routes: [
+        {path: '/home', name: '社区'},
+        {
+          path: '/my', name: '我的',
+          children:[
+            {path:"config",name:"配置"},
+          ]
+        },
       ],
-      activeIndex:"",
-      url:"",
+      activeIndex: "",
+      url: "",
     }
   },
-  computed: {
-  },
+  computed: {},
   methods: {
-    handleClick(e){
+    handleClick(e) {
       console.log(e)
     },
 
-    select(index,indexPath){
+    select(index, indexPath) {
       console.log(this.activeIndex)
     }
   },
   mounted() {
     this.activeIndex = this.$route.path
-    console.log(location.pathname)
   },
+  watch:{
+    $route(to,from){
+      this.activeIndex = to.path
+    }
+  }
 }
 
 </script>

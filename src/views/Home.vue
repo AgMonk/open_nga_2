@@ -57,6 +57,9 @@ export default {
   mounted() {
     this.refresh(false)
 
+    this.searchForum({key:"国家地理俱乐部"}).then(res=>{
+      console.log(res)
+    })
   }
 }
 </script>

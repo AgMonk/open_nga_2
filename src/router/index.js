@@ -6,6 +6,8 @@ import Read from "@/views/Read";
 import ReadTab from "@/views/ReadTab";
 import ThreadTab from "@/views/ThreadTab";
 import Thread from "@/views/Thread";
+import My from "@/views/My";
+import Config from "@/views/Config";
 
 const routes = [
     {
@@ -45,6 +47,14 @@ const routes = [
         ],
         component: Read
     },
+    {
+        path: "/my",
+        name: "我的",
+        component: My,
+        children: [
+            {path:"config",name:"配置",component: Config},
+        ]
+    }
 
 ]
 

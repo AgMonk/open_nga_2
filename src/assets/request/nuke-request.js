@@ -1,4 +1,4 @@
-import {requestUnity} from "@/assets/request/nga-request";
+import {parseAvatar, parseMoney, requestUnity} from "@/assets/request/nga-request";
 import {second2String} from "@/assets/utils/DateFormat";
 import {obj2Array} from "@/assets/utils/ObjectUtils";
 
@@ -120,24 +120,40 @@ export const getUserInfo = (uid) => nukeRequest({
 }).then(res => {
     const nukeData = res.data["0"];
     //    用户信息
-    const {group, groupid, medal, more_info, regdate, uid} = nukeData
+    const {group, groupid, medal, more_info, regdate, uid,avatar,email,money,phone,sign,rvrc,posts} = nukeData
     const user = {
-        uid,
+        uid,email,phone,
         groupId: groupid,
         groupName: group,
-        medals: medal.split(","),
+        rvrc:rvrc/10,
         timestamp: {
             reg: {time: regdate, value: second2String(regdate)}
         },
+    }
+    const medals = typeof medal ==="string"?medal.split(","):undefined;
+    if (medals){
+        user.medals = medals;
+    }
+    const ava = parseAvatar(avatar)
+    if (ava){
+        user.avatar = ava;
+    }
+    const mon = parseMoney(money)
+    if (mon){
+        user.money = mon;
+    }
+    if (sign && sign.length > 0){
+        user.signature = sign
+    }
+    if (posts && posts>0){
+        user.postCount = posts
     }
     //总赞数
     const a = obj2Array(more_info).filter(i => i.type === 8)[0]
     if (a) {
         user.totalAgreement = a.data
     }
-
     res.data.user = user;
-
-    return res;
+    return user;
 
 })

@@ -33,6 +33,7 @@
 import {setCookies} from "@/assets/utils/CookieUtils";
 import {mapActions} from "vuex";
 import ForumAvatar from "@/components/my-icon/forum-avatar";
+import {getUserInfo} from "@/assets/request/nuke-request";
 
 export default {
   name: 'Home',
@@ -45,6 +46,7 @@ export default {
   },
   methods: {
     ...mapActions("forums", [`getFavorForums`,`searchForum`]),
+    ...mapActions("users", [`getUserInfo`]),
     setCookie() {
       setCookies(this.cookie, 90, '/nga-api')
     },
@@ -56,9 +58,8 @@ export default {
   },
   mounted() {
     this.refresh(false)
-
-    this.searchForum({key:"国家地理俱乐部"}).then(res=>{
-      console.log(res)
+    this.getUserInfo(39841854).then(res=>{
+      console.log(res);
     })
   }
 }

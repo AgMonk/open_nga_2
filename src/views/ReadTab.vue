@@ -35,8 +35,7 @@ export default {
     ...mapMutations("history",[`addHistoryThread`,`addHistoryForum`,`addHistorySet`]),
     async get(force) {
       const {pid, tid, page, authorid} = Object.assign({}, this.$route.query, this.$route.params)
-      const res = await this.getReplies({pid, tid, page, authorid, force})
-      const data = res.data;
+      const data = await this.getReplies({pid, tid, page, authorid, force})
       const {forum,thread} = data;
       const subForum = thread.subForum
       console.log(data);

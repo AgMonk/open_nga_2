@@ -23,6 +23,42 @@ const transformRequest = [
     // },
 ]
 
+export const parseMoney = (money) => {
+    if (money && money > 0) {
+        const copper = money % 100
+        money -= copper;
+        money /= 100;
+        const silver = money % 100
+        money -= silver;
+        money /= 100;
+        const gold = money
+        return {
+            gold, silver, copper
+        }
+    }
+}
+
+export const parseAvatar = (avatar) => {
+    if (avatar && avatar.length > 0) {
+        const a = []
+
+        const prefix = 'https://img.nga.178.com/avatars'
+        // noinspection HttpUrlsUsage
+        const prefix1 = 'http://img.nga.178.com/avatars'
+        if (avatar.startsWith(prefix) || avatar.startsWith(prefix1)) {
+            avatar = avatar.replace(prefix, "").replace(prefix1, "")
+            avatar = avatar.replace(/\.a\//g, "").replace(/\?\d+/g, "")
+            const p = avatar.substring(0, avatar.lastIndexOf('/') + 1)
+            return avatar.substring(avatar.lastIndexOf('/') + 1).split("|").map(i=>{
+                return prefix+p+i;
+            })
+
+        } else {
+            console.log(`未识别的头像链接格式：` + avatar)
+        }
+    }
+}
+
 const handleColor = thread => {
     const bitData = thread.hasOwnProperty('titlefont') ? parseColor(thread.titlefont) : parseColor(thread.topic_misc)
     if (bitData) {
@@ -402,16 +438,7 @@ const handleUserData = (__U, data) => {
         //    金币
         let money = user.money
         if (money && money > 0) {
-            const copper = money % 100
-            money -= copper;
-            money /= 100;
-            const silver = money % 100
-            money -= silver;
-            money /= 100;
-            const gold = money
-            user.money = {
-                gold, silver, copper
-            }
+            user.money = parseMoney(money)
         }
         //回复数
         user.postCount = user.postnum;
@@ -429,24 +456,9 @@ const handleUserData = (__U, data) => {
         // 威望
         user.rvrc /= 10
 
-        let avatar = user.avatar
-        if (avatar && avatar.length > 0) {
-            const prefix = 'https://img.nga.178.com/avatars'
-            // noinspection HttpUrlsUsage
-            const prefix1 = 'http://img.nga.178.com/avatars'
-            if (avatar.startsWith(prefix) || avatar.startsWith(prefix1)) {
-                avatar = avatar.replace(prefix, "").replace(prefix1, "")
-                avatar = avatar.replace(/\.a\//g, "").replace(/\?\d+/g, "")
-                const p = avatar.substring(0, avatar.lastIndexOf('/') + 1)
-                user.avatar = {
-                    prefix,
-                    middlePart: p,
-                    files: avatar.substring(avatar.lastIndexOf('/') + 1).split("|")
-                }
-
-            } else {
-                console.log(`未识别的头像链接格式：` + avatar)
-            }
+        let avatar = parseAvatar(user.avatar)
+        if (avatar) {
+            user.avatar = avatar
         }
 
         return user;

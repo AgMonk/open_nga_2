@@ -22,7 +22,12 @@ export default {
             }).then(res=>{
                 //设置面包屑
                 commit("breadcrumb/setWithRead",res.data,{root:true})
-                return res
+
+                //保存用户信息
+                res.data.userData.users.forEach(user=>{
+                    commit("users/saveUser",user,{root:true})
+                })
+                return res.data
             })
         },
         method: ({dispatch, commit, state}, payload) => {

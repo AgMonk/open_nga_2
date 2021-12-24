@@ -120,7 +120,7 @@ export const getUserInfo = (uid) => nukeRequest({
 }).then(res => {
     const nukeData = res.data["0"];
     //    用户信息
-    const {group, groupid, medal, more_info, regdate, uid,avatar,email,money,phone,sign,rvrc,posts} = nukeData
+    const {group, groupid, medal, more_info, regdate, uid,avatar,email,money,phone,sign,rvrc,posts,username} = nukeData
     const user = {
         uid,email,phone,
         groupId: groupid,
@@ -147,6 +147,9 @@ export const getUserInfo = (uid) => nukeRequest({
     }
     if (posts && posts>0){
         user.postCount = posts
+    }
+    if (username && !username.startsWith('UID')){
+        user.username = username
     }
     //总赞数
     const a = obj2Array(more_info).filter(i => i.type === 8)[0]

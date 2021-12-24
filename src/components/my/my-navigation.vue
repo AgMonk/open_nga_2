@@ -15,6 +15,7 @@
 <script>
 import MyNavigationItem from "@/components/my/my-navigation-item";
 import Config from "@/views/Config";
+import {mapMutations} from "vuex";
 
 export default {
   name: "my-navigation",

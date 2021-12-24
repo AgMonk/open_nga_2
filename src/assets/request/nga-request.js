@@ -885,10 +885,3 @@ export const readRequest = ({pid, tid, page, authorid}) => {
         data: {tid, page, authorid}
     })
 }
-
-export const nukeRequest = (data) => {
-    return requestUnity({
-        url: "nuke.php",
-        data
-    })
-}

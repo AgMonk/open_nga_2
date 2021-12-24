@@ -35,28 +35,6 @@ export default {
 
   },
   async mounted() {
-    //收藏版面
-    const r1 = await nukeRequest({
-      __lib: "forum_favor2",
-      __act: "forum_favor",
-      action: "get",
-    })
-    // console.log(r1)
-    //提醒消息
-    // const r2 = await nukeRequest({
-    //   __lib:'noti',
-    //   raw:3,
-    //   __act:"get_all",
-    //   time_limit:1,
-    // })
-    // console.log(r2)
-  //  用户信息
-    const r3 = await nukeRequest({
-      __lib:"ucp",
-      __act:"get",
-      uid:195362,
-    })
-    // console.log(r3)
   }
 }
 </script>

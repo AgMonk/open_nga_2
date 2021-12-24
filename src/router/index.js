@@ -9,8 +9,12 @@ import Thread from "@/views/Thread";
 
 const routes = [
     {
-        path: '/',
-        name: 'Home',
+        path:'/',
+        redirect:'/home'
+    },
+    {
+        path: '/home',
+        name: '主页',
         component: Home
     },
     {

@@ -320,8 +320,9 @@ const handleReply = reply => {
 
 };
 
-function handleUserData(__U, data) {
+const handleUserData = (__U, data) => {
     const {__GROUPS, __MEDALS, __REPUTATIONS} = __U
+    const {replies} = data;
     // console.log(__U)
     //用户组
     const groups = {}
@@ -337,7 +338,7 @@ function handleUserData(__U, data) {
         obj2Array(__MEDALS).forEach(i => {
             medals[i[3]] = {
                 // 地址： https://img4.nga.178.com/ngabbs/medal/{filename}
-                id:i[3],
+                id: i[3],
                 filename: i[0],
                 name: i[1],
                 dsc: i[2]
@@ -372,20 +373,25 @@ function handleUserData(__U, data) {
     delete __U.__REPUTATIONS
 
     //用户
-    const users = obj2Array(__U)
+    obj2Array(__U)
 
     //用户数据 整合：徽章、用户组、声望数据
-
-    users.forEach(user => {
+    const users = Object.keys(__U).map(id => {
+        const user = __U[id]
+        //匿名用户
+        if (id < 0) {
+            user.uid = user.username
+            replies.filter(reply=>reply.authorid===parseInt(id)).forEach(reply=>reply.authorid=user.username)
+        }
         //    用户组
         user.groupName = groups[user.memberid]
         user.groupId = user.memberid
         delete user.memberid;
         delete user.groupid;
         //    徽章
-        if (user.medal.length > 0) {
+        if (user.medal && user.medal.length > 0) {
             user.medals = user.medal.split(",")
-                // .map(i => medals[i])
+            // .map(i => medals[i])
         }
         delete user.medal;
         //    声望
@@ -442,6 +448,8 @@ function handleUserData(__U, data) {
                 console.log(`未识别的头像链接格式：` + avatar)
             }
         }
+
+        return user;
     })
 
 
@@ -449,7 +457,7 @@ function handleUserData(__U, data) {
         groups, medals, reputations, users
     }
     delete data.__U
-}
+};
 
 // 对返回值进行预处理
 const transformResponse = [
@@ -612,10 +620,7 @@ const transformResponse = [
             }
             delete data.__T
 
-            // 处理用户
-            if (__U) {
-                handleUserData(__U, data);
-            }
+
 
             //处理回复列表
             if (__R) {
@@ -624,6 +629,11 @@ const transformResponse = [
                 replies.forEach(reply => handleReply(reply))
                 data.replies = replies;
                 delete data.__R
+            }
+
+            // 处理用户
+            if (__U) {
+                handleUserData(__U, data);
             }
 
             delete data.__GLOBAL
@@ -719,19 +729,19 @@ const transformResponse = [
                     delete res.data["0"]
                 } else if (nukeData.uid) {
                     //    用户信息
-                    const {group,groupid,medal,more_info,regdate,uid} = nukeData
+                    const {group, groupid, medal, more_info, regdate, uid} = nukeData
                     const user = {
                         uid,
-                        groupId:groupid,
-                        groupName:group,
-                        medals:medal.split(","),
-                        timestamp:{
-                            reg:{time:regdate,value:second2String(regdate)}
+                        groupId: groupid,
+                        groupName: group,
+                        medals: medal.split(","),
+                        timestamp: {
+                            reg: {time: regdate, value: second2String(regdate)}
                         },
                     }
                     //总赞数
-                    const a = obj2Array(more_info).filter(i=>i.type===8)[0]
-                    if (a){
+                    const a = obj2Array(more_info).filter(i => i.type === 8)[0]
+                    if (a) {
                         user.totalAgreement = a.data
                     }
 

@@ -19,11 +19,6 @@ export default {
                 requestMethod: () => threadByForum(param),
                 expires: 3*60,
                 force
-            }).then(res => {
-                //设置面包屑
-                commit("breadcrumb/setWithThread",{forum:res.data.forum,recommend},{root:true})
-                commit("history/addHistoryForum",{fid,name:res.data.forum.name,recommend},{root:true})
-                return res
             })
         },
         getThreadsOfSet: ({dispatch, commit, state}, {page, stid, orderByPostDateDesc, force}) => {
@@ -34,12 +29,6 @@ export default {
                 requestMethod: () => threadBySet(param),
                 expires: 3*60,
                 force
-            }).then(res => {
-                //设置面包屑
-                const forum = res.data.forum
-                commit("breadcrumb/setWithThread", {forum},{root:true})
-                commit("history/addHistorySet",{stid:forum.toppedTid,name:forum.setName,forumName:forum.name},{root:true})
-                return res
             })
         },
         method: ({dispatch, commit, state}, payload) => {

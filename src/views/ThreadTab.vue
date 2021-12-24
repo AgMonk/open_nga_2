@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapMutations} from "vuex";
 import {setTitle} from "@/assets/request/ProjectUtils";
 
 export default {
@@ -26,17 +26,32 @@ export default {
 
   methods: {
     ...mapActions("thread", [`getThreadsOfSet`, `getThreadsOfForum`]),
+    ...mapMutations("breadcrumb", [`setWithThread`]),
+    ...mapMutations("history", [`addHistoryForum`,`addHistorySet`]),
     async get(force, route) {
-      route = route?route:this.$route;
+      route = route ? route : this.$route;
       const param
           = Object.assign({force}, route.query, route.params)
+      const recommend = param.recommend
+      const fid = param.fid
       let res
       if (route.name === '浏览版面主题') {
         res = await this.getThreadsOfForum(param)
-        setTitle(res.data.forum.name)
+        const forum = res.data.forum
+        //更新面包屑
+        this.setWithThread({forum, recommend})
+        //浏览历史
+        this.addHistoryForum({fid,name:forum.name,recommend})
+        setTitle(forum.name)
       } else if (route.name === '浏览合集主题') {
         res = await this.getThreadsOfSet(param)
-        setTitle(`${res.data.forum.setName} - ${res.data.forum.name}`)
+        const forum = res.data.forum
+        //更新面包屑
+        this.setWithThread({forum})
+        //浏览历史
+        this.addHistoryForum({fid,name:forum.name})
+        this.addHistorySet({stid:forum.toppedTid,name:forum.setName,forumName:forum.name})
+        setTitle(`${forum.setName} - ${forum.name}`)
       }
       console.log(res)
     },
@@ -48,7 +63,7 @@ export default {
 
   watch: {
     $route(to, from) {
-      this.get(false,to)
+      this.get(false, to)
     }
   },
   props: {},

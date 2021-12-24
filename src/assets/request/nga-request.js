@@ -636,79 +636,84 @@ const transformResponse = [
 
                     //回复
                     let replies = nukeData["0"]
-                    replies = !replies ? undefined : replies.map(reply => {
-                        if (reply["0"] === 1 || reply["0"] === 2) {
-                            return  {
-                                type:reply["0"] === 1?`对主题`:`对回复`,
-                                authorId: reply["1"],
-                                authorName: reply["2"],
-                                repliedId: reply["3"],
-                                repliedName: reply["4"],
-                                threadSubject: reply["5"],
-                                tid: reply["6"],
-                                replyPid: reply["7"],
-                                repliedPid: reply["8"],
-                                timestamp: reply["9"],
-                                page: reply["10"],
-                                timeString: second2String(reply["9"])
-                            }
+                    replies = !replies ? undefined : replies.map(r => {
+                        const timestamp = {
+                            time: r["9"],
+                            timestamp: second2String(r["9"])
                         }
-                        if (reply["0"] === 15 ) {
-                            return  {
-                                type:`送礼物`,
-                                authorId: reply["1"],
-                                authorName: reply["2"],
-                                repliedId: reply["3"],
-                                threadSubject: reply["5"],
-                                tid: reply["6"],
-                                repliedPid: reply["7"],
-                                timestamp: reply["9"],
-                                page: reply["10"],
-                                timeString: second2String(reply["9"])
-                            }
+                        const from = {
+                            uid: r["1"],
+                            name: r["2"],
                         }
-                        if (reply["0"] === 8) {
-                            return {
-                                type: `@你`,
-                                authorId: reply["1"],
-                                authorName: reply["2"],
-                                repliedId: reply["3"],
-                                threadSubject: reply["5"],
-                                tid: reply["6"],
-                                repliedPid: reply["7"],
-                                timestamp: reply["9"],
-                                page: reply["10"],
-                                timeString: second2String(reply["9"])
-                            }
+                        const thread = {
+                            tid: r["6"],
+                            subject: r["5"],
+                            page: r["10"],
                         }
-
+                        const to = {
+                            uid: r["3"],
+                            name: r["4"],
+                        }
+                        const reply = {
+                            from: r["7"],
+                            to: r["8"],
+                        }
+                        let type;
+                        switch (r['0']) {
+                            case 1:
+                                type = '对主题';
+                                break;
+                            case 2:
+                                type = '对回复';
+                                break;
+                            case 8:
+                                type = '送礼物';
+                                break;
+                            case 15:
+                                type = '@你';
+                                break;
+                            default:
+                                type = '';
+                                break;
+                        }
+                        return {
+                            type, timestamp, thread, reply, user: {from, to,}
+                        }
                     }).reverse();
                     //短消息
                     let pm = nukeData["1"];
                     pm = !pm ? undefined : pm.map(r => ({
-                        authorId: r["1"],
-                        authorName: r["2"],
+                        from: {
+                            uid: r["1"],
+                            name: r["2"],
+                        },
                         mid: r["6"],
-                        timestamp: r["9"],
-                        timeString: second2String(r["9"])
+                        timestamp: {
+                            time: r["9"],
+                            timestamp: second2String(r["9"])
+                        }
                     })).reverse();
 
                     //赞踩
                     let approbation = nukeData["2"];
                     approbation = !approbation ? undefined : approbation.map(r => ({
                         uid: r["3"],
-                        threadSubject: r["5"],
-                        tid: r["6"],
+                        thread: {
+                            tid: r["6"],
+                            subject: r["5"],
+                        },
                         pid: r["7"],
-                        timestamp: r["9"],
-                        timeString: second2String(r["9"])
+                        timestamp: {
+                            time: r["9"],
+                            timestamp: second2String(r["9"])
+                        }
                     })).reverse();
 
                     res.data.replies = replies
                     res.data.pm = pm
                     res.data.approbation = approbation
 
-                delete res.data["0"]
+                    delete res.data["0"]
                 } else if (nukeData.uid) {
                     //    用户信息
                     /*todo*/

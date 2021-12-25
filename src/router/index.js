@@ -8,11 +8,12 @@ import ThreadTab from "@/views/ThreadTab";
 import Thread from "@/views/Thread";
 import My from "@/views/My";
 import Config from "@/views/Config";
+import User from "@/views/User";
 
 const routes = [
     {
-        path:'/',
-        redirect:'/home'
+        path: '/',
+        redirect: '/home'
     },
     {
         path: '/home',
@@ -23,8 +24,8 @@ const routes = [
         path: '/search/:key',
         name: '搜索',
         children: [
-            {path: "f/:fid/:page",name:"搜索版面主题",component:SearchTab},
-            {path: "s/:stid/:page",name:"搜索合集主题",component:SearchTab},
+            {path: "f/:fid/:page", name: "搜索版面主题", component: SearchTab},
+            {path: "s/:stid/:page", name: "搜索合集主题", component: SearchTab},
         ],
         component: Search
     },
@@ -32,8 +33,8 @@ const routes = [
         path: '/thread',
         name: '主题列表',
         children: [
-            {path: "f/:fid/:page",name:"浏览版面主题",component:ThreadTab},
-            {path: "s/:stid/:page",name:"浏览合集主题",component:ThreadTab},
+            {path: "f/:fid/:page", name: "浏览版面主题", component: ThreadTab},
+            {path: "s/:stid/:page", name: "浏览合集主题", component: ThreadTab},
         ],
         component: Thread
     },
@@ -41,18 +42,23 @@ const routes = [
         path: '/read',
         name: '回复',
         children: [
-            {path: "p/:pid",name:"单个回复",component:ReadTab},
-            {path: "t/:tid",redirect:"/read/t/:tid/1"},
-            {path: "t/:tid/:page",name:"回复列表",component:ReadTab},
+            {path: "p/:pid", name: "单个回复", component: ReadTab},
+            {path: "t/:tid", redirect: "/read/t/:tid/1"},
+            {path: "t/:tid/:page", name: "回复列表", component: ReadTab},
         ],
         component: Read
+    },
+    {
+        path: '/user/:uid',
+        name: '用户中心',
+        component: User,
     },
     {
         path: "/my",
         name: "我的",
         component: My,
         children: [
-            {path:"config",name:"配置",component: Config},
+            {path: "config", name: "配置", component: Config},
         ]
     }
 

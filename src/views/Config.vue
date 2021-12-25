@@ -6,7 +6,7 @@
     <el-main>
       <el-tabs type="border-card">
         <el-tab-pane label="个人中心">
-
+            <user-center />
         </el-tab-pane>
         <el-tab-pane label="账号管理" >
           <my-accounts />
@@ -24,11 +24,13 @@
 <script>
 import MyAccounts from "@/components/my/my-accounts";
 import {setTitle} from "@/assets/request/ProjectUtils";
+import UserCenter from "@/components/user-center";
+import {getCache} from "@/assets/utils/StorageUtils";
 export default {
   name: "Config",
-  components: {MyAccounts},
+  components: {UserCenter, MyAccounts},
   data() {
-    return {}
+    return{}
   },
   methods: {},
   mounted() {

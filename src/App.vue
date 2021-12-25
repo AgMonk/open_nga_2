@@ -1,6 +1,6 @@
 <template>
   <my-navigation />
-  <div style="text-align: left;margin-top: 2px">
+  <div style="text-align: left;margin-top: 2px;margin-bottom: 2px">
     <el-button type="primary" size="small" @click="back"><span style="font-weight: bold">返回</span></el-button>
     <el-button type="primary" size="small" @click="forward"><span style="font-weight: bold">前进</span></el-button>
   </div>

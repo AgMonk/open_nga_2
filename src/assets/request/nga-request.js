@@ -754,8 +754,8 @@ export const searchInSet = ({page, key, stid, content}) => {
     return threadRequest({page, key, stid, content})
 }
 //搜索用户发言
-export const searchByUser = ({page, fid, authorid, searchpost}) => {
-    return threadRequest({page, fid, authorid, searchpost})
+export const searchByUser = ({page, fid, authorid,recommend, searchpost}) => {
+    return threadRequest({page, fid, authorid,recommend, searchpost})
 }
 //浏览版面
 export const threadByForum = ({page, fid, orderByPostDateDesc, recommend}) => {

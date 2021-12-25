@@ -36,6 +36,7 @@ const routes = [
         children: [
             {path: "f/:fid/:page", name: "浏览版面主题", component: ThreadTab},
             {path: "s/:stid/:page", name: "浏览合集主题", component: ThreadTab},
+            {path: "a/:authorid/:page", name: "搜索用户发言", component: ThreadTab},
         ],
         component: Thread
     },

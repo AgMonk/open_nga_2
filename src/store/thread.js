@@ -1,16 +1,27 @@
 // 主题
 // noinspection JSUnusedLocalSymbols
 
-import {threadByForum, threadBySet, threadFavor} from "@/assets/request/nga-request";
+import {searchByUser, threadByForum, threadBySet, threadFavor} from "@/assets/request/nga-request";
 import {getFromCache} from "@/assets/utils/CacheUtils";
 
 export default {
     namespaced: true,
     state: {
-        cache: {}
+        cache: {},
+        author: {},
     },
     mutations: {},
     actions: {
+        getSearchByUser: ({dispatch, commit, state}, {page, fid, authorid,searchpost,recommend, force}) => {
+            const param = {page, fid, authorid,searchpost,recommend};
+            return getFromCache({
+                cacheObj: state.author,
+                key: JSON.stringify(param),
+                requestMethod: () => searchByUser(param),
+                expires: 3 * 60,
+                force
+            })
+        },
         getThreadsOfForum: ({dispatch, commit, state}, {page, fid, orderByPostDateDesc, recommend, force}) => {
             const param = {page, fid, orderByPostDateDesc, recommend};
             return getFromCache({

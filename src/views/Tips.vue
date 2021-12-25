@@ -3,7 +3,9 @@
     <!--  <el-container direction="horizontal">-->
     <el-header></el-header>
 
-    <el-main></el-main>
+    <el-main>
+      TIPS
+    </el-main>
     <el-footer></el-footer>
   </el-container>
 

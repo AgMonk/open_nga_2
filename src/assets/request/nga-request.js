@@ -2,6 +2,7 @@ import axios from "axios";
 import {second2String} from "@/assets/utils/DateFormat";
 import {copyObj, obj2Array} from "@/assets/utils/ObjectUtils";
 import {parseColor, parseThreadTypeBit} from "@/assets/request/bitUtils";
+import {unEscape} from "@/assets/utils/StringUtils";
 
 // 配合Form-Data传递参数
 const transformRequest = [
@@ -221,6 +222,8 @@ const handleThread = thread => {
     handleReplyInThread(thread);
     //处理主题中的合集信息
     handleSetInThread(thread);
+
+    thread.subject = unEscape(thread.subject)
 
     delete thread.tpcurl;
 };

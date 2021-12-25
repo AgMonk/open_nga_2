@@ -55,7 +55,13 @@ export default {
     setTitle(this.$route.name)
     this.get(false)
   },
-  watch: {},
+  watch: {
+    $route(to, from) {
+      if (to.path.startsWith('/read')) {
+      this.get(false, to)
+      }
+    }
+  },
   props: {},
 }
 

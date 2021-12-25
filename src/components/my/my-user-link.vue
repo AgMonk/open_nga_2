@@ -6,17 +6,19 @@
                  v-clipboard:copy="uid"
                  v-clipboard:error="onError"
                  v-clipboard:success="onCopy"
-      >复制UID</el-button>
+      >复制UID
+      </el-button>
       <br>
       <el-button style="margin-top: 3px" type="primary" size="small"
                  @click="open(`https://bbs.nga.cn/nuke.php?func=ucp&uid=${uid}`)"
-      >打开官方用户中心</el-button>
+      >打开官方用户中心
+      </el-button>
     </template>
-      <router-link :to="`/user/${uid}`">
-    <el-link :underline="false" :style="style">
+    <router-link :to="`/user/${uid}`">
+      <el-link :underline="false" :style="style">
         {{ username ? username : `UID:${uid}` }}
-    </el-link>
-      </router-link>
+      </el-link>
+    </router-link>
   </el-tooltip>
 </template>
 
@@ -29,7 +31,7 @@ export default {
     return {}
   },
   methods: {
-    open(url){
+    open(url) {
       window.open(url)
     },
     onCopy() {
@@ -59,6 +61,7 @@ export default {
   text-decoration: none;
 
 }
+
 a {
   text-decoration: none;
 }

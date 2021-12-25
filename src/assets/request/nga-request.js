@@ -138,10 +138,10 @@ const handleMirror = thread => {
         thread.mirror.from = quote_from
         thread.mirror.type = '镜像'
     }
-    if (quote_to !== '') {
-        thread.mirror.to = quote_to
-        thread.mirror.type = '镜像源'
-    }
+    // if (quote_to !== '') {
+    //     thread.mirror.to = quote_to
+    //     thread.mirror.type = '镜像源'
+    // }
     delete thread.quote_from
     delete thread.quote_to
 

@@ -20,7 +20,28 @@
     </el-header>
 
     <el-main>
-      {{ threads }}
+      <el-table :data="threads" style="width: 100%">
+        <el-table-column label="#" width="40px">
+          <template #default="s">
+            {{ s.$index + 1 }}
+          </template>
+        </el-table-column>
+        <el-table-column label="回复" prop="replies" width="70px">
+          <template #default="s">
+            <span v-if="s.row.mirror && ['版面','合集'].includes(s.row.mirror.type)">
+              {{s.row.mirror.type}}
+            </span>
+            <span v-else>{{ s.row.replies }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="subject" label="主题">
+          <template #default="s">
+            <thread-link :data="s.row" />
+          </template>
+        </el-table-column>
+        <el-table-column prop="author.name" label="作者" width="180"/>
+        <el-table-column prop="lastposter" label="最后回复" width="180"/>
+      </el-table>
     </el-main>
     <el-footer></el-footer>
   </el-container>
@@ -28,8 +49,10 @@
 </template>
 
 <script>
+import ThreadLink from "@/components/thread-link";
 export default {
   name: "thread-table",
+  components: {ThreadLink},
   data() {
     return {
       currentPage: 1,

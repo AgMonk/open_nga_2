@@ -5,7 +5,7 @@
       <div>{{ title }}</div>
     </el-header>
     <el-main style="--el-main-padding:0">
-      <thread-table :threads="threads" :pageData="pageData" />
+      <thread-table v-if="threads" :threads="threads" :pageData="pageData" />
     </el-main>
       <div>{{ $route.params }}</div>
       <div>{{ $route.query }}</div>

@@ -1,5 +1,9 @@
 <template>
   <my-navigation />
+  <div style="text-align: left;margin-top: 2px">
+    <el-button type="primary" size="small" @click="back"><span style="font-weight: bold">返回</span></el-button>
+    <el-button type="primary" size="small" @click="forward"><span style="font-weight: bold">前进</span></el-button>
+  </div>
   <router-view/>
 
 
@@ -51,7 +55,14 @@ import {mapActions} from "vuex";
 export default {
   components: {MyNavigation, MyBreadcrumb},
   methods: {
-    ...mapActions("users",[`loadCurrentUser`])
+    ...mapActions("users",[`loadCurrentUser`]),
+    back(){
+      history.back()
+    },
+    forward(){
+      history.forward()
+    },
+
   },
   async mounted() {
     await this.loadCurrentUser()

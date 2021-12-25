@@ -765,6 +765,11 @@ export const threadByForum = ({page, fid, orderByPostDateDesc, recommend}) => {
 export const threadBySet = ({page, stid, orderByPostDateDesc}) => {
     return threadRequest({page, stid, orderByPostDateDesc})
 }
+//浏览收藏主题
+export const threadFavor = (page) =>{
+    return threadRequest({page, favor:true})
+}
+
 
 export const readRequest = ({pid, tid, page, authorid}) => {
     if (pid) {

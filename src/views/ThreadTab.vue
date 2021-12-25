@@ -25,7 +25,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("thread", [`getThreadsOfSet`, `getThreadsOfForum`]),
+    ...mapActions("thread", [`getThreadsOfSet`, `getThreadsOfForum`,`getFavor`]),
     ...mapMutations("breadcrumb", [`setWithThread`]),
     ...mapMutations("history", [`addHistoryForum`,`addHistorySet`]),
     async get(force, route) {
@@ -43,6 +43,9 @@ export default {
         //浏览历史
         this.addHistoryForum({fid,name:forum.name,recommend})
         setTitle(forum.name)
+      } else if (route.name === '已收藏主题') {
+        res = await this.getFavor(param.page)
+        setTitle(route.name)
       } else if (route.name === '浏览合集主题') {
         res = await this.getThreadsOfSet(param)
         const forum = res.data.forum

@@ -59,6 +59,7 @@ const routes = [
         component: My,
         children: [
             {path: "config", name: "配置", component: Config},
+            {path: "favor/:page", name: "已收藏主题", component: ThreadTab},
         ]
     }
 

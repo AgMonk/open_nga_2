@@ -14,8 +14,6 @@
 
 <script>
 import MyNavigationItem from "@/components/my/my-navigation-item";
-import Config from "@/views/Config";
-import {mapMutations} from "vuex";
 
 export default {
   name: "my-navigation",
@@ -26,8 +24,9 @@ export default {
         {path: '/home', name: '社区'},
         {
           path: '/my', name: '我的',
-          children:[
-            {path:"config",name:"配置"},
+          children: [
+            {path: "config", name: "配置"},
+            {path: "favor/1", name: "收藏"},
           ]
         },
       ],
@@ -48,8 +47,8 @@ export default {
   mounted() {
     this.activeIndex = this.$route.path
   },
-  watch:{
-    $route(to,from){
+  watch: {
+    $route(to, from) {
       this.activeIndex = to.path
     }
   }

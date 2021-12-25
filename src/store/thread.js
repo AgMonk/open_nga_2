@@ -1,13 +1,13 @@
 // 主题
 // noinspection JSUnusedLocalSymbols
 
-import {threadByForum, threadBySet} from "@/assets/request/nga-request";
+import {threadByForum, threadBySet, threadFavor} from "@/assets/request/nga-request";
 import {getFromCache} from "@/assets/utils/CacheUtils";
 
 export default {
     namespaced: true,
     state: {
-        cache:{}
+        cache: {}
     },
     mutations: {},
     actions: {
@@ -17,7 +17,7 @@ export default {
                 cacheObj: state.cache,
                 key: JSON.stringify(param),
                 requestMethod: () => threadByForum(param),
-                expires: 3*60,
+                expires: 3 * 60,
                 force
             })
         },
@@ -27,10 +27,21 @@ export default {
                 cacheObj: state.cache,
                 key: JSON.stringify(param),
                 requestMethod: () => threadBySet(param),
-                expires: 3*60,
+                expires: 3 * 60,
+                force
+            })
+
+        },
+        getFavor: ({dispatch, commit, state}, {page, force}) => {
+            return getFromCache({
+                cacheObj: state.cache,
+                key: 'favor',
+                requestMethod: () => threadFavor(page),
+                expires: 3 * 60,
                 force
             })
         },
+
         method: ({dispatch, commit, state}, payload) => {
 
         },

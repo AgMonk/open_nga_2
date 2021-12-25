@@ -735,6 +735,9 @@ const threadRequest = ({
     return requestUnity({
         url: "thread.php",
         data
+    }).then(res=>{
+        res.data.pageData.currentPage = page;
+        return res
     })
 }
 

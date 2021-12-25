@@ -5,7 +5,7 @@
       <div>{{ $route.name }}</div>
     </el-header>
 
-    <el-main>
+    <el-main style="--el-main-padding:0">
       <div>{{ $route.params }}</div>
       <div>{{ $route.query }}</div>
     </el-main>

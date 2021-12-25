@@ -119,7 +119,7 @@ export const getUserInfo = (uid) => nukeRequest({
     uid,
 }).then(res => {
     const nukeData = res.data["0"];
-    console.log(nukeData)
+    // console.log(nukeData)
     //    用户信息
     const {group, groupid, medal, more_info, regdate, uid,avatar,email,money,phone,sign,rvrc,posts,username,muteTime,verified} = nukeData
 
@@ -191,7 +191,7 @@ export const getUserInfo = (uid) => nukeRequest({
             status,verified
         }
     }
-    console.log(user)
+    // console.log(user)
     res.data.user = user;
     return user;
 

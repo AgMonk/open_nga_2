@@ -5,12 +5,14 @@ import {getUserInfo} from "@/assets/request/nuke-request";
 import {getCookieMap, setCookies} from "@/assets/utils/CookieUtils";
 import {getCache, putCache} from "@/assets/utils/StorageUtils";
 import {ElMessage} from "element-plus";
+import {slf4j} from "@/assets/utils/LogUtils";
 
 export default {
     namespaced: true,
     state: {
         users: {},
         accounts: [],
+        currentUser:{},
     },
     mutations: {
         saveUser: (state, user) => {
@@ -25,7 +27,7 @@ export default {
         },
         loadAccounts: (state) => {
             state.accounts = getCache("accounts")
-            console.log("加载账号信息")
+            slf4j("加载所有账号信息")
             console.log(state.accounts)
         },
         delAccount:(state,uid)=>{
@@ -41,9 +43,14 @@ export default {
             }
             return state.users[uid]
         },
-        getCurrentUser:({dispatch, commit, state})=>{
+        loadCurrentUser:({dispatch, commit, state})=>{
             const uid = getCache("currentUser")
-            return dispatch("getUserInfo", uid)
+            return dispatch("getUserInfo", uid).then(res=>{
+                state.currentUser = res
+                slf4j("加载当前账号用户信息")
+                console.log(res)
+                return res
+            })
         },
         loginWithCookie: async ({dispatch, commit, state}, cookie) => {
             setCookies(cookie, 90, "/nga-api")
@@ -59,6 +66,8 @@ export default {
                 putCache("accounts", state.accounts)
 
                 putCache("currentUser",uid)
+
+                state.currentUser = info;
 
                 ElMessage.success(`登陆成功 [${info.username}]`)
                 return info

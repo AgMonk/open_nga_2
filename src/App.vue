@@ -46,8 +46,18 @@
 <script>
 import MyBreadcrumb from "@/components/my/my-breadcrumb";
 import MyNavigation from "@/components/my/my-navigation";
+import {mapActions} from "vuex";
 
 export default {
-  components: {MyNavigation, MyBreadcrumb}
+  components: {MyNavigation, MyBreadcrumb},
+  methods: {
+    ...mapActions("users",[`loadCurrentUser`])
+  },
+  async mounted() {
+    await this.loadCurrentUser()
+  },
+  data(){
+    return{}
+  }
 }
 </script>

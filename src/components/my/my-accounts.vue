@@ -11,7 +11,7 @@
         <el-table-column label="用户名" prop="username"></el-table-column>
         <el-table-column label="操作">
           <template #default="slot">
-            <el-button type="primary" @click="loginWithCookie(slot.row.cookie)">登陆</el-button>
+            <el-button type="primary" @click="login(slot.row.cookie)">登陆</el-button>
             <el-button type="danger" @click="del(slot.row)">移除</el-button>
           </template>
 
@@ -38,6 +38,13 @@ export default {
   methods: {
     ...mapActions("users", [`getUserInfo`, `loginWithCookie`]),
     ...mapMutations("users", [`loadAccounts`, `delAccount`]),
+    login(cookie){
+      this.loginWithCookie(cookie).then(()=>{
+        setTimeout(()=>{
+          location.reload()
+        },1000)
+      })
+    },
     addAccounts() {
       ElMessageBox.prompt('请填写Cookie', '添加账号', {
         confirmButtonText: '确认',

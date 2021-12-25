@@ -9,6 +9,7 @@ import Thread from "@/views/Thread";
 import My from "@/views/My";
 import Config from "@/views/Config";
 import User from "@/views/User";
+import Tips from "@/views/Tips";
 
 const routes = [
     {
@@ -60,8 +61,9 @@ const routes = [
         children: [
             {path: "config", name: "配置", component: Config},
             {path: "favor/:page", name: "已收藏主题", component: ThreadTab},
+            {path: "tips", name: "关于", component: Tips,},
         ]
-    }
+    },
 
 ]
 

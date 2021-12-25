@@ -119,10 +119,12 @@ export const getUserInfo = (uid) => nukeRequest({
     uid,
 }).then(res => {
     const nukeData = res.data["0"];
+    console.log(nukeData)
     //    用户信息
-    const {group, groupid, medal, more_info, regdate, uid,avatar,email,money,phone,sign,rvrc,posts,username} = nukeData
+    const {group, groupid, medal, more_info, regdate, uid,avatar,email,money,phone,sign,rvrc,posts,username,muteTime,verified} = nukeData
+
     const user = {
-        uid,email,phone,
+        uid,
         groupId: groupid,
         groupName: group,
         rvrc:rvrc/10,
@@ -133,6 +135,12 @@ export const getUserInfo = (uid) => nukeRequest({
     const medals = typeof medal ==="string"?medal.split(","):undefined;
     if (medals){
         user.medals = medals;
+    }
+    if (email){
+        user.email = email;
+    }
+     if (phone){
+        user.phone = phone;
     }
     const ava = parseAvatar(avatar)
     if (ava){
@@ -156,6 +164,34 @@ export const getUserInfo = (uid) => nukeRequest({
     if (a) {
         user.totalAgreement = a.data
     }
+    if (muteTime && muteTime>0){
+        user.timestamp.mute = {time: muteTime, value: second2String(muteTime)}
+    }
+
+    if (verified) {
+        let status;
+        switch (verified) {
+            case 4:
+                status = '已激活(手机/关联)';
+                break;
+            case 1:
+                status = '已激活';
+                break;
+            case 0:
+                status = '未激活';
+                break;
+            case -1:
+                status = 'NUKED';
+                break;
+            default:
+                status = '其他';
+                break;
+        }
+        user.accountStatus = {
+            status,verified
+        }
+    }
+    console.log(user)
     res.data.user = user;
     return user;
 

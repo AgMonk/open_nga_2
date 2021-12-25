@@ -1,10 +1,15 @@
 <template>
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
-    <el-header></el-header>
 
     <el-main>
-      <user-center :uid="$route.params.uid" />
+      <el-tabs type="border-card">
+        <el-tab-pane label="个人中心">
+          <user-center :uid="$route.params.uid" />
+        </el-tab-pane>
+
+        <el-tab-pane label="Config">Config</el-tab-pane>
+      </el-tabs>
     </el-main>
     <el-footer></el-footer>
   </el-container>

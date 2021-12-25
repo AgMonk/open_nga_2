@@ -1,3 +1,3 @@
 export const setTitle = (title) => {
-    document.title = `OpenNga - ${title}`
+    document.title = `${title} - OpenNga`
 }

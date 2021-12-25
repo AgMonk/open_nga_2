@@ -34,7 +34,7 @@ export const getNotices = () => nukeRequest({
     replies = !replies ? undefined : replies.map(r => {
         const timestamp = {
             time: r["9"],
-            timestamp: second2String(r["9"])
+            value: second2String(r["9"])
         }
         const from = {
             uid: r["1"],
@@ -85,7 +85,7 @@ export const getNotices = () => nukeRequest({
         mid: r["6"],
         timestamp: {
             time: r["9"],
-            timestamp: second2String(r["9"])
+            value: second2String(r["9"])
         }
     })).reverse();
 
@@ -100,7 +100,7 @@ export const getNotices = () => nukeRequest({
         pid: r["7"],
         timestamp: {
             time: r["9"],
-            timestamp: second2String(r["9"])
+            value: second2String(r["9"])
         }
     })).reverse();
 

@@ -3,7 +3,6 @@
     <!--  <el-container direction="horizontal">-->
     <el-header>
       <my-breadcrumb />
-      {{$route.params.key}}
     </el-header>
 
     <el-main>

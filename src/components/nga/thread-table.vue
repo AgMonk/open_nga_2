@@ -35,9 +35,15 @@
         <el-table-column prop="author.name" label="作者" width="180">
           <template #default="s">
             <nga-user-link :uid="s.row.author.uid" />
+            <div><my-timestamp :time="s.row.timestamp.post.time"/></div>
           </template>
         </el-table-column>
-        <el-table-column prop="lastposter" label="最后回复" width="180"/>
+        <el-table-column prop="lastposter" label="最后回复" width="180">
+          <template #default="s">
+          <div><my-timestamp :time="s.row.timestamp.lastPost.time"/></div>
+            {{s.row.lastposter}}
+          </template>
+        </el-table-column>
       </el-table>
     </el-main>
     <el-footer></el-footer>
@@ -48,9 +54,10 @@
 <script>
 import ThreadRow from "@/components/nga/thread-row";
 import NgaUserLink from "@/components/nga/nga-user-link";
+import MyTimestamp from "@/components/my/my-timestamp";
 export default {
   name: "thread-table",
-  components: {NgaUserLink, ThreadRow},
+  components: {MyTimestamp, NgaUserLink, ThreadRow},
   data() {
     return {
       currentPage: 1,

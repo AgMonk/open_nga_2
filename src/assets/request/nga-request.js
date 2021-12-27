@@ -62,8 +62,9 @@ export const parseAvatar = (avatar) => {
 
 const handleColor = thread => {
     // console.log(thread.subject)
-    const index = (thread.mirror && ['合集主题','版面','合集'].includes(thread.mirror.type)) ? 9:4;
-    const bitData = thread.hasOwnProperty('titlefont') ? parseColor(thread.titlefont)[index] : parseColor(thread.topic_misc)[index]
+    const array = thread.hasOwnProperty('titlefont') ? parseColor(thread.titlefont) : parseColor(thread.topic_misc)
+    const index = (thread.mirror && ['合集主题'].includes(thread.mirror.type)) ? 9:array.length-1;
+    const bitData = array[index]
     if (bitData) {
         const colorData = bitData.substring(0, 5)
         const fontData = bitData.substring(5)

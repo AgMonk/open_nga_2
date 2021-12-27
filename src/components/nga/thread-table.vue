@@ -1,7 +1,9 @@
 <template>
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
-    <el-header>
+<!--    <el-header></el-header>-->
+
+    <el-main>
       <el-pagination v-if="pageData"
                      :current-page.sync="currentPage"
                      :pager-count="5"
@@ -10,9 +12,6 @@
                      :page-size="pageSize"
                      :total="total"
       />
-    </el-header>
-
-    <el-main>
       <el-table :data="threads" style="width: 100%">
         <el-table-column label="#" width="40px">
           <template #default="s">
@@ -45,6 +44,14 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-pagination v-if="pageData"
+                     :current-page.sync="currentPage"
+                     :pager-count="5"
+                     layout="total,prev, pager, next,jumper"
+                     @current-change="currentChange"
+                     :page-size="pageSize"
+                     :total="total"
+      />
     </el-main>
     <el-footer></el-footer>
   </el-container>

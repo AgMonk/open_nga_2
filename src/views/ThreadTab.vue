@@ -5,6 +5,10 @@
       <div>{{ title }}</div>
     </el-header>
     <el-main style="--el-main-padding:0">
+      <div v-if="forum && forum.children && forum.children.length>0">
+        <el-divider content-position="left">子版面/合集</el-divider>
+        <nga-forum-avatar v-for="forum in forum.children" :forum="forum"/>
+      </div>
       <thread-table v-if="threads" :threads="threads" :pageData="pageData" />
     </el-main>
       <div>{{ $route.params }}</div>
@@ -18,15 +22,17 @@
 import {mapActions, mapMutations} from "vuex";
 import {setTitle} from "@/assets/request/ProjectUtils";
 import ThreadTable from "@/components/nga/thread-table";
+import NgaForumAvatar from "@/components/nga/nga-forum-avatar";
 
 export default {
   name: "ThreadTab",
-  components: {ThreadTable},
+  components: {ThreadTable,NgaForumAvatar},
   data() {
     return {
       title:"",
       threads:[],
       pageData:{},
+      forum:{},
     }
   },
 
@@ -107,6 +113,7 @@ export default {
       if (res) {
         this.threads = res.threads
         this.pageData = res.pageData
+        this.forum = res.forum
       }
     },
   },

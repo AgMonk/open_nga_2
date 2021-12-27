@@ -1,5 +1,6 @@
 <template>
-<div style="width: 80px;text-align: center;display:inline-block;vertical-align: top;cursor: pointer" @click="click">
+<div style="width: 80px;text-align: center;display:inline-block;vertical-align: top;cursor: pointer" >
+<my-router-link :to="route">
   <el-avatar shape="square" :size="50"
              :src="src"
              @error="errorHandler"
@@ -8,11 +9,13 @@
   <div>
     {{name}}
   </div>
+</my-router-link>
 </div>
 </template>
 
 <script>
 
+import MyRouterLink from "@/components/my/my-router-link";
 const proxy ='https://images.weserv.nl/?url='
 const defaultProxy = 'https://images.weserv.nl/?url='
 
@@ -22,6 +25,7 @@ const defaultProxy = 'https://images.weserv.nl/?url='
 
 export default {
   name: "forum-avatar",
+  components: {MyRouterLink},
   data() {
     return {
       src:``,
@@ -45,9 +49,6 @@ export default {
         this.route = {name:"浏览版面主题",params:{page:1,fid}}
       }
     },
-    click(){
-      this.$router.push(this.route)
-    },
   },
   mounted() {
     this.update(this.forum)
@@ -68,5 +69,12 @@ export default {
 </script>
 
 <style scoped>
+.router-link-active {
+  text-decoration: none;
 
+}
+
+a {
+  text-decoration: none;
+}
 </style>

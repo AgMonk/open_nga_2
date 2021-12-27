@@ -41,8 +41,6 @@ export const parseMoney = (money) => {
 
 export const parseAvatar = (avatar) => {
     if (avatar && avatar.length > 0) {
-        const a = []
-
         const prefix = 'https://img.nga.178.com/avatars'
         // noinspection HttpUrlsUsage
         const prefix1 = 'http://img.nga.178.com/avatars'
@@ -60,9 +58,14 @@ export const parseAvatar = (avatar) => {
     }
 }
 
+// noinspection JSUnresolvedVariable
 const handleColor = thread => {
     // console.log(thread.subject)
-    const array = thread.hasOwnProperty('titlefont') ? parseColor(thread.titlefont) : parseColor(thread.topic_misc)
+    const array = thread.hasOwnProperty('titlefont') ? parseColor(thread.titlefont)
+        :(thread.hasOwnProperty('topic_misc') ? parseColor(thread.topic_misc):undefined)
+    if (!array){
+        return
+    }
     const index = (thread.mirror && ['合集主题'].includes(thread.mirror.type)) ? 9:array.length-1;
     const bitData = array[index]
     if (bitData) {
@@ -136,16 +139,12 @@ const handleTime = obj => {
 };
 
 const handleMirror = thread => {
-    const {quote_from, quote_to, parent, topic_misc_var} = thread;
+    const {quote_from, parent, topic_misc_var} = thread;
     thread.mirror = {}
     if (quote_from !== 0) {
         thread.mirror.from = quote_from
         thread.mirror.type = '镜像'
     }
-    // if (quote_to !== '') {
-    //     thread.mirror.to = quote_to
-    //     thread.mirror.type = '镜像源'
-    // }
     delete thread.quote_from
     delete thread.quote_to
 
@@ -548,7 +547,7 @@ const transformResponse = [
         // noinspection JSUnresolvedVariable
         return data.then(res => {
             // console.log(copyObj(res))
-            const {error, data, time} = res;
+            const { data} = res;
             const {__CU, __F, __PAGE, __R, __ROWS, __T, __U, __T__ROWS_PAGE, __R__ROWS_PAGE} = data;
 
             //整理子版面
@@ -682,6 +681,7 @@ export const requestUnity = axios.create({
 
 requestUnity.interceptors.response.use(response => response.data, (error) => Promise.reject(error));
 
+// noinspection JSValidateJSDoc
 /**
  * 规范的 thread请求
  * @param page 页码
@@ -694,7 +694,7 @@ requestUnity.interceptors.response.use(response => response.data, (error) => Pro
  * @param content 是否搜索主楼正文部分
  * @param recommend 是否仅显示精华帖
  * @param searchpost 含有authorid 时 是否搜索该用户回复
- * @returns {AxiosPromise} Promise
+ * @returns {AxiosPromise} Promise Promise
  */
 const threadRequest = ({
                            page = 1,

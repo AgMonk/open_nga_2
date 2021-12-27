@@ -2,6 +2,17 @@
   <el-row >
     <el-col :span="isType(data.mirror,[ '合集主题', '子版主题'])?20:24">
       <nga-thread-link :data="data" />
+      <el-pagination
+          v-if="data.replies>19"
+          :total="data.replies+1"
+          :page-size="20"
+          :pager-count="5"
+          :default-current-page="0"
+          style="display:inline-block"
+          small
+          layout="pager"
+          @current-change="$router.push({name:'回复列表',params:{page:$event,tid:data.tid}})"
+      />
     </el-col>
     <el-col v-if="isType(data.mirror,[ '合集主题', '子版主题'])" :span="4" style="text-align: right">
       <my-router-link v-if="isType(data.mirror,'合集主题')" :to="`/thread/s/${data.mirror.stid}/1`">

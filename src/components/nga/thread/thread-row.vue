@@ -34,10 +34,10 @@
 
 <script>
 import MyRouterLink from "@/components/my/my-router-link";
-import NgaThreadLink from "@/components/nga/nga-thread-link";
-import NgaThreadTypeTag from "@/components/nga/nga-thread-type-tag";
+import NgaThreadLink from "@/components/nga/thread/nga-thread-link";
+import NgaThreadTypeTag from "@/components/nga/thread/nga-thread-type-tag";
 import MyTimestamp from "@/components/my/my-timestamp";
-import NgaContent from "@/components/nga/nga-content";
+import NgaContent from "@/components/nga/read/nga-content";
 
 export default {
   name: "thread-row",

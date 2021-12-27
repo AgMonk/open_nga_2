@@ -32,7 +32,7 @@
 // @ is an alias to /src
 import {setCookies} from "@/assets/utils/CookieUtils";
 import {mapActions} from "vuex";
-import NgaForumAvatar from "@/components/nga/nga-forum-avatar";
+import NgaForumAvatar from "@/components/nga/forum/nga-forum-avatar";
 import {setTitle} from "@/assets/request/ProjectUtils";
 
 export default {

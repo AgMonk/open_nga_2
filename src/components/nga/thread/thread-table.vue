@@ -59,8 +59,8 @@
 </template>
 
 <script>
-import ThreadRow from "@/components/nga/thread-row";
-import NgaUserLink from "@/components/nga/nga-user-link";
+import ThreadRow from "@/components/nga/thread/thread-row";
+import NgaUserLink from "@/components/nga/thread/nga-user-link";
 import MyTimestamp from "@/components/my/my-timestamp";
 export default {
   name: "thread-table",

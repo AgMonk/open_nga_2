@@ -21,8 +21,8 @@
 <script>
 import {mapActions, mapMutations} from "vuex";
 import {setTitle} from "@/assets/request/ProjectUtils";
-import ThreadTable from "@/components/nga/thread-table";
-import NgaForumAvatar from "@/components/nga/nga-forum-avatar";
+import ThreadTable from "@/components/nga/thread/thread-table";
+import NgaForumAvatar from "@/components/nga/forum/nga-forum-avatar";
 
 export default {
   name: "ThreadTab",

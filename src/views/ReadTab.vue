@@ -6,10 +6,13 @@
     </el-header>
 
     <el-main>
+
+    </el-main>
+    <el-footer>
+
       <div>{{ $route.params }}</div>
       <div>{{ $route.query }}</div>
-    </el-main>
-    <el-footer></el-footer>
+    </el-footer>
   </el-container>
 
 </template>

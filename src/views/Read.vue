@@ -1,12 +1,11 @@
 <template>
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
-    <el-header>
+<!--    <el-header></el-header>-->
+
+    <el-main>
       <nga-breadcrumb />
-
-    </el-header>
-
-    <el-main>      <router-view/>
+      <router-view/>
     </el-main>
     <el-footer></el-footer>
   </el-container>

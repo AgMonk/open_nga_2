@@ -1,12 +1,12 @@
 <template>
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
-    <el-header>
-      <div>{{ $route.name }}</div>
-    </el-header>
+<!--    <el-header>-->
+<!--      <div>{{ $route.name }}</div>-->
+<!--    </el-header>-->
 
     <el-main>
-
+      <nga-read-table :replies="replies" :page-data="pageData" />
     </el-main>
     <el-footer>
 
@@ -20,9 +20,11 @@
 <script>
 import {mapActions, mapMutations} from "vuex";
 import {setTitle} from "@/assets/request/ProjectUtils";
+import NgaReadTable from "@/components/nga/read/nga-read-table";
 
 export default {
   name: "ReadTab",
+  components: {NgaReadTable},
   data() {
     return {
       pageData: {

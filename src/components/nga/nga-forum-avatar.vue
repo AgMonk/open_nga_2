@@ -6,7 +6,7 @@
              style="--el-avatar-bg-color:none;margin-top: 0"
   />
   <div>
-    {{name.substring(0,Math.min(name.length,10))}}
+    {{name}}
   </div>
 </div>
 </template>
@@ -24,28 +24,42 @@ export default {
   name: "forum-avatar",
   data() {
     return {
-      src:`${proxy}img4.nga.178.com/proxy/cache_attach/ficon/${this.fid}u.png`,
+      src:``,
+      route:{},
       defaultSrc :`${defaultProxy}img4.nga.178.com/ngabbs/nga_classic/f/00.png`,
+      name:"",
     }
   },
   methods: {
     errorHandler(e){
       this.src = this.defaultSrc
     },
+    update(f){
+      const {fid,stid,name} = f;
+      this.name = name.substring(0,Math.min(name.length,10));
+      if (stid){
+        this.src = this.defaultSrc;
+        this.route = {name:"浏览合集主题",params:{page:1,stid}}
+      }else{
+        this.src = `${proxy}img4.nga.178.com/proxy/cache_attach/ficon/${fid}u.png`;
+        this.route = {name:"浏览版面主题",params:{page:1,fid}}
+      }
+    },
     click(){
-      this.$router.push({name:"浏览版面主题",params:{fid:this.fid,page:1}})
+      this.$router.push(this.route)
     },
   },
   mounted() {
+    this.update(this.forum)
   },
-  watch: {},
-  props: {
-    fid:{
-      type:Number,
-      required:true,
+  watch: {
+    forum(to){
+      this.update(to)
     },
-    name:{
-      type:String,
+  },
+  props: {
+    forum:{
+      type:Object,
       required: true,
     }
   },

@@ -6,7 +6,7 @@
     <el-main>
       <el-tabs type="border-card">
         <el-tab-pane label="我的收藏" style="text-align: left">
-          <nga-forum-avatar v-for="forum in favorForums" :fid="forum.fid" :name="forum.name"/>
+          <nga-forum-avatar v-for="forum in favorForums" :forum="forum"/>
         </el-tab-pane>
 
 
@@ -33,6 +33,7 @@
 import {setCookies} from "@/assets/utils/CookieUtils";
 import {mapActions} from "vuex";
 import NgaForumAvatar from "@/components/nga/nga-forum-avatar";
+import {setTitle} from "@/assets/request/ProjectUtils";
 
 export default {
   name: 'Home',
@@ -56,6 +57,7 @@ export default {
     }
   },
   mounted() {
+    setTitle("主页")
     this.refresh(false)
     this.getUserInfo(39841854).then(res=>{
       console.log(res);

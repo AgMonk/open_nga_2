@@ -11,6 +11,7 @@ export default {
     return {
       text: "",
       clazz: "b1",
+      timer:'',
     }
   },
   methods: {
@@ -34,6 +35,10 @@ export default {
   },
   mounted() {
     this.update(this.time)
+    this.timer = setInterval(()=>{this.update(this.time)},30*1000)
+  },
+  unmounted() {
+    clearInterval(this.timer)
   },
   watch: {
     time(to){

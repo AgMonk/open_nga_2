@@ -9,10 +9,10 @@
         <el-divider content-position="left">子版面/合集</el-divider>
         <nga-forum-avatar v-for="forum in forum.children" :forum="forum"/>
       </div>
-      <thread-table v-if="threads" :threads="threads" :pageData="pageData" />
+      <thread-table v-if="threads" :threads="threads" :pageData="pageData"/>
     </el-main>
-      <div>{{ $route.params }}</div>
-      <div>{{ $route.query }}</div>
+    <div>{{ $route.params }}</div>
+    <div>{{ $route.query }}</div>
     <el-footer></el-footer>
   </el-container>
 
@@ -26,13 +26,13 @@ import NgaForumAvatar from "@/components/nga/nga-forum-avatar";
 
 export default {
   name: "ThreadTab",
-  components: {ThreadTable,NgaForumAvatar},
+  components: {ThreadTable, NgaForumAvatar},
   data() {
     return {
-      title:"",
-      threads:[],
-      pageData:{},
-      forum:{},
+      title: "",
+      threads: [],
+      pageData: {},
+      forum: {},
     }
   },
 
@@ -64,8 +64,8 @@ export default {
       return res;
     },
     //查询已收藏主题
-    async listFavor(page) {
-      const res = await this.getFavor(page)
+    async listFavor(param) {
+      const res = await this.getFavor(param)
       this.title = '我的收藏'
       setTitle(this.title)
       return res;
@@ -94,26 +94,22 @@ export default {
     //获取数据
     async get(force, route = this.$route) {
       const param = {force, ...route.query, ...route.params,}
-      let res
-      switch (route.name) {
-        case "浏览版面主题":
-          res =await this.listThreadsOfForum(param);
-          break;
-        case "搜索用户发言":
-          res =await  this.listSearchByUser(param);
-          break;
-        case "浏览合集主题":
-          res =await  this.listThreadsOfSet(param);
-          break;
-        case "已收藏主题":
-          res =await  this.listFavor(param.page);
-          break;
+      // noinspection NonAsciiCharacters
+      const methodMap = {
+        "浏览版面主题": this.listThreadsOfForum,
+        "搜索用户发言": this.listSearchByUser,
+        "浏览合集主题": this.listThreadsOfSet,
+        "已收藏主题": this.listFavor,
       }
-      console.log(res)
-      if (res) {
-        this.threads = res.threads
-        this.pageData = res.pageData
-        this.forum = res.forum
+      let method = methodMap[route.name];
+      if (method) {
+        const res = await method(param)
+        console.log(res)
+        if (res) {
+          this.threads = res.threads
+          this.pageData = res.pageData
+          this.forum = res.forum
+        }
       }
     },
   },

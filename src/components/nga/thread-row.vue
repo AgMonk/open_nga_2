@@ -2,7 +2,7 @@
   <el-row >
     <el-col :span="isType(data.mirror,[ '合集主题', '子版主题'])?20:24">
       <nga-thread-link :data="data" />
-      <nga-thread-type-tag :type="data.type" /> 
+      <nga-thread-type-tag :type="data.type" />
       <el-pagination
           v-if="data.replies>19"
           :total="data.replies+1"
@@ -14,6 +14,12 @@
           layout="pager"
           @current-change="$router.push({name:'回复列表',params:{page:$event,tid:data.tid}})"
       />
+      <div v-if="data.reply">
+        <my-router-link :to="{name:'单个回复',params:{pid:data.reply.pid}}">[主题内的回复]</my-router-link>
+        <my-timestamp :time="data.reply.timestamp.post.time"/>
+        <br>
+        <nga-content :content="data.reply.content" />
+      </div>
     </el-col>
     <el-col v-if="isType(data.mirror,[ '合集主题', '子版主题'])" :span="4" style="text-align: right">
       <my-router-link v-if="isType(data.mirror,'合集主题')" :to="`/thread/s/${data.mirror.stid}/1`">
@@ -30,10 +36,12 @@
 import MyRouterLink from "@/components/my/my-router-link";
 import NgaThreadLink from "@/components/nga/nga-thread-link";
 import NgaThreadTypeTag from "@/components/nga/nga-thread-type-tag";
+import MyTimestamp from "@/components/my/my-timestamp";
+import NgaContent from "@/components/nga/nga-content";
 
 export default {
   name: "thread-row",
-  components: {NgaThreadTypeTag, NgaThreadLink, MyRouterLink},
+  components: {NgaContent, MyTimestamp, NgaThreadTypeTag, NgaThreadLink, MyRouterLink},
   data() {
     return {}
   },

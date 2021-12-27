@@ -2,7 +2,7 @@
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
     <el-header>
-      <my-breadcrumb />
+      <nga-breadcrumb />
     </el-header>
 
     <el-main style="--el-main-padding:0"><router-view/></el-main>
@@ -12,10 +12,10 @@
 </template>
 
 <script>
-import MyBreadcrumb from "@/components/my/my-breadcrumb";
+import NgaBreadcrumb from "@/components/nga/nga-breadcrumb";
 export default {
   name: "Thread",
-  components: {MyBreadcrumb},
+  components: {NgaBreadcrumb},
   data() {
     return {}
   },

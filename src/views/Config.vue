@@ -20,9 +20,9 @@
 </template>
 
 <script>
-import MyAccounts from "@/components/my/my-accounts";
+import MyAccounts from "@/components/nga/my-accounts";
 import {setTitle} from "@/assets/request/ProjectUtils";
-import UserCenter from "@/components/user-center";
+import UserCenter from "@/components/nga/user-center";
 
 export default {
   name: "Config",

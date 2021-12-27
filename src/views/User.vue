@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import UserCenter from "@/components/user-center";
+import UserCenter from "@/components/nga/user-center";
 
 export default {
   name: "User",

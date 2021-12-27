@@ -48,12 +48,12 @@
 }
 </style>
 <script>
-import MyBreadcrumb from "@/components/my/my-breadcrumb";
+import NgaBreadcrumb from "@/components/nga/nga-breadcrumb";
 import MyNavigation from "@/components/my/my-navigation";
 import {mapActions} from "vuex";
 
 export default {
-  components: {MyNavigation, MyBreadcrumb},
+  components: {MyNavigation, NgaBreadcrumb},
   methods: {
     ...mapActions("users",[`loadCurrentUser`]),
     back(){

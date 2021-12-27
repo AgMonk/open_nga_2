@@ -62,8 +62,8 @@
 
 <script>
 import {mapActions, mapState} from "vuex";
-import MyUserLink from "@/components/my/my-user-link";
-import MyAvatar from "@/components/my-icon/my-avatar";
+import MyUserLink from "@/components/nga/my-user-link";
+import MyAvatar from "@/components/nga/my-avatar";
 
 export default {
   name: "user-center",

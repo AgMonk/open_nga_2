@@ -6,7 +6,7 @@
     <el-main>
       <el-tabs type="border-card">
         <el-tab-pane label="我的收藏" style="text-align: left">
-          <forum-avatar v-for="forum in favorForums" :fid="forum.fid" :name="forum.name"/>
+          <nga-forum-avatar v-for="forum in favorForums" :fid="forum.fid" :name="forum.name"/>
         </el-tab-pane>
 
 
@@ -32,12 +32,11 @@
 // @ is an alias to /src
 import {setCookies} from "@/assets/utils/CookieUtils";
 import {mapActions} from "vuex";
-import ForumAvatar from "@/components/my-icon/forum-avatar";
-import {getUserInfo} from "@/assets/request/nuke-request";
+import NgaForumAvatar from "@/components/nga/nga-forum-avatar";
 
 export default {
   name: 'Home',
-  components: {ForumAvatar},
+  components: {NgaForumAvatar},
   data() {
     return {
       cookie: '',

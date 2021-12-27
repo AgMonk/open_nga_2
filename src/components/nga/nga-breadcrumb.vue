@@ -19,7 +19,7 @@
 import {mapState} from "vuex";
 
 export default {
-  name: "my-breadcrumb",
+  name: "nga-breadcrumb",
   data() {
     return {}
   },

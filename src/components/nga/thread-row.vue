@@ -1,15 +1,7 @@
 <template>
   <el-row >
     <el-col :span="isType(data.mirror,[ '合集主题', '子版主题'])?20:24">
-      <my-router-link v-if="isType(data.mirror,'版面')" :to="`/thread/f/${data.mirror.fid}/1`">
-        {{data.subject}}
-      </my-router-link>
-      <my-router-link v-else-if="isType(data.mirror,'合集')" :to="`/thread/s/${data.tid}/1`">
-        {{data.subject}}
-      </my-router-link>
-      <my-router-link v-else :to="`/read/t/${data.tid}/1`">
-        {{data.subject}}
-      </my-router-link>
+      <nga-thread-link :data="data" />
     </el-col>
     <el-col v-if="isType(data.mirror,[ '合集主题', '子版主题'])" :span="4" style="text-align: right">
       <my-router-link v-if="isType(data.mirror,'合集主题')" :to="`/thread/s/${data.mirror.stid}/1`">
@@ -24,10 +16,11 @@
 
 <script>
 import MyRouterLink from "@/components/my/my-router-link";
+import NgaThreadLink from "@/components/nga/nga-thread-link";
 
 export default {
-  name: "thread-link",
-  components: {MyRouterLink},
+  name: "thread-row",
+  components: {NgaThreadLink, MyRouterLink},
   data() {
     return {}
   },

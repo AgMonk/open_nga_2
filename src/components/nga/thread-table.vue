@@ -36,7 +36,7 @@
         </el-table-column>
         <el-table-column prop="subject" label="主题">
           <template #default="s">
-            <thread-link :data="s.row" />
+            <thread-row :data="s.row" />
           </template>
         </el-table-column>
         <el-table-column prop="author.name" label="作者" width="180"/>
@@ -49,10 +49,10 @@
 </template>
 
 <script>
-import ThreadLink from "@/components/thread-link";
+import ThreadRow from "@/components/nga/thread-row";
 export default {
   name: "thread-table",
-  components: {ThreadLink},
+  components: {ThreadRow},
   data() {
     return {
       currentPage: 1,

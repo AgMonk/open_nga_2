@@ -17,7 +17,7 @@
 <script>
 import {mapActions, mapMutations} from "vuex";
 import {setTitle} from "@/assets/request/ProjectUtils";
-import ThreadTable from "@/components/thread-table";
+import ThreadTable from "@/components/nga/thread-table";
 
 export default {
   name: "ThreadTab",

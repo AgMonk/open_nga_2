@@ -2,6 +2,7 @@
   <el-row >
     <el-col :span="isType(data.mirror,[ '合集主题', '子版主题'])?20:24">
       <nga-thread-link :data="data" />
+      <nga-thread-type-tag :type="data.type" /> 
       <el-pagination
           v-if="data.replies>19"
           :total="data.replies+1"
@@ -28,10 +29,11 @@
 <script>
 import MyRouterLink from "@/components/my/my-router-link";
 import NgaThreadLink from "@/components/nga/nga-thread-link";
+import NgaThreadTypeTag from "@/components/nga/nga-thread-type-tag";
 
 export default {
   name: "thread-row",
-  components: {NgaThreadLink, MyRouterLink},
+  components: {NgaThreadTypeTag, NgaThreadLink, MyRouterLink},
   data() {
     return {}
   },

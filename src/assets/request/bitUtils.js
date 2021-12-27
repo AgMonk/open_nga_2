@@ -30,7 +30,8 @@ export const parseColor = (data) => {
         .map(i=>('00000000'+i).slice(-8))
         .map(i=>i.split("").reverse().join(''))
     ;
-    return array[array.length-1]
+    // console.log(`${data} => ${array}`)
+    return array
 }
 
 //二进制字符串转为多字节整数(big-endian)

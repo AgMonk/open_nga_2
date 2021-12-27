@@ -61,7 +61,9 @@ export const parseAvatar = (avatar) => {
 }
 
 const handleColor = thread => {
-    const bitData = thread.hasOwnProperty('titlefont') ? parseColor(thread.titlefont) : parseColor(thread.topic_misc)
+    // console.log(thread.subject)
+    const index = (thread.mirror && ['合集主题','版面','合集'].includes(thread.mirror.type)) ? 9:4;
+    const bitData = thread.hasOwnProperty('titlefont') ? parseColor(thread.titlefont)[index] : parseColor(thread.topic_misc)[index]
     if (bitData) {
         const colorData = bitData.substring(0, 5)
         const fontData = bitData.substring(5)
@@ -83,7 +85,8 @@ const handleColor = thread => {
                     color = 'green';
                     break;
                 case 3:
-                    color = 'orange';
+                    color = '#A06700';
+                    // color = 'orange';
                     break;
                 case 4:
                     color = 'silver';
@@ -162,8 +165,7 @@ const handleMirror = thread => {
             thread.mirror.forum = parent[2];
         }
         delete thread.parent
-    }
-    if (topic_misc_var && topic_misc_var[1] === 33) {
+    }else if (topic_misc_var && topic_misc_var[1] && !topic_misc_var[2]) {
         thread.mirror.type = '合集'
         delete thread.topic_misc_var
     }
@@ -208,12 +210,12 @@ const handleSetInThread = thread => {
 };
 
 const handleThread = thread => {
-    //处理标题颜色
-    handleColor(thread);
     //处理时间戳
     handleTime(thread);
     //处理镜像字段
     handleMirror(thread);
+    //处理标题颜色
+    handleColor(thread);
     //处理作者信息
     handleAuthor(thread);
     //处理主题类型

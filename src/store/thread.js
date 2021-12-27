@@ -20,6 +20,12 @@ export default {
                 requestMethod: () => searchByUser(param),
                 expires: 3 * 60,
                 force
+            }).then(res=>{
+                //保存用户信息
+                res.data.threads.forEach(thread=>{
+                    commit("users/saveUser",thread.author,{root:true})
+                })
+                return res.data
             })
         },
         getThreadsOfForum: ({dispatch, commit, state}, {page, fid, orderByPostDateDesc, recommend, force}) => {
@@ -30,6 +36,12 @@ export default {
                 requestMethod: () => threadByForum(param),
                 expires: 3 * 60,
                 force
+            }).then(res=>{
+                //保存用户信息
+                res.data.threads.forEach(thread=>{
+                    commit("users/saveUser",thread.author,{root:true})
+                })
+                return res.data
             })
         },
         getThreadsOfSet: ({dispatch, commit, state}, {page, stid, orderByPostDateDesc, force}) => {
@@ -40,6 +52,12 @@ export default {
                 requestMethod: () => threadBySet(param),
                 expires: 3 * 60,
                 force
+            }).then(res=>{
+                //保存用户信息
+                res.data.threads.forEach(thread=>{
+                    commit("users/saveUser",thread.author,{root:true})
+                })
+                return res.data
             })
 
         },
@@ -50,9 +68,14 @@ export default {
                 requestMethod: () => threadFavor(page),
                 expires: 3 * 60,
                 force
+            }).then(res=>{
+                //保存用户信息
+                res.data.threads.forEach(thread=>{
+                    commit("users/saveUser",thread.author,{root:true})
+                })
+                return res.data
             })
         },
-
         method: ({dispatch, commit, state}, payload) => {
 
         },

@@ -18,12 +18,14 @@ export default {
         saveUser: (state, user) => {
             const uid = user.uid
             const u = state.users[uid]
+            // console.log(user)
             if (u) {
                 //    数据已存在
                 Object.assign(u, user)
             } else {
                 state.users[uid] = user
             }
+            // console.log(state.users[uid])
         },
         loadAccounts: (state) => {
             state.accounts = getCache("accounts")

@@ -34,7 +34,7 @@
         <template #title>
           头像
         </template>
-        <el-descriptions-item v-if="data.accountStatus">
+        <el-descriptions-item v-if="data.avatar">
           <my-avatar v-for="(i) in data.avatar.length-1" :list="data.avatar" :index="i" />
         </el-descriptions-item>
         <el-descriptions-item v-else>

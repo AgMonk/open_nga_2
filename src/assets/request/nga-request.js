@@ -177,8 +177,8 @@ const handleMirror = thread => {
 const handleAuthor = thread => {
     const {author, authorid} = thread;
     thread.author = {
-        name: author,
-        id: authorid
+        username: author,
+        uid: authorid
     }
     delete thread.authorid;
 };

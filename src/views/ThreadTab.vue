@@ -38,7 +38,7 @@ export default {
     async listThreadsOfForum(param) {
       const res = await this.getThreadsOfForum(param)
       const {recommend, fid} = param
-      const forum = res.data.forum
+      const forum = res.forum
       this.setWithThread({forum, recommend})
       this.addHistoryForum({fid, name: forum.name, recommend})
       this.title = recommend ? `${forum.name}[精华区]` : forum.name
@@ -49,7 +49,7 @@ export default {
     async listThreadsOfSet(param) {
       const res = await this.getThreadsOfSet(param)
       const {fid} = param
-      const forum = res.data.forum
+      const forum = res.forum
       this.setWithThread({forum})
       this.addHistoryForum({fid, name: forum.name})
       this.addHistorySet({stid: forum.toppedTid, name: forum.setName, forumName: forum.name})
@@ -68,7 +68,7 @@ export default {
     async listSearchByUser(param) {
       const res = await this.getSearchByUser(param)
       const {recommend, fid} = param
-      const {forum} = res.data;
+      const {forum} = res;
       const a = ["用户"];
       if (forum.name) {
         this.setWithThread({forum, recommend})
@@ -105,8 +105,8 @@ export default {
       }
       console.log(res)
       if (res) {
-        this.threads = res.data.threads
-        this.pageData = res.data.pageData
+        this.threads = res.threads
+        this.pageData = res.pageData
       }
     },
   },

@@ -10,13 +10,6 @@
                      :page-size="pageSize"
                      :total="total"
       />
-      <!--
-                           :page-size="pageData.pageSize"
-
-      -->
-
-      <!--      layout="total,prev, pager, next,jumper"-->
-      <!--      layout="total, sizes, prev, pager, next, jumper" -->
     </el-header>
 
     <el-main>
@@ -39,7 +32,11 @@
             <thread-row :data="s.row" />
           </template>
         </el-table-column>
-        <el-table-column prop="author.name" label="作者" width="180"/>
+        <el-table-column prop="author.name" label="作者" width="180">
+          <template #default="s">
+            <nga-user-link :uid="s.row.author.uid" />
+          </template>
+        </el-table-column>
         <el-table-column prop="lastposter" label="最后回复" width="180"/>
       </el-table>
     </el-main>
@@ -50,9 +47,10 @@
 
 <script>
 import ThreadRow from "@/components/nga/thread-row";
+import NgaUserLink from "@/components/nga/nga-user-link";
 export default {
   name: "thread-table",
-  components: {ThreadRow},
+  components: {NgaUserLink, ThreadRow},
   data() {
     return {
       currentPage: 1,

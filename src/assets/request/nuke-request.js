@@ -127,7 +127,7 @@ export const getUserInfo = (uid) => nukeRequest({
         uid,
         groupId: groupid,
         groupName: group,
-        rvrc:rvrc/10,
+        // rvrc:rvrc/10,
         timestamp: {
             reg: {time: regdate, value: second2String(regdate)}
         },
@@ -145,6 +145,8 @@ export const getUserInfo = (uid) => nukeRequest({
     const ava = parseAvatar(avatar)
     if (ava){
         user.avatar = ava;
+    }else{
+        delete user.avatar
     }
     const mon = parseMoney(money)
     if (mon){

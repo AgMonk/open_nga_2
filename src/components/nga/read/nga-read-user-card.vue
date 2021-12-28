@@ -3,7 +3,35 @@
     <template #header>
       <div class="card-header">
         <nga-user-link :uid="uid"/>
-        <el-button class="button" type="text">Operation button</el-button>
+        <el-tooltip :disabled="(''+uid).startsWith('#anony_')" effect="light">
+          <template #content>
+            <el-descriptions :column="2">
+              <el-descriptions-item label="声望" v-if="user.reputation">
+                <el-tag size="small">{{ user.reputation.name }}({{ user.reputation.value }})</el-tag>
+              </el-descriptions-item>
+              <el-descriptions-item label="威望等级" v-if="user.groupId">
+                <el-tag size="small">{{ user.groupName }}({{ user.groupId }})</el-tag>
+              </el-descriptions-item>
+              <el-descriptions-item label="金币" v-if="user.money">
+                <el-tag size="small"> <nga-money-text :money="user.money"/></el-tag>
+              </el-descriptions-item>
+              <!--         <el-descriptions-item label="注册" v-if="user.timestamp && user.timestamp.reg">-->
+              <!--             <el-tag size="small">{{ user.timestamp.reg.value.split(' ')[0] }}</el-tag>-->
+              <!--         </el-descriptions-item>-->
+              <el-descriptions-item label="威望" v-if="user.rvrc">
+                <el-tag size="small">{{ user.rvrc }}</el-tag>
+              </el-descriptions-item>
+              <el-descriptions-item label="发帖" v-if="user.postCount">
+                <el-tag size="small">{{ user.postCount }}</el-tag>
+              </el-descriptions-item>
+              <el-descriptions-item label="总赞" v-if="user.totalAgreement">
+                <el-tag size="small">{{ user.totalAgreement }}</el-tag>
+              </el-descriptions-item>
+
+            </el-descriptions>
+          </template>
+          <el-button class="button" type="text">更多信息</el-button>
+        </el-tooltip>
       </div>
     </template>
     <span v-if="!(''+uid).startsWith('#anony_')">
@@ -11,30 +39,7 @@
       <span>
         <my-avatar v-if="user.avatar && user.avatar.length>0" :list="user.avatar"/>
       </span>
-       <el-descriptions :column="2">
-         <el-descriptions-item label="声望" v-if="user.reputation">
-             <el-tag size="small">{{ user.reputation.name }}({{ user.reputation.value }})</el-tag>
-         </el-descriptions-item>
-         <el-descriptions-item label="威望等级" v-if="user.groupId">
-           <el-tag size="small">{{ user.groupName }}({{ user.groupId }})</el-tag>
-         </el-descriptions-item>
-         <el-descriptions-item label="金币" v-if="user.money">
-                        <el-tag size="small"> <nga-money-text :money="user.money"/></el-tag>
-         </el-descriptions-item>
-         <!--         <el-descriptions-item label="注册" v-if="user.timestamp && user.timestamp.reg">-->
-         <!--             <el-tag size="small">{{ user.timestamp.reg.value.split(' ')[0] }}</el-tag>-->
-         <!--         </el-descriptions-item>-->
-<el-descriptions-item label="威望" v-if="user.rvrc">
-             <el-tag size="small">{{ user.rvrc }}</el-tag>
-         </el-descriptions-item>
-<el-descriptions-item label="发帖" v-if="user.postCount">
-             <el-tag size="small">{{ user.postCount }}</el-tag>
-         </el-descriptions-item>
-<el-descriptions-item label="总赞" v-if="user.totalAgreement">
-             <el-tag size="small">{{ user.totalAgreement }}</el-tag>
-         </el-descriptions-item>
 
-       </el-descriptions>
     </span>
 
   </el-card>

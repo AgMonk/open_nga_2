@@ -23,8 +23,12 @@
           <nga-read-user-card :uid="row.authorid"/>
         </el-col>
         <el-col :span="18">
+<!--          todo header 楼层号，赞踩，时间 对楼层操作-->
           <!--        回复框-->
           {{row.content}}
+<!--          todo 热评区-->
+<!--          todo 评论区-->
+<!--          todo 签名区-->
         </el-col>
 
       </el-row>

@@ -42,6 +42,7 @@ export default {
   methods: {
     ...mapActions("read", [`getReplies`]),
     ...mapMutations("history", [`addHistoryThread`, `addHistoryForum`, `addHistorySet`]),
+    ...mapActions("users",[`getUserInfo`]),
     async get(force) {
       const {pid, tid, page, authorid} = Object.assign({}, this.$route.query, this.$route.params)
       const data = await this.getReplies({pid, tid, page, authorid, force})
@@ -53,6 +54,11 @@ export default {
       this.pageData = data.pageData;
       this.replies = data.replies;
       this.forum = data.forum;
+
+      //请求用户数据
+      data.userData.users.filter(user=>!isNaN(user.uid)).forEach(user=>{
+        this.getUserInfo(user.uid)
+      })
 
       this.addHistoryThread({tid, name: thread.subject})
       this.addHistoryForum({fid: thread.fid, name: forum.name})

@@ -1,10 +1,10 @@
 <template>
-  <el-tooltip placement="top" :content="tooltip" :placement="placement" :effect="effect" :disabled="disabled">
+  <el-tooltip :content="tooltip" :disabled="disabled" :effect="effect" :placement="placement" placement="top" style="margin-left: 2px">
     <template #content>
       <slot name="tooltip"/>
     </template>
-    <el-tag :type="type" :size="size"  style="padding:0 1px">
-      {{text}}
+    <el-tag :size="size" :type="type" style="padding:0 1px;cursor: pointer" @click="click">
+      {{ text }}
       <slot/>
     </el-tag>
   </el-tooltip>
@@ -16,21 +16,28 @@ export default {
   data() {
     return {}
   },
-  methods: {},
+  methods: {
+    click() {
+      if (this.route) {
+        this.$router.push(this.route)
+      }
+    },
+  },
   mounted() {
   },
   watch: {},
   props: {
-    tooltip:{},
-    placement:{},
-    text:{},
-    type:{
-      type:String,
+    route: {},
+    tooltip: {},
+    placement: {},
+    text: {},
+    type: {
+      type: String,
     },
-    size:{
-      default:'small',
+    size: {
+      default: 'small',
     },
-    effect:{
+    effect: {
       type:String,
       default:'light',
     },

@@ -14,7 +14,7 @@
     </el-header>
 
     <el-main>
-      <nga-read-table :replies="replies" :page-data="pageData"/>
+      <nga-read-table :page-data="pageData" :replies="replies" :thread="thread"/>
     </el-main>
   </el-container>
 
@@ -36,6 +36,7 @@ export default {
         pageSize: 20,
       },
       replies: [],
+      thread: {},
       forum: {},
     }
   },
@@ -54,6 +55,7 @@ export default {
       this.pageData = data.pageData;
       this.replies = data.replies;
       this.forum = data.forum;
+      this.thread = data.thread;
 
       //请求用户数据
       data.userData.users.filter(user=>!isNaN(user.uid)).forEach(user=>{

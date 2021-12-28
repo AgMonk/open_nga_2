@@ -33,14 +33,28 @@
                   <nga-score-tag :reply="row"/>
                   <my-tag-with-tooltip disabled v-if="row.timestamp">{{ row.timestamp.post }}</my-tag-with-tooltip>
                   <my-tag-with-tooltip disabled v-if="row.timestamp && row.timestamp.edit">最后编辑:{{ row.timestamp.edit }}</my-tag-with-tooltip>
-                    <my-router-link v-if="row.reply_to" :to="{name:'单个回复',params:{pid:row.reply_to}}">
-                  <my-tag-with-tooltip disabled type="warning">
+                    <my-tag-with-tooltip v-if="row.reply_to" :route="{name:'单个回复',params:{pid:row.reply_to}}" disabled type="warning">
                       回复目标
-                  </my-tag-with-tooltip>
-                    </my-router-link>
+                    </my-tag-with-tooltip>
                 </span>
-                <!--                额外操作-->
-                <el-button class="button" type="text">1</el-button>
+
+                <el-tooltip effect="light" placement="bottom">
+                  <template #content>
+                    <div>
+                      <h4>查看</h4>
+                      <my-tag-with-tooltip :route="{name:'回复列表',params:{page:1,tid:row.tid},query:{authorid:row.authorid}}" disabled text="只看TA"/>
+                      <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid},query:{fid:thread.fid}}" disabled text="本版主题"/>
+                      <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid},query:{fid:thread.fid,searchpost:1}}" disabled text="本版回复"/>
+                      <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid}}" disabled text="用户主题"/>
+                      <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid,searchpost:1}}" disabled text="用户回复"/>
+                    </div>
+                  </template>
+                  <el-button class="button" type="text">
+                    <el-icon>
+                      <setting/>
+                    </el-icon>
+                  </el-button>
+                </el-tooltip>
               </div>
             </template>
 
@@ -79,10 +93,11 @@ import NgaScoreTag from "@/components/nga/read/nga-score-tag";
 import NgaLevelTag from "@/components/nga/read/nga-level-tag";
 import MyTagWithTooltip from "@/components/my/my-tag-with-tooltip";
 import MyRouterLink from "@/components/my/my-router-link";
+import {Setting} from '@element-plus/icons'
 
 export default {
   name: "nga-read-table",
-  components: {MyRouterLink, MyTagWithTooltip, NgaLevelTag, NgaScoreTag, NgaReadUserCard},
+  components: {MyRouterLink, MyTagWithTooltip, NgaLevelTag, NgaScoreTag, NgaReadUserCard, Setting},
 
   data() {
     return {
@@ -122,6 +137,11 @@ export default {
       type: Object,
       required: true,
     },
+    thread: {
+      type: Object,
+      required: true,
+    },
+
   },
 }
 

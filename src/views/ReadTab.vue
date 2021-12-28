@@ -8,11 +8,6 @@
     <el-main>
       <nga-read-table :replies="replies" :page-data="pageData" />
     </el-main>
-    <el-footer>
-
-      <div>{{ $route.params }}</div>
-      <div>{{ $route.query }}</div>
-    </el-footer>
   </el-container>
 
 </template>

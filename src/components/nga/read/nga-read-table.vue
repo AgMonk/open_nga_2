@@ -13,15 +13,21 @@
                      :total="total"
       />
 
-      <el-table :data="replies" style="width: 100%">
-        <el-table-column label="#" width="40px">
-          <template #default="s">
-            {{ s.$index + 1 }}
-          </template>
-        </el-table-column>
+      <el-row
+          v-for="(row,i) in replies"
+          :id="'L'+row.level"
+          :key="i"
+      >
+        <el-col :span="6">
+          <!--        用户卡片-->
+          <nga-read-user-card :uid="row.authorid" />
+        </el-col>
+        <el-col :span="18">
+          <!--        回复框-->
+          {{row.content}}
+        </el-col>
 
-      </el-table>
-
+      </el-row>
 
       <el-pagination v-if="pageData"
                      :current-page.sync="currentPage"
@@ -38,8 +44,11 @@
 </template>
 
 <script>
+import NgaReadUserCard from "@/components/nga/read/nga-read-user-card";
 export default {
   name: "nga-read-table",
+  components: {NgaReadUserCard},
+
   data() {
     return {
       currentPage: 1,

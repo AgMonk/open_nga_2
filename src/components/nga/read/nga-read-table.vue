@@ -20,7 +20,7 @@
       >
         <el-col :span="6">
           <!--        用户卡片-->
-          <nga-read-user-card :uid="row.authorid" />
+          <nga-read-user-card :uid="row.authorid"/>
         </el-col>
         <el-col :span="18">
           <!--        回复框-->

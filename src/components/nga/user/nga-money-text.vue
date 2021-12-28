@@ -1,7 +1,7 @@
 <template>
 <span>
    {{ money.gold }}
-          <span style="color:yellow;font-weight: bold">金</span>
+          <span style="color:#4df1b6;font-weight: bold">金</span>
           {{ money.silver }}
           <span style="color:blue;font-weight: bold">银</span>
           {{ money.copper }}

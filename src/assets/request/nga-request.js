@@ -54,6 +54,7 @@ export const parseAvatar = (avatar) => {
 
         } else {
             console.log(`未识别的头像链接格式：` + avatar)
+            return [avatar]
         }
     }
 }

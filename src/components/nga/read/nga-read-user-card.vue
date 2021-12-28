@@ -3,7 +3,7 @@
     <template #header>
       <div class="card-header">
         <nga-user-link :uid="uid"/>
-        <el-tooltip :disabled="(''+uid).startsWith('#anony_')" effect="light">
+        <el-tooltip v-if="!(''+uid).startsWith('#anony_')" effect="light">
           <template #content>
             <el-descriptions :column="2">
               <el-descriptions-item label="声望" v-if="user.reputation">
@@ -36,8 +36,8 @@
     </template>
     <span v-if="!(''+uid).startsWith('#anony_')">
 <!--    非匿名用户 -->
-      <span>
-        <my-avatar v-if="user.avatar && user.avatar.length>0" :list="user.avatar"/>
+      <span v-if="user.avatar && user.avatar.length>0">
+        <my-avatar  :list="user.avatar"/>
       </span>
 
     </span>

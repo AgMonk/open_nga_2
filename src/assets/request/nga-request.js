@@ -48,8 +48,8 @@ export const parseAvatar = (avatar) => {
             avatar = avatar.replace(prefix, "").replace(prefix1, "")
             avatar = avatar.replace(/\.a\//g, "").replace(/\?\d+/g, "")
             const p = avatar.substring(0, avatar.lastIndexOf('/') + 1)
-            return avatar.substring(avatar.lastIndexOf('/') + 1).split("|").map(i=>{
-                return prefix+p+i;
+            return avatar.substring(avatar.lastIndexOf('/') + 1).split("|").map(i => {
+                return prefix + p + i;
             })
 
         } else {
@@ -63,11 +63,11 @@ export const parseAvatar = (avatar) => {
 const handleColor = thread => {
     // console.log(thread.subject)
     const array = thread.hasOwnProperty('titlefont') ? parseColor(thread.titlefont)
-        :(thread.hasOwnProperty('topic_misc') ? parseColor(thread.topic_misc):undefined)
-    if (!array){
+        : (thread.hasOwnProperty('topic_misc') ? parseColor(thread.topic_misc) : undefined)
+    if (!array) {
         return
     }
-    const index = (thread.mirror && ['合集主题'].includes(thread.mirror.type)) ? 9:array.length-1;
+    const index = (thread.mirror && ['合集主题'].includes(thread.mirror.type)) ? 9 : array.length - 1;
     const bitData = array[index]
     if (bitData) {
         const colorData = bitData.substring(0, 5)
@@ -166,7 +166,7 @@ const handleMirror = thread => {
             thread.mirror.forum = parent[2];
         }
         delete thread.parent
-    }else if (topic_misc_var && topic_misc_var[1] && !topic_misc_var[2]) {
+    } else if (topic_misc_var && topic_misc_var[1] && !topic_misc_var[2]) {
         thread.mirror.type = '合集'
         delete thread.topic_misc_var
     }
@@ -549,7 +549,7 @@ const transformResponse = [
         return data.then(res => {
             // console.log(copyObj(res))
             const {error, data, time} = res;
-            if (error){
+            if (error) {
                 throw error
             }
             const {__CU, __F, __PAGE, __R, __ROWS, __T, __U, __T__ROWS_PAGE, __R__ROWS_PAGE} = data;
@@ -611,8 +611,9 @@ const transformResponse = [
             const total = __ROWS
             const pageSize = __T__ROWS_PAGE ? __T__ROWS_PAGE : __R__ROWS_PAGE
             const currentPage = __PAGE ? __PAGE : 1;
+            const totalPage = Math.floor(total / pageSize) + (total % pageSize === 0 ? 0 : 1)
             if (total) {
-                data.pageData = {total, pageSize, currentPage}
+                data.pageData = {total, pageSize, currentPage, totalPage}
             }
 
             delete data.__ROWS
@@ -745,8 +746,9 @@ const threadRequest = ({
     return requestUnity({
         url: "thread.php",
         data
-    }).then(res=>{
+    }).then(res => {
         res.data.pageData.currentPage = page;
+
         return res
     })
 }
@@ -767,8 +769,8 @@ export const searchInSet = ({page, key, stid, content}) => {
     return threadRequest({page, key, stid, content})
 }
 //搜索用户发言
-export const searchByUser = ({page, fid, authorid,recommend, searchpost}) => {
-    return threadRequest({page, fid, authorid,recommend, searchpost})
+export const searchByUser = ({page, fid, authorid, recommend, searchpost}) => {
+    return threadRequest({page, fid, authorid, recommend, searchpost})
 }
 //浏览版面
 export const threadByForum = ({page, fid, orderByPostDateDesc, recommend}) => {
@@ -779,8 +781,8 @@ export const threadBySet = ({page, stid, orderByPostDateDesc}) => {
     return threadRequest({page, stid, orderByPostDateDesc})
 }
 //浏览收藏主题
-export const threadFavor = (page) =>{
-    return threadRequest({page, favor:true})
+export const threadFavor = (page) => {
+    return threadRequest({page, favor: true})
 }
 
 
@@ -794,6 +796,36 @@ export const readRequest = ({pid, tid, page, authorid}) => {
     return requestUnity({
         url: "read.php",
         data: {tid, page, authorid}
+    }).then(res => {
+        const replies = res.data.replies;
+        const {currentPage, totalPage, total, pageSize} = res.data.pageData
+        const replyCount = currentPage < totalPage ? pageSize : (total % pageSize)
+        let index = 0;
+        let currentLevel = (page - 1) * pageSize
+        while (replies.length < replyCount) {
+            //    有回复卡审
+            if (!replies[index] || replies[index].level !== currentLevel) {
+                replies.splice(index, 0, {authorid: "#anony_[未知用户]", level: currentLevel,content:'[本条回复处于审核中或审核未通过]'})
+            }
+            currentLevel++;
+            index++;
+        }
+        console.log(replies)
+        //
+        // console.log(copyObj(replies))
+        // if (replies.length > 0) {
+        //     let index = 0;
+        //     while (index < 20) {
+        //         const reply = replies[index]
+        //         if (reply.level !== currentLevel) {
+        //             replies.splice(index, 0, {authorid: '#anony_' + '未知', level: currentLevel})
+        //         }
+        //         index++;
+        //         currentLevel++;
+        //     }
+        // }
+        // console.log(copyObj(replies))
+        return res;
     })
 }
 

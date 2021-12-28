@@ -1,7 +1,7 @@
 <template>
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
-<!--    <el-header></el-header>-->
+    <!--    <el-header></el-header>-->
 
     <el-main>
       <el-pagination v-if="pageData"
@@ -23,26 +23,54 @@
           <nga-read-user-card :uid="row.authorid"/>
         </el-col>
         <el-col :span="18">
-<!--          todo header 楼层号，时间 对楼层操作-->
+          <!--          todo header 楼层号，时间 对楼层操作-->
           <el-card class="box-card" style="height:100%">
             <template #header>
               <div class="card-header">
-                <nga-score-tag :reply="row" />
+                <!--                赞踩按钮-->
+                <span>
+                  <el-tooltip effect="light">
+                    <template #content>
+                      <el-button type="primary" size="small"
+                                 v-clipboard:copy="row.pid"
+                                 v-clipboard:error="onError"
+                                 v-clipboard:success="onCopy"
+                      >复制PID
+                      </el-button>
+                      <el-button type="primary" size="small"
+                                 v-clipboard:copy="row.level"
+                                 v-clipboard:error="onError"
+                                 v-clipboard:success="onCopy"
+                      >复制楼层号
+                      </el-button>
+
+                      <div style="margin-top: 3px">
+                        <el-button size="small"
+                                   type="primary"
+                                   @click="open(`https://bbs.nga.cn/read.php?pid=${row.pid}&to`)">打开官方地址</el-button></div>
+                    </template>
+                    <el-tag size="small">#{{ row.level }}</el-tag>
+                  </el-tooltip>
+                  <nga-score-tag :reply="row"/>
+                  <el-tag size="small" v-if="row.timestamp">{{row.timestamp.post}}</el-tag>
+
+                </span>
+                <!--                额外操作-->
                 <el-button class="button" type="text">1</el-button>
               </div>
             </template>
 
 
-            {{row.content}}
+            {{ row.content }}
 
 
           </el-card>
 
 
           <!--        回复框-->
-<!--          todo 热评区-->
-<!--          todo 评论区-->
-<!--          todo 签名区-->
+          <!--          todo 热评区-->
+          <!--          todo 评论区-->
+          <!--          todo 签名区-->
         </el-col>
 
       </el-row>
@@ -64,6 +92,8 @@
 <script>
 import NgaReadUserCard from "@/components/nga/read/nga-read-user-card";
 import NgaScoreTag from "@/components/nga/read/nga-score-tag";
+import {ElMessage} from "element-plus";
+
 export default {
   name: "nga-read-table",
   components: {NgaScoreTag, NgaReadUserCard},
@@ -76,6 +106,9 @@ export default {
     }
   },
   methods: {
+    open(url) {
+      window.open(url)
+    },
     currentChange(e) {
       const {name, params, query} = this.$route
       params.page = e;
@@ -86,7 +119,14 @@ export default {
       this.currentPage = parseInt(e.currentPage)
       this.total = parseInt(e.total)
       this.pageSize = parseInt(e.pageSize)
-    }
+    },
+    onCopy() {
+      ElMessage.success("复制成功")
+    },
+    onError(e) {
+      ElMessage.error("复制失败")
+      console.error(e)
+    },
   },
   mounted() {
     this.update()
@@ -116,6 +156,7 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
+
 .el-card {
   --el-card-padding: 5px;
 }

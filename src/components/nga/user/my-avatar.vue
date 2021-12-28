@@ -1,5 +1,6 @@
 <template>
   <el-image
+      v-if="list && list.length>0"
       class="nga-avatar"
       hide-on-click-modal
       :src="getUrl(list[i])"
@@ -24,7 +25,9 @@ export default {
       console.error(e)
     },
     getUrl(url) {
-      return proxy + url.replace("https://", "").replace("http://", "")
+      if (url) {
+        return proxy + url.replace("https://", "").replace("http://", "")
+      }
     }
   },
   mounted() {

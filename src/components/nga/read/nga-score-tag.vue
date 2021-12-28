@@ -1,5 +1,5 @@
 <template>
-  <el-tag size="small">
+  <el-tag size="small" v-if="reply.score">
     <el-icon @click="agree(1)">
       <circle-check/>
     </el-icon>

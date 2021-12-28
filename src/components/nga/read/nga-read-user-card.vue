@@ -13,7 +13,9 @@
                 <el-tag size="small">{{ user.groupName }}({{ user.groupId }})</el-tag>
               </el-descriptions-item>
               <el-descriptions-item label="金币" v-if="user.money">
-                <el-tag size="small"> <nga-money-text :money="user.money"/></el-tag>
+                <el-tag size="small">
+                  <nga-money-text :money="user.money"/>
+                </el-tag>
               </el-descriptions-item>
               <!--         <el-descriptions-item label="注册" v-if="user.timestamp && user.timestamp.reg">-->
               <!--             <el-tag size="small">{{ user.timestamp.reg.value.split(' ')[0] }}</el-tag>-->
@@ -37,7 +39,7 @@
     <span v-if="!(''+uid).startsWith('#anony_')">
 <!--    非匿名用户 -->
       <span v-if="user.avatar && user.avatar.length>0">
-        <my-avatar  :list="user.avatar"/>
+        <my-avatar :list="user.avatar"/>
       </span>
 
     </span>
@@ -91,6 +93,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 25px;
 }
 
 .el-card {

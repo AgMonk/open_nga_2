@@ -29,30 +29,10 @@
               <div class="card-header">
                 <!--                赞踩按钮-->
                 <span>
-                  <el-tooltip effect="light">
-                    <template #content>
-                      <el-button type="primary" size="small"
-                                 v-clipboard:copy="row.pid"
-                                 v-clipboard:error="onError"
-                                 v-clipboard:success="onCopy"
-                      >复制PID
-                      </el-button>
-                      <el-button type="primary" size="small"
-                                 v-clipboard:copy="row.level"
-                                 v-clipboard:error="onError"
-                                 v-clipboard:success="onCopy"
-                      >复制楼层号
-                      </el-button>
-
-                      <div style="margin-top: 3px">
-                        <el-button size="small"
-                                   type="primary"
-                                   @click="open(`https://bbs.nga.cn/read.php?pid=${row.pid}&to`)">打开官方地址</el-button></div>
-                    </template>
-                    <el-tag size="small">#{{ row.level }}</el-tag>
-                  </el-tooltip>
+                  <nga-level-tag :reply="row" />
                   <nga-score-tag :reply="row"/>
                   <el-tag size="small" v-if="row.timestamp">{{row.timestamp.post}}</el-tag>
+                  <el-tag size="small" v-if="row.timestamp && row.timestamp.edit">最后编辑:{{row.timestamp.edit}}</el-tag>
 
                 </span>
                 <!--                额外操作-->
@@ -92,11 +72,11 @@
 <script>
 import NgaReadUserCard from "@/components/nga/read/nga-read-user-card";
 import NgaScoreTag from "@/components/nga/read/nga-score-tag";
-import {ElMessage} from "element-plus";
+import NgaLevelTag from "@/components/nga/read/nga-level-tag";
 
 export default {
   name: "nga-read-table",
-  components: {NgaScoreTag, NgaReadUserCard},
+  components: {NgaLevelTag, NgaScoreTag, NgaReadUserCard},
 
   data() {
     return {
@@ -106,9 +86,7 @@ export default {
     }
   },
   methods: {
-    open(url) {
-      window.open(url)
-    },
+
     currentChange(e) {
       const {name, params, query} = this.$route
       params.page = e;
@@ -119,13 +97,6 @@ export default {
       this.currentPage = parseInt(e.currentPage)
       this.total = parseInt(e.total)
       this.pageSize = parseInt(e.pageSize)
-    },
-    onCopy() {
-      ElMessage.success("复制成功")
-    },
-    onError(e) {
-      ElMessage.error("复制失败")
-      console.error(e)
     },
   },
   mounted() {
@@ -155,6 +126,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height:25px;
 }
 
 .el-card {

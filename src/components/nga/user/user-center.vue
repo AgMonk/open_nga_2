@@ -10,12 +10,7 @@
         <template #extra>操作区</template>
         <el-descriptions-item label="UID">{{ data.uid }}</el-descriptions-item>
         <el-descriptions-item v-if="data.money" label="金钱">
-          {{ data.money.gold }}
-          <span style="color:yellow;font-weight: bold">金</span>
-          {{ data.money.silver }}
-          <span style="color:blue;font-weight: bold">银</span>
-          {{ data.money.copper }}
-          <span style="color:coral;font-weight: bold">铜</span>
+         <nga-money-text :money="data.money" />
         </el-descriptions-item>
         <el-descriptions-item v-if="data.rvrc" label="威望">{{ data.rvrc }}</el-descriptions-item>
         <el-descriptions-item v-if="data.totalAgreement" label="总赞数">{{ data.totalAgreement }}</el-descriptions-item>
@@ -64,10 +59,11 @@
 import {mapActions, mapState} from "vuex";
 import MyAvatar from "@/components/nga/user/my-avatar";
 import NgaUserLink from "@/components/nga/user/nga-user-link";
+import NgaMoneyText from "@/components/nga/user/nga-money-text";
 
 export default {
   name: "user-center",
-  components: {NgaUserLink, MyAvatar},
+  components: {NgaMoneyText, NgaUserLink, MyAvatar},
   data() {
     return {
       data: {},

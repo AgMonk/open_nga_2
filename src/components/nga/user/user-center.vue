@@ -5,7 +5,7 @@
     <el-main>
       <el-descriptions border>
         <template #title>
-          <my-user-link :uid=data.uid :username="data.username" :style="{'font-size':'20px'}"/>
+          <nga-user-link :uid="uid" style="font-size: 20px" />
         </template>
         <template #extra>操作区</template>
         <el-descriptions-item label="UID">{{ data.uid }}</el-descriptions-item>
@@ -62,12 +62,12 @@
 
 <script>
 import {mapActions, mapState} from "vuex";
-import MyUserLink from "@/components/nga/user/my-user-link";
 import MyAvatar from "@/components/nga/user/my-avatar";
+import NgaUserLink from "@/components/nga/user/nga-user-link";
 
 export default {
   name: "user-center",
-  components: {MyAvatar, MyUserLink},
+  components: {NgaUserLink, MyAvatar},
   data() {
     return {
       data: {},

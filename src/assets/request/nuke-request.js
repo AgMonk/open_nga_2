@@ -198,3 +198,18 @@ export const getUserInfo = (uid) => nukeRequest({
     return user;
 
 })
+// 赞踩
+export const agree = (tid,pid,value=1)=>nukeRequest({
+    __lib: "topic_recommend",
+    __act: "add",
+    tid,
+    pid,
+    value,
+    raw: 3,
+}).then(res => {
+    const {data} = res;
+    return {
+        message:data[0],
+        value:data[1],
+    }
+})

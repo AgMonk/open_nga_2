@@ -548,7 +548,10 @@ const transformResponse = [
         // noinspection JSUnresolvedVariable
         return data.then(res => {
             // console.log(copyObj(res))
-            const { data} = res;
+            const {error, data, time} = res;
+            if (error){
+                throw error
+            }
             const {__CU, __F, __PAGE, __R, __ROWS, __T, __U, __T__ROWS_PAGE, __R__ROWS_PAGE} = data;
 
             //整理子版面

@@ -1,5 +1,5 @@
 <template>
-  <el-card class="box-card">
+  <el-card class="box-card" style="height:100%">
     <template #header>
       <div class="card-header">
         <nga-user-link :uid="uid"/>
@@ -94,6 +94,6 @@ export default {
 }
 
 .el-card {
-  --el-card-padding: 10px;
+  --el-card-padding: 5px;
 }
 </style>

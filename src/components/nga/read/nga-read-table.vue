@@ -23,9 +23,23 @@
           <nga-read-user-card :uid="row.authorid"/>
         </el-col>
         <el-col :span="18">
-<!--          todo header 楼层号，赞踩，时间 对楼层操作-->
+<!--          todo header 楼层号，时间 对楼层操作-->
+          <el-card class="box-card" style="height:100%">
+            <template #header>
+              <div class="card-header">
+                <nga-score-tag :reply="row" />
+                <el-button class="button" type="text">1</el-button>
+              </div>
+            </template>
+
+
+            {{row.content}}
+
+
+          </el-card>
+
+
           <!--        回复框-->
-          {{row.content}}
 <!--          todo 热评区-->
 <!--          todo 评论区-->
 <!--          todo 签名区-->
@@ -49,9 +63,10 @@
 
 <script>
 import NgaReadUserCard from "@/components/nga/read/nga-read-user-card";
+import NgaScoreTag from "@/components/nga/read/nga-score-tag";
 export default {
   name: "nga-read-table",
-  components: {NgaReadUserCard},
+  components: {NgaScoreTag, NgaReadUserCard},
 
   data() {
     return {
@@ -96,5 +111,12 @@ export default {
 </script>
 
 <style scoped>
-
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.el-card {
+  --el-card-padding: 5px;
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <el-tag size="small" v-if="reply.score">
+  <my-tag-with-tooltip v-if="reply.score" disabled >
     <el-icon @click="agree(1)">
       <circle-check/>
     </el-icon>
@@ -8,17 +8,19 @@
     <el-icon @click="agree(-1)">
       <circle-close/>
     </el-icon>
-  </el-tag>
+  </my-tag-with-tooltip>
 </template>
 
 <script>
 import {CircleCheck, CircleClose} from "@element-plus/icons"
 import {agree} from "@/assets/request/nuke-request";
 import {ElMessage} from "element-plus";
+import MyTagWithTooltip from "@/components/my/my-tag-with-tooltip";
 
 export default {
   name: "nga-score-tag",
   components: {
+    MyTagWithTooltip,
     CircleClose, CircleCheck
   },
   data() {

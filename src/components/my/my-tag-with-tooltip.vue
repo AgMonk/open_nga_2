@@ -1,9 +1,9 @@
 <template>
-  <el-tooltip placement="top" :content="tooltip" :placement="placement">
+  <el-tooltip placement="top" :content="tooltip" :placement="placement" :effect="effect" :disabled="disabled">
     <template #content>
       <slot name="tooltip"/>
     </template>
-    <el-tag :type="type" :size="size" :effect="effect">
+    <el-tag :type="type" :size="size"  style="padding:0 1px">
       {{text}}
       <slot/>
     </el-tag>
@@ -24,9 +24,19 @@ export default {
     tooltip:{},
     placement:{},
     text:{},
-    type:{},
-    size:{},
-    effect:{},
+    type:{
+      type:String,
+    },
+    size:{
+      default:'small',
+    },
+    effect:{
+      type:String,
+      default:'light',
+    },
+    disabled:{
+      type:Boolean
+    }
   },
 }
 

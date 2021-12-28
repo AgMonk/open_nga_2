@@ -1,7 +1,8 @@
 <template>
-  <el-tooltip effect="light">
-    <template #content>
+  <my-tag-with-tooltip effect="light">
+    <template #tooltip>
       <el-button type="primary" size="small"
+                 v-if="reply.pid"
                  v-clipboard:copy="reply.pid"
                  v-clipboard:error="onError"
                  v-clipboard:success="onCopy"
@@ -16,19 +17,22 @@
 
       <div style="margin-top: 3px">
         <el-button size="small"
+                   v-if="reply.pid"
                    type="primary"
                    @click="open(`https://bbs.nga.cn/read.php?pid=${row.pid}&to`)">打开官方地址
         </el-button>
       </div>
     </template>
-    <el-tag size="small">#{{ reply.level }}</el-tag>
-  </el-tooltip>
+    #{{ reply.level }}
+  </my-tag-with-tooltip>
 </template>
 <script>
 import {ElMessage} from "element-plus";
+import MyTagWithTooltip from "@/components/my/my-tag-with-tooltip";
 
 export default {
   name: 'nga-agree-button',
+  components: {MyTagWithTooltip},
   methods: {
     open(url) {
       window.open(url)

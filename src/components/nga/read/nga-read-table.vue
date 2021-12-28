@@ -29,11 +29,15 @@
               <div class="card-header">
                 <!--                赞踩按钮-->
                 <span>
-                  <nga-level-tag :reply="row" />
+                  <nga-level-tag :reply="row"/>
                   <nga-score-tag :reply="row"/>
-                  <el-tag size="small" v-if="row.timestamp">{{row.timestamp.post}}</el-tag>
-                  <el-tag size="small" v-if="row.timestamp && row.timestamp.edit">最后编辑:{{row.timestamp.edit}}</el-tag>
-
+                  <my-tag-with-tooltip disabled v-if="row.timestamp">{{ row.timestamp.post }}</my-tag-with-tooltip>
+                  <my-tag-with-tooltip disabled v-if="row.timestamp && row.timestamp.edit">最后编辑:{{ row.timestamp.edit }}</my-tag-with-tooltip>
+                    <my-router-link v-if="row.reply_to" :to="{name:'单个回复',params:{pid:row.reply_to}}">
+                  <my-tag-with-tooltip disabled type="warning">
+                      回复目标
+                  </my-tag-with-tooltip>
+                    </my-router-link>
                 </span>
                 <!--                额外操作-->
                 <el-button class="button" type="text">1</el-button>
@@ -73,10 +77,12 @@
 import NgaReadUserCard from "@/components/nga/read/nga-read-user-card";
 import NgaScoreTag from "@/components/nga/read/nga-score-tag";
 import NgaLevelTag from "@/components/nga/read/nga-level-tag";
+import MyTagWithTooltip from "@/components/my/my-tag-with-tooltip";
+import MyRouterLink from "@/components/my/my-router-link";
 
 export default {
   name: "nga-read-table",
-  components: {NgaLevelTag, NgaScoreTag, NgaReadUserCard},
+  components: {MyRouterLink, MyTagWithTooltip, NgaLevelTag, NgaScoreTag, NgaReadUserCard},
 
   data() {
     return {
@@ -126,7 +132,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height:25px;
+  height: 25px;
 }
 
 .el-card {

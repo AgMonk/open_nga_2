@@ -1,12 +1,20 @@
 <template>
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
-<!--    <el-header>-->
-<!--      <div>{{ $route.name }}</div>-->
-<!--    </el-header>-->
+    <el-header style="margin-top: 3px">
+      <el-tooltip :disabled="!forum || !forum.reputationLevel" effect="light">
+        <template #content>
+          <span v-for="(item,i) in forum.reputationLevel">
+            <el-tag >{{ item.n }}({{ item.r }})</el-tag>
+            <br v-if="i%4===1"/>
+          </span>
+        </template>
+        <el-button size="small" type="primary">声望阈值</el-button>
+      </el-tooltip>
+    </el-header>
 
     <el-main>
-      <nga-read-table :replies="replies" :page-data="pageData" />
+      <nga-read-table :replies="replies" :page-data="pageData"/>
     </el-main>
   </el-container>
 
@@ -27,27 +35,29 @@ export default {
         currentPage: 1,
         pageSize: 20,
       },
-      replies:[],
+      replies: [],
+      forum: {},
     }
   },
   methods: {
     ...mapActions("read", [`getReplies`]),
-    ...mapMutations("history",[`addHistoryThread`,`addHistoryForum`,`addHistorySet`]),
+    ...mapMutations("history", [`addHistoryThread`, `addHistoryForum`, `addHistorySet`]),
     async get(force) {
       const {pid, tid, page, authorid} = Object.assign({}, this.$route.query, this.$route.params)
       const data = await this.getReplies({pid, tid, page, authorid, force})
-      const {forum,thread} = data;
+      const {forum, thread} = data;
       const subForum = thread.subForum
       console.log(data);
       setTitle(forum.name)
 
       this.pageData = data.pageData;
       this.replies = data.replies;
+      this.forum = data.forum;
 
-      this.addHistoryThread({tid,name:thread.subject})
-      this.addHistoryForum({fid:thread.fid,name:forum.name})
-      if (subForum){
-        this.addHistorySet({stid:subForum.tid,name:subForum.subject,forumName:forum.name})
+      this.addHistoryThread({tid, name: thread.subject})
+      this.addHistoryForum({fid: thread.fid, name: forum.name})
+      if (subForum) {
+        this.addHistorySet({stid: subForum.tid, name: subForum.subject, forumName: forum.name})
       }
     }
   },
@@ -58,7 +68,7 @@ export default {
   watch: {
     $route(to, from) {
       if (to.path.startsWith('/read')) {
-      this.get(false, to)
+        this.get(false, to)
       }
     }
   },

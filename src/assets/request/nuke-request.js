@@ -62,10 +62,10 @@ export const getNotices = () => nukeRequest({
                 type = '对回复';
                 break;
             case 8:
-                type = '送礼物';
+                type = '@你';
                 break;
             case 15:
-                type = '@你';
+                type = '送礼物';
                 break;
             default:
                 type = '';
@@ -78,7 +78,9 @@ export const getNotices = () => nukeRequest({
     }).reverse();
     //短消息
     let pm = nukeData["1"];
+    console.log(pm)
     pm = !pm ? undefined : pm.map(r => ({
+        type: r["0"] === 10 ? '发起对话' : (r["0"] === 11 ? '回复对话' : undefined),
         from: {
             uid: r["1"],
             name: r["2"],

@@ -1,6 +1,6 @@
 <template>
   <span v-if="(''+uid).startsWith('#anony_')">匿名用户{{(''+uid).substring(7,13)}}</span>
-  <el-tooltip v-else effect="light" placement="right">
+  <el-tooltip v-else disabled effect="light" placement="right">
     <template #content>
       <el-button type="primary" size="small"
                  v-clipboard:copy="uid"
@@ -26,6 +26,7 @@
 import MyRouterLink from "@/components/my/my-router-link";
 import {mapState} from "vuex";
 import {ElMessage} from "element-plus";
+
 export default {
   name: "nga-user-link",
   components: {MyRouterLink},
@@ -51,7 +52,7 @@ export default {
   },
   watch: {},
   props: {
-    uid:{},text:{}
+    uid: {}, text: {}, disabled: {default: false, type: Boolean}
   },
 }
 

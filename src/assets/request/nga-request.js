@@ -392,26 +392,28 @@ const handleUserData = (__U, data) => {
     //声望等级
     const reputations = {}
     const level = data.forum.reputationLevel
-    Object.keys(__REPUTATIONS).forEach(key => {
-        reputations[key] = {}
-        const item = __REPUTATIONS[key]
-        const rName = item[0]
-        delete item[0]
-        Object.keys(item).forEach(uid => {
-            const value = item[uid];
-            let name;
-            for (let i = 0; i < level.length; i++) {
-                if (value >= level[i].r) {
-                    name = level[i].n
-                    break;
+    if (level) {
+        Object.keys(__REPUTATIONS).forEach(key => {
+            reputations[key] = {}
+            const item = __REPUTATIONS[key]
+            const rName = item[0]
+            delete item[0]
+            Object.keys(item).forEach(uid => {
+                const value = item[uid];
+                let name;
+                for (let i = 0; i < level.length; i++) {
+                    if (value >= level[i].r) {
+                        name = level[i].n
+                        break;
+                    }
                 }
-            }
 
-            reputations[key][uid] = {
-                name, value, rName
-            };
+                reputations[key][uid] = {
+                    name, value, rName
+                };
+            })
         })
-    })
+    }
     delete __U.__REPUTATIONS
 
     //用户
@@ -439,7 +441,9 @@ const handleUserData = (__U, data) => {
         //    声望
 
         const data = obj2Array(reputations)[0]
-        user.reputation = data[user.uid]
+        if (data) {
+            user.reputation = data[user.uid]
+        }
 
         //    金币
         let money = user.money

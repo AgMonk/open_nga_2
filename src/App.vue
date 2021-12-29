@@ -5,7 +5,7 @@
     <el-button type="primary" size="small" @click="forward"><span style="font-weight: bold">前进</span></el-button>
   </div>
   <router-view/>
-
+  <notice/>
 
   <el-link href="https://github.com/AgMonk/open_nga_2" target="_blank">[GitHub]</el-link>
   <el-backtop :bottom="100">
@@ -51,15 +51,16 @@
 import NgaBreadcrumb from "@/components/nga/nga-breadcrumb";
 import MyNavigation from "@/components/my/my-navigation";
 import {mapActions} from "vuex";
+import Notice from "@/views/Notice";
 
 export default {
-  components: {MyNavigation, NgaBreadcrumb},
+  components: {Notice, MyNavigation, NgaBreadcrumb},
   methods: {
-    ...mapActions("users",[`loadCurrentUser`]),
-    back(){
+    ...mapActions("users", [`loadCurrentUser`]),
+    back() {
       history.back()
     },
-    forward(){
+    forward() {
       history.forward()
     },
 

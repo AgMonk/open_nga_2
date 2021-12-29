@@ -19,8 +19,6 @@
     <el-footer>
       <div>
 
-        <el-input v-model="cookie"/>
-        <el-button @click="setCookie">设置cookie</el-button>
       </div>
     </el-footer>
   </el-container>
@@ -30,7 +28,6 @@
 
 <script>
 // @ is an alias to /src
-import {setCookies} from "@/assets/utils/CookieUtils";
 import {mapActions} from "vuex";
 import NgaForumAvatar from "@/components/nga/forum/nga-forum-avatar";
 import {setTitle} from "@/assets/request/ProjectUtils";
@@ -47,9 +44,6 @@ export default {
   methods: {
     ...mapActions("forums", [`getFavorForums`,`searchForum`]),
     ...mapActions("users", [`getUserInfo`]),
-    setCookie() {
-      setCookies(this.cookie, 90, '/nga-api')
-    },
     async refresh(force) {
       const res = await this.getFavorForums(force);
       this.favorForums = res.data.favorForums;

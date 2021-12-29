@@ -26,7 +26,7 @@
         <el-tab-pane :disabled="replies.length===0" :label="`回复(${unread.replies})`">
           <div class="tabs-pane">
             <el-scrollbar>
-              <div v-for="m in replies" :class="m.unread?'unread':''" @click="m.unread=false">
+              <div v-for="m in replies" :class="m.unread?'unread':''" @click="m.unread=false;updateUnread()">
                 <span>{{ m.timestamp.value.substring(m.timestamp.value.indexOf("-") + 1) }}</span>
                 &nbsp;
                 <nga-user-link :text="m.user.from.name" :uid="m.user.from.uid" disabled/>
@@ -34,7 +34,7 @@
                 <span v-if="m.type==='对回复'">
               <my-router-link :style="{color:'red'}" :to="{name:'单个回复',params:{pid:m.reply.from}}">[回复]</my-router-link>
               了你在主题
-              <my-router-link :style="{color:'blue'}" :to="{name:'回复列表',params:{tid:m.thread.tid,page:m.thread.page}}">
+              <my-router-link :style="{color:'blue'}" :to="{name:'回复列表',params:{tid:m.thread.tid,page:m.thread.page},hash:`#P${m.reply.from}`}">
                 {{ m.thread.subject.substring(0, Math.min(m.thread.subject.length, 15)) }}
               </my-router-link>
               的
@@ -43,7 +43,7 @@
             </span>
                 <span v-if="m.type==='@你'">
               在主题
-               <my-router-link :style="{color:'blue'}" :to="{name:'回复列表',params:{tid:m.thread.tid,page:m.thread.page}}">
+               <my-router-link :style="{color:'blue'}" :to="{name:'回复列表',params:{tid:m.thread.tid,page:m.thread.page},hash:`#P${m.reply.from}`}">
                 {{ m.thread.subject.substring(0, Math.min(m.thread.subject.length, 15)) }}
               </my-router-link>
               的
@@ -52,7 +52,7 @@
              </span>
                 <span v-if="m.type==='送礼物'">
               对你在主题
-               <my-router-link :style="{color:'blue'}" :to="{name:'回复列表',params:{tid:m.thread.tid,page:m.thread.page}}">
+               <my-router-link :style="{color:'blue'}" :to="{name:'回复列表',params:{tid:m.thread.tid,page:m.thread.page},hash:`#P${m.reply.to}`}">
                 {{ m.thread.subject.substring(0, Math.min(m.thread.subject.length, 15)) }}
               </my-router-link>
               的
@@ -62,7 +62,7 @@
                 <span v-if="m.type==='对主题'">
                <my-router-link :style="{color:'red'}" :to="{name:'单个回复',params:{pid:m.reply.from}}">[回复]</my-router-link>
               了你的主题
-                <my-router-link :style="{color:'blue'}" :to="{name:'回复列表',params:{tid:m.thread.tid,page:m.thread.page}}">
+                <my-router-link :style="{color:'blue'}" :to="{name:'回复列表',params:{tid:m.thread.tid,page:m.thread.page},hash:`#P${m.reply.from}`}">
                 {{ m.thread.subject.substring(0, Math.min(m.thread.subject.length, 15)) }}
               </my-router-link>
             </span>
@@ -73,7 +73,7 @@
         <el-tab-pane :disabled="pm.length===0" :label="`私信(${unread.pm})`">
           <div class="tabs-pane">
             <el-scrollbar>
-              <div v-for="m in pm" :class="m.unread?'unread':''" @click="m.unread=false">
+              <div v-for="m in pm" :class="m.unread?'unread':''" @click="m.unread=false;updateUnread()">
                 <span>{{ m.timestamp.value.substring(m.timestamp.value.indexOf("-") + 1) }}</span>
                 &nbsp;
                 <nga-user-link :text="m.from.name" :uid="m.from.uid" disabled/>
@@ -88,7 +88,7 @@
         <el-tab-pane :disabled="approbation.length===0" :label="`赞踩(${unread.approbation})`">
           <div class="tabs-pane">
             <el-scrollbar>
-              <div v-for="m in approbation" :class="m.unread?'unread':''" @click="m.unread=false">
+              <div v-for="m in approbation" :class="m.unread?'unread':''" @click="m.unread=false;updateUnread()">
                 主题
                 <my-router-link :style="{color:'blue'}" :to="{name:'回复列表',params:{tid:m.thread.tid,page:m.thread.page}}">
                   {{ m.thread.subject.substring(0, Math.min(m.thread.subject.length, 15)) }}

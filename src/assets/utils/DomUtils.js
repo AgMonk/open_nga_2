@@ -20,10 +20,23 @@ export const insertTextToTextarea = (
     // console.log(startPosition+":"+endPosition)
     let text = textarea.value;
     let t1 = text.substring(0, startPosition);
-    let t2 = innerText?text.substring(startPosition,endPosition):"";
+    let t2 = innerText ? text.substring(startPosition, endPosition) : "";
     let t3 = text.substring(endPosition);
-    textarea.value = t1 + startText+ t2 + endText + t3
+    textarea.value = t1 + startText + t2 + endText + t3
     textarea.focus();
-    let index = t1.length +t2.length + startText.length;
+    let index = t1.length + t2.length + startText.length;
     setTextareaSelection(textarea, index);
+}
+
+export const scrollToId = (id) => {
+    if (id) {
+        const element = document.getElementById(id);
+        console.log(element)
+        if (element) {
+            console.log(`滚动到${id}`)
+            element.scrollIntoView()
+            return true
+        }
+    }
+    return false
 }

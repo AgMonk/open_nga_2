@@ -78,7 +78,6 @@ export const getNotices = () => nukeRequest({
     }).reverse();
     //短消息
     let pm = nukeData["1"];
-    console.log(pm)
     pm = !pm ? undefined : pm.map(r => ({
         type: r["0"] === 10 ? '发起对话' : (r["0"] === 11 ? '回复对话' : undefined),
         from: {

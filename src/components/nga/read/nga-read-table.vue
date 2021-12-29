@@ -13,22 +13,19 @@
                      :total="total"
       />
 
-      <el-row
-          v-for="(row,i) in replies"
-          :id="'L'+row.level"
-          :key="i"
-      >
-        <el-col :span="6">
-          <!--        用户卡片-->
-          <nga-read-user-card :uid="row.authorid"/>
-        </el-col>
-        <el-col :span="18">
-          <!--          todo header 楼层号，时间 对楼层操作-->
-          <el-card class="box-card" style="height:100%">
-            <template #header>
-              <div class="card-header">
-                <!--                赞踩按钮-->
-                <span>
+      <div v-for="(row,i) in replies" :id="'P'+row.pid">
+        <el-row :id="'L'+row.level" :key="i">
+          <el-col :span="6">
+            <!--        用户卡片-->
+            <nga-read-user-card :uid="row.authorid"/>
+          </el-col>
+          <el-col :span="18">
+            <!--          todo header 楼层号，时间 对楼层操作-->
+            <el-card class="box-card" style="height:100%">
+              <template #header>
+                <div class="card-header">
+                  <!--                赞踩按钮-->
+                  <span>
                   <nga-level-tag :reply="row"/>
                   <nga-score-tag :reply="row"/>
                   <my-tag-with-tooltip disabled v-if="row.timestamp">{{ row.timestamp.post }}</my-tag-with-tooltip>
@@ -39,48 +36,50 @@
                   <nga-thread-type-tag :type="row.type"/>
                 </span>
 
-                <el-tooltip effect="light" placement="bottom">
-                  <template #content>
-                    <div>
-                      <h4>查看</h4>
-                      <my-tag-with-tooltip :route="{name:'回复列表',params:{page:1,tid:row.tid},query:{authorid:row.authorid}}" disabled text="只看TA"/>
-                      <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid},query:{fid:thread.fid}}" disabled text="本版主题"/>
-                      <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid},query:{fid:thread.fid,searchpost:1}}" disabled text="本版回复"/>
-                      <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid}}" disabled text="用户主题"/>
-                      <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid,searchpost:1}}" disabled text="用户回复"/>
-                    </div>
-                    <div>
-                      <h4>操作</h4>
-                      <!--                      todo -->
-                      <my-tag-with-tooltip disabled text="引用"/>
-                      <my-tag-with-tooltip disabled text="回复"/>
-                      <my-tag-with-tooltip disabled text="举报"/>
+                  <el-tooltip effect="light" placement="bottom">
+                    <template #content>
+                      <div>
+                        <h4>查看</h4>
+                        <my-tag-with-tooltip :route="{name:'回复列表',params:{page:1,tid:row.tid},query:{authorid:row.authorid}}" disabled text="只看TA"/>
+                        <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid},query:{fid:thread.fid}}" disabled text="本版主题"/>
+                        <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid},query:{fid:thread.fid,searchpost:1}}" disabled text="本版回复"/>
+                        <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid}}" disabled text="用户主题"/>
+                        <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid,searchpost:1}}" disabled text="用户回复"/>
+                      </div>
+                      <div>
+                        <h4>操作</h4>
+                        <!--                      todo -->
+                        <my-tag-with-tooltip disabled text="引用"/>
+                        <my-tag-with-tooltip disabled text="回复"/>
+                        <my-tag-with-tooltip disabled text="举报"/>
 
-                    </div>
-                  </template>
-                  <el-button class="button" type="text">
-                    <el-icon>
-                      <setting/>
-                    </el-icon>
-                  </el-button>
-                </el-tooltip>
+                      </div>
+                    </template>
+                    <el-button class="button" type="text">
+                      <el-icon>
+                        <setting/>
+                      </el-icon>
+                    </el-button>
+                  </el-tooltip>
+                </div>
+              </template>
+
+              <div>
+                {{ row.content }}
               </div>
-            </template>
 
 
-            {{ row.content }}
+            </el-card>
 
 
-          </el-card>
+            <!--        回复框-->
+            <!--          todo 热评区-->
+            <!--          todo 评论区-->
+            <!--          todo 签名区-->
+          </el-col>
 
-
-          <!--        回复框-->
-          <!--          todo 热评区-->
-          <!--          todo 评论区-->
-          <!--          todo 签名区-->
-        </el-col>
-
-      </el-row>
+        </el-row>
+      </div>
 
       <el-pagination v-if="pageData"
                      :current-page.sync="currentPage"
@@ -104,6 +103,7 @@ import MyTagWithTooltip from "@/components/my/my-tag-with-tooltip";
 import MyRouterLink from "@/components/my/my-router-link";
 import {Setting} from '@element-plus/icons'
 import NgaThreadTypeTag from "@/components/nga/thread/nga-thread-type-tag";
+import {scrollToId} from "@/assets/utils/DomUtils";
 
 export default {
   name: "nga-read-table",
@@ -130,13 +130,19 @@ export default {
       this.pageSize = parseInt(e.pageSize)
     },
   },
+  updated() {
+    const hash = this.$route.hash.substring(1)
+    this.$nextTick(() => {
+      const b = scrollToId(hash);
+    })
+  },
   mounted() {
     this.update()
   },
   watch: {
     pageData(e) {
       this.update(e)
-    }
+    },
   },
   props: {
     replies: {

@@ -5,7 +5,7 @@
     <el-main>
       <el-descriptions border>
         <template #title>
-          <nga-user-link :uid="uid" style="font-size: 20px" />
+          <nga-user-link v-if="data.uid" :uid="data.uid" style="font-size: 20px"/>
         </template>
         <template #extra>操作区</template>
         <el-descriptions-item label="UID">{{ data.uid }}</el-descriptions-item>

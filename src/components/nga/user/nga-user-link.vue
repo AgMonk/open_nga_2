@@ -1,12 +1,18 @@
 <template>
   <span v-if="(''+uid).startsWith('#anony_')">匿名用户{{(''+uid).substring(7,13)}}</span>
-  <el-tooltip v-else disabled effect="light" placement="right">
+  <el-tooltip v-else :disabled="disabled" effect="light" placement="right">
     <template #content>
       <el-button type="primary" size="small"
                  v-clipboard:copy="uid"
                  v-clipboard:error="onError"
                  v-clipboard:success="onCopy"
       >复制UID
+      </el-button>
+      <el-button v-clipboard:copy="`[@${uid}]`" v-clipboard:error="onError"
+                 v-clipboard:success="onCopy"
+                 size="small"
+                 type="primary"
+      >复制@代码
       </el-button>
       <br>
       <el-button style="margin-top: 3px" type="primary" size="small"

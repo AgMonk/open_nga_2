@@ -70,6 +70,8 @@ export default {
       if (subForum) {
         this.addHistorySet({stid: subForum.tid, name: subForum.subject, forumName: forum.name})
       }
+
+
     }
   },
   mounted() {
@@ -78,6 +80,7 @@ export default {
   },
   watch: {
     $route(to, from) {
+      console.log(to)
       if (to.path.startsWith('/read')) {
         this.get(false, to)
       }

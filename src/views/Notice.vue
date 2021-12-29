@@ -1,8 +1,9 @@
 <template>
   <div>
     <el-badge
-        v-if="unread.total>0"
+        v-if="replies.length+pm.length+approbation.length>0"
         :value="unread.total"
+        :type="unread.total>0?'danger':'success'"
         style="position: fixed; bottom: 0; left: 0;">
       <el-button @click="showDrawer=true;update()">
         <el-icon>
@@ -19,6 +20,7 @@
         title="提示信息"
     >
       <el-button size="small" type="danger" @click="allRead">全部已读</el-button>
+      <el-button size="small" type="danger" @click="clearNotices">清空信息</el-button>
 
       <el-tabs type="border-card">
         <el-tab-pane :disabled="replies.length===0" :label="`回复(${unread.replies})`">
@@ -110,6 +112,7 @@ import {mapActions, mapState} from "vuex";
 import {Message} from "@element-plus/icons"
 import NgaUserLink from "@/components/nga/user/nga-user-link";
 import MyRouterLink from "@/components/my/my-router-link";
+import {ElMessage, ElMessageBox} from "element-plus";
 
 export default {
   name: "Notice",
@@ -131,7 +134,27 @@ export default {
     ...mapState('notice', [`replies`, `pm`, `approbation`])
   },
   methods: {
-    ...mapActions('notice', [`updateNotice`]),
+    ...mapActions('notice', [`updateNotice`, `clearNotice`]),
+    clearNotices() {
+      ElMessageBox.confirm(
+          `确认清空所有提示？：`,
+          '确认清空',
+          {
+            confirmButtonText: '清空',
+            cancelButtonText: '取消',
+            type: '确认清空',
+          }
+      ).then(() => {
+        this.clearNotice().then(res => {
+          ElMessage.success(res[0])
+          this.updateUnread()
+          this.showDrawer = false
+        })
+      }).catch(reason => {
+        ElMessage.info("已取消")
+        console.log(reason)
+      })
+    },
     allRead() {
       this.replies.forEach(i => i.unread = false)
       this.pm.forEach(i => i.unread = false)

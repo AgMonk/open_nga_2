@@ -1,7 +1,7 @@
 // 提醒消息
 // noinspection JSUnusedLocalSymbols
 
-import {getNotices} from "@/assets/request/nuke-request";
+import {clearNotice, getNotices} from "@/assets/request/nuke-request";
 
 //筛选出新消息，添加到旧列表前方
 const setUnread = (oldArray, newArray) => {
@@ -48,6 +48,14 @@ export default {
                 state.approbation = []
             }
 
+        },
+        clearNotice: ({dispatch, commit, state}) => {
+            return clearNotice().then(res => {
+                state.replies = []
+                state.pm = []
+                state.approbation = []
+                return res.data
+            })
         },
         method: ({dispatch, commit, state}, payload) => {
 

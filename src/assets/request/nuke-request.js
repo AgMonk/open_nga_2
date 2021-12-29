@@ -218,3 +218,9 @@ export const agree = (tid, pid, value = 1) => nukeRequest({
         value: data[1],
     }
 })
+// 清空提醒
+export const clearNotice = () => nukeRequest({
+    __lib: "noti",
+    __act: "del",
+    raw: 3,
+})

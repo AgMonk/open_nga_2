@@ -12,6 +12,8 @@
                      :page-size="pageSize"
                      :total="total"
       />
+      <el-input v-model="destLevel" size="small" style="width:100px"/>
+      <el-button size="small" type="success" @click="jumpLevel">跳转楼层</el-button>
 
       <div v-for="(row,i) in replies" :id="'P'+row.pid">
         <el-row :id="'L'+row.level" :key="i">
@@ -104,6 +106,7 @@ import MyRouterLink from "@/components/my/my-router-link";
 import {Setting} from '@element-plus/icons'
 import NgaThreadTypeTag from "@/components/nga/thread/nga-thread-type-tag";
 import {scrollToId} from "@/assets/utils/DomUtils";
+import {ElMessage} from "element-plus";
 
 export default {
   name: "nga-read-table",
@@ -114,10 +117,30 @@ export default {
       currentPage: 1,
       pageSize: 100,
       total: 100,
+      destLevel: '',
     }
   },
   methods: {
-
+    jumpLevel() {
+      if (!this.destLevel || isNaN(this.destLevel)) {
+        ElMessage.error(`无效的楼层 ${this.destLevel}`)
+        return
+      }
+      if (this.destLevel > this.total - 1) {
+        ElMessage.error(`不存在的楼层 ${this.destLevel}`)
+        return
+      }
+      const level = parseInt(this.destLevel)
+      const page = Math.floor(level / this.pageSize) + (((level + 1) % this.pageSize > 0) ? 1 : 0);
+      this.$router.push({
+        name: '回复列表',
+        params: {
+          tid: this.thread.tid,
+          page,
+        },
+        hash: `#L${level}`
+      })
+    },
     currentChange(e) {
       const {name, params, query} = this.$route
       params.page = e;

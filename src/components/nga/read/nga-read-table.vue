@@ -36,6 +36,7 @@
                     <my-tag-with-tooltip v-if="row.reply_to" :route="{name:'单个回复',params:{pid:row.reply_to}}" disabled type="warning">
                       回复目标
                     </my-tag-with-tooltip>
+                  <nga-thread-type-tag :type="row.type"/>
                 </span>
 
                 <el-tooltip effect="light" placement="bottom">
@@ -47,6 +48,14 @@
                       <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid},query:{fid:thread.fid,searchpost:1}}" disabled text="本版回复"/>
                       <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid}}" disabled text="用户主题"/>
                       <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid,searchpost:1}}" disabled text="用户回复"/>
+                    </div>
+                    <div>
+                      <h4>操作</h4>
+                      <!--                      todo -->
+                      <my-tag-with-tooltip disabled text="引用"/>
+                      <my-tag-with-tooltip disabled text="回复"/>
+                      <my-tag-with-tooltip disabled text="举报"/>
+
                     </div>
                   </template>
                   <el-button class="button" type="text">
@@ -94,10 +103,11 @@ import NgaLevelTag from "@/components/nga/read/nga-level-tag";
 import MyTagWithTooltip from "@/components/my/my-tag-with-tooltip";
 import MyRouterLink from "@/components/my/my-router-link";
 import {Setting} from '@element-plus/icons'
+import NgaThreadTypeTag from "@/components/nga/thread/nga-thread-type-tag";
 
 export default {
   name: "nga-read-table",
-  components: {MyRouterLink, MyTagWithTooltip, NgaLevelTag, NgaScoreTag, NgaReadUserCard, Setting},
+  components: {NgaThreadTypeTag, MyRouterLink, MyTagWithTooltip, NgaLevelTag, NgaScoreTag, NgaReadUserCard, Setting},
 
   data() {
     return {

@@ -58,9 +58,12 @@ export default {
       this.thread = data.thread;
 
       //请求用户数据
-      data.userData.users.filter(user=>!isNaN(user.uid)).forEach(user=>{
-        this.getUserInfo(user.uid)
-      })
+      data.userData.users
+          .filter(user => !isNaN(user.uid))
+          // .filter(user=>!user.username.startsWith('UID'))
+          .forEach(user => {
+            this.getUserInfo(user.uid)
+          })
 
       this.addHistoryThread({tid, name: thread.subject})
       this.addHistoryForum({fid: thread.fid, name: forum.name})

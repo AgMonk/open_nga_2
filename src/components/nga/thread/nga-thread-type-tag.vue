@@ -1,6 +1,6 @@
 <!--主题状态标签-->
 <template>
-  <span>
+  <span v-if="type">
 <my-tag-with-tooltip v-if="type.freeEdit" tooltip="编辑时间不受限制" size="small">编辑</my-tag-with-tooltip>
 <my-tag-with-tooltip v-if="type.hidden" tooltip="被隐藏" size="small" type="danger"><b>隐藏</b></my-tag-with-tooltip>
 <my-tag-with-tooltip v-if="type.locked" tooltip="不允许编辑和回复" size="small" type="danger"><b>锁定</b></my-tag-with-tooltip>

@@ -15,11 +15,18 @@
       >复制楼层号
       </el-button>
 
+
       <div style="margin-top: 3px">
+        <el-button v-clipboard:copy='getBbsCode(reply)' v-clipboard:error="onError"
+                   v-clipboard:success="onCopy"
+                   size="small"
+                   type="primary"
+        >复制BbsCode
+        </el-button>
         <el-button size="small"
                    v-if="reply.pid"
                    type="primary"
-                   @click="open(`https://bbs.nga.cn/read.php?pid=${row.pid}&to`)">打开官方地址
+                   @click="open(`https://bbs.nga.cn/read.php?pid=${reply.pid}&to`)">打开官方地址
         </el-button>
       </div>
     </template>
@@ -34,6 +41,12 @@ export default {
   name: 'nga-agree-button',
   components: {MyTagWithTooltip},
   methods: {
+    getBbsCode(reply) {
+      if (reply.level === 0) {
+        return `[tid=${reply.tid}]这个帖子[/tid]`
+      }
+      return `[pid=${reply.pid}]${reply.level}楼[/pid]`
+    },
     open(url) {
       window.open(url)
     },

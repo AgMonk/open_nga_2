@@ -71,8 +71,9 @@ export const getNotices = () => nukeRequest({
                 type = '';
                 break;
         }
+        const uuid = `${reply.from}${timestamp.time}`;
         return {
-            type, timestamp, thread, reply, user: {from, to,}
+            type, timestamp, thread, reply, user: {from, to,}, uuid
         }
     }).reverse();
     //短消息
@@ -86,7 +87,8 @@ export const getNotices = () => nukeRequest({
         timestamp: {
             time: r["9"],
             value: second2String(r["9"])
-        }
+        },
+        uuid: r['6'] + r['9']
     })).reverse();
 
     //赞踩
@@ -101,7 +103,8 @@ export const getNotices = () => nukeRequest({
         timestamp: {
             time: r["9"],
             value: second2String(r["9"])
-        }
+        },
+        uuid: r['6'] + r['9']
     })).reverse();
 
     res.data.replies = replies
@@ -121,7 +124,7 @@ export const getUserInfo = (uid) => nukeRequest({
     const nukeData = res.data["0"];
     // console.log(nukeData)
     //    用户信息
-    const {group, groupid, medal, more_info, regdate, uid,avatar,email,money,phone,sign,rvrc,posts,username,muteTime,verified} = nukeData
+    const {group, groupid, medal, more_info, regdate, uid, avatar, email, money, phone, sign, rvrc, posts, username, muteTime, verified} = nukeData
 
     const user = {
         uid,
@@ -132,33 +135,33 @@ export const getUserInfo = (uid) => nukeRequest({
             reg: {time: regdate, value: second2String(regdate)}
         },
     }
-    const medals = typeof medal ==="string"?medal.split(","):undefined;
-    if (medals){
+    const medals = typeof medal === "string" ? medal.split(",") : undefined;
+    if (medals) {
         user.medals = medals;
     }
-    if (email){
+    if (email) {
         user.email = email;
     }
-     if (phone){
+    if (phone) {
         user.phone = phone;
     }
     const ava = parseAvatar(avatar)
-    if (ava){
+    if (ava) {
         user.avatar = ava;
-    }else{
+    } else {
         delete user.avatar
     }
     const mon = parseMoney(money)
-    if (mon){
+    if (mon) {
         user.money = mon;
     }
-    if (sign && sign.length > 0){
+    if (sign && sign.length > 0) {
         user.signature = sign
     }
-    if (posts && posts>0){
+    if (posts && posts > 0) {
         user.postCount = posts
     }
-    if (username && !username.startsWith('UID')){
+    if (username && !username.startsWith('UID')) {
         user.username = username
     }
     //总赞数
@@ -166,7 +169,7 @@ export const getUserInfo = (uid) => nukeRequest({
     if (a) {
         user.totalAgreement = a.data
     }
-    if (muteTime && muteTime>0){
+    if (muteTime && muteTime > 0) {
         user.timestamp.mute = {time: muteTime, value: second2String(muteTime)}
     }
 
@@ -190,7 +193,7 @@ export const getUserInfo = (uid) => nukeRequest({
                 break;
         }
         user.accountStatus = {
-            status,verified
+            status, verified
         }
     }
     // console.log(user)
@@ -199,7 +202,7 @@ export const getUserInfo = (uid) => nukeRequest({
 
 })
 // 赞踩
-export const agree = (tid,pid,value=1)=>nukeRequest({
+export const agree = (tid, pid, value = 1) => nukeRequest({
     __lib: "topic_recommend",
     __act: "add",
     tid,
@@ -209,7 +212,7 @@ export const agree = (tid,pid,value=1)=>nukeRequest({
 }).then(res => {
     const {data} = res;
     return {
-        message:data[0],
-        value:data[1],
+        message: data[0],
+        value: data[1],
     }
 })

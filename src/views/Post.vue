@@ -2,10 +2,7 @@
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
     <el-header>
-      <span v-if="params.action==='new'">发帖</span>
-      <span v-if="params.action==='quote'">引用</span>
-      <span v-if="params.action==='reply'">回复</span>
-      <span v-if="params.action==='modify'">编辑</span>
+      <h2>::{{ title[params.action] }}::</h2>
     </el-header>
 
     <el-main>
@@ -25,6 +22,12 @@ export default {
   components: {NgaPostUi},
   data() {
     return {
+      title: {
+        "new": "发帖",
+        quote: "引用",
+        reply: "回复",
+        modify: "编辑",
+      },
       params: {},
       //预请求结果
       preData: {},

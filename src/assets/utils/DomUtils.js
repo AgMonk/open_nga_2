@@ -11,6 +11,7 @@ export const setTextareaSelection = (textarea, start, end) => {
 export const setSelection = (dom, i1, i2) => {
     dom.focus()
     setTimeout(() => {
+    dom.focus()
         dom.selectionStart = i1;
         dom.selectionEnd = i2;
     }, 50)
@@ -30,10 +31,10 @@ export const addTextInToTextarea = (dom, {
     endText = "",
     startPosition = dom.selectionStart,
     endPosition = dom.selectionEnd,
-    userInnerText = true,
+    useInnerText = true,
 }) => {
     const text = dom.value;
-    const innerText = userInnerText ? text.substring(startPosition, endPosition) : "";
+    const innerText = useInnerText ? text.substring(startPosition, endPosition) : "";
     let t1 = text.substring(0, startPosition);
     let t3 = text.substring(endPosition);
     dom.value = t1 + startText + innerText + endText + t3;

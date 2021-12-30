@@ -11,6 +11,7 @@
           </el-select>
           <el-tag v-else class="quick-tag" size="mini" @click="quickCode(code.en)">{{ code.cn }}</el-tag>
         </template>
+        <el-button size="mini" type="primary" @click="showAllEmotes">表情</el-button>
       </div>
       <el-input id="nga-post-textarea"
                 v-model="postParams.content"
@@ -20,8 +21,20 @@
                 @keyup.enter.ctrl="sendPost"
                 @keyup.enter.alt="parseCode"
       />
-
     </el-main>
+
+
+    <el-dialog v-model="dialogShow.emote" title="表情" width="80%">
+      <el-tabs v-model="currentEmoteTab" type="border-card">
+        <el-tab-pane v-for="item in emoteOptions" :label="item.name" :name="item.name" style="text-align: left">
+          <span v-for="e in item.data" v-if="currentEmoteTab===item.name" style="cursor: pointer;" @click="clickEmote(e.code,item.name)">
+            <nga-emote-image :data="e"/>
+            <!--            {{e}}-->
+          </span>
+        </el-tab-pane>
+      </el-tabs>
+    </el-dialog>
+
     <el-footer>
       <el-button type="success" @click="sendPost">发帖(Ctrl+Enter)</el-button>
     </el-footer>
@@ -33,11 +46,16 @@
 import {postRequest} from "@/assets/request/post-request";
 import {bbsCodeLibrary, searchBbsCode} from "@/assets/nga/bbscode";
 import {addTextInToTextarea} from "@/assets/utils/DomUtils";
+import {emotes, mapEmoteToArray, searchEmotes} from "@/assets/nga/emotions";
+import "@/assets/nga/emotions_cus"
+import NgaEmoteImage from "@/components/nga/post/nga-emote-image";
 
 export default {
   name: "nga-post-ui",
+  components: {NgaEmoteImage},
   data() {
     return {
+      emotes,
       postParams: {
         subject: "",
         content: "",
@@ -47,9 +65,41 @@ export default {
       },
       bbsCodeLibrary,
       selection: {},
+      emoteOptions: [],
+      dialogShow: {
+        emote: false,
+      },
+      currentEmoteTab: '',
     }
   },
   methods: {
+    showAllEmotes() {
+      this.emoteOptions = emotes.map(i => {
+        const {name} = i;
+        const data = mapEmoteToArray(i)
+        return {name, data}
+      })
+      this.dialogShow.emote = true
+      this.currentEmoteTab = this.emoteOptions[0].name
+    },
+    clickEmote(code, name) {
+      console.log(1)
+      this.dialogShow.emote = false
+      const dom = this.textarea();
+      if (name === '搜索结果') {
+        let text = this.postParams.content.substring(0, dom.selectionStart)
+        text = text.substring(text.lastIndexOf(" "))
+        addTextInToTextarea(dom, {
+          startText: code,
+          startPosition: dom.selectionStart - text.length,
+          useInnerText: false,
+        })
+        console.log("替换")
+      } else {
+        console.log("插入")
+        addTextInToTextarea(dom, {startText: code,})
+      }
+    },
     quickCode(code, props) {
       const startText = props ? `[${code}=${props}]` : `[${code}]`;
       const endText = `[/${code}]`
@@ -58,6 +108,7 @@ export default {
     },
     keypress(e) {
       console.log(e)
+      return false
     },
     textarea() {
       return document.getElementById('nga-post-textarea')
@@ -75,8 +126,27 @@ export default {
         addTextInToTextarea(dom, {
           startText, endText,
           startPosition: dom.selectionStart - text.length,
-          userInnerText: false,
+          useInnerText: false,
         })
+      } else {
+        //  搜索表情
+        const data = searchEmotes(text.trim())
+        console.log(data)
+        if (data.length === 1) {
+          //  找到一个表情 添加
+          const startText = data[0].code
+          addTextInToTextarea(dom, {
+            startText,
+            startPosition: dom.selectionStart - text.length,
+            useInnerText: false,
+          })
+        }
+        if (data.length > 1) {
+          this.emoteOptions = [{name: '搜索结果', data}]
+          this.currentEmoteTab = this.emoteOptions[0].name
+          this.dialogShow.emote = true
+        }
+
       }
     },
     async sendPost() {

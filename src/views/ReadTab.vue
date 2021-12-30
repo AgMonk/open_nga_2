@@ -5,13 +5,17 @@
       <el-tooltip :disabled="!forum || !forum.reputationLevel" effect="light">
         <template #content>
           <span v-for="(item,i) in forum.reputationLevel">
-            <el-tag >{{ item.n }}({{ item.r }})</el-tag>
+            <el-tag>{{ item.n }}({{ item.r }})</el-tag>
             <br v-if="i%4===1"/>
           </span>
         </template>
         <el-button size="small" type="primary">声望阈值</el-button>
       </el-tooltip>
-        <el-button size="small" type="success" @click="get(true)">刷新</el-button>
+      <el-button size="small" type="success" @click="get(true)">刷新</el-button>
+      <my-router-link :to="{name:'发帖',params:{action:'reply'},query:{tid:thread.tid}}">
+        <el-button size="small" type="primary">回复</el-button>
+      </my-router-link>
+
     </el-header>
 
     <el-main>
@@ -26,10 +30,12 @@ import {mapActions, mapMutations} from "vuex";
 import {setTitle} from "@/assets/request/ProjectUtils";
 import NgaReadTable from "@/components/nga/read/nga-read-table";
 import {ElMessage} from "element-plus";
+import {keypressEvent} from "@/assets/utils/DomUtils";
+import MyRouterLink from "@/components/my/my-router-link";
 
 export default {
   name: "ReadTab",
-  components: {NgaReadTable},
+  components: {MyRouterLink, NgaReadTable},
   data() {
     return {
       pageData: {
@@ -79,13 +85,11 @@ export default {
 
     },
     keypress(e) {
-      if (e.key === 'r') {
-        this.get(true)
-      }
-      if (e.key === 'R') {
+      const methods = {
+        r: () => this.get(true),
         //  todo 跳转到回复界面
       }
-
+      keypressEvent(e, methods)
     },
   },
   mounted() {

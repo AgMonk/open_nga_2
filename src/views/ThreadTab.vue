@@ -3,6 +3,9 @@
     <!--  <el-container direction="horizontal">-->
     <el-header>
       <div>{{ title }}</div>
+      <my-router-link :to="{name:'发帖',params:{action:'new'},query:{fid:forum.fid}}">
+        <el-button size="small" type="primary">发帖</el-button>
+      </my-router-link>
     </el-header>
     <el-main style="--el-main-padding:0">
       <div v-if="forum && forum.children && forum.children.length>0">
@@ -21,10 +24,11 @@ import {mapActions, mapMutations} from "vuex";
 import {setTitle} from "@/assets/request/ProjectUtils";
 import ThreadTable from "@/components/nga/thread/thread-table";
 import NgaForumAvatar from "@/components/nga/forum/nga-forum-avatar";
+import MyRouterLink from "@/components/my/my-router-link";
 
 export default {
   name: "ThreadTab",
-  components: {ThreadTable, NgaForumAvatar},
+  components: {MyRouterLink, ThreadTable, NgaForumAvatar},
   data() {
     return {
       title: "",

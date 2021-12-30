@@ -10,6 +10,7 @@ import My from "@/views/My";
 import Config from "@/views/Config";
 import User from "@/views/User";
 import Tips from "@/views/Tips";
+import Post from "@/views/Post";
 
 const routes = [
     {
@@ -64,6 +65,11 @@ const routes = [
             {path: "favor/:page", name: "已收藏主题", component: ThreadTab},
             {path: "tips", name: "关于", component: Tips,},
         ]
+    },
+    {
+        path: "/post/:action",
+        name: "发帖",
+        component: Post,
     },
 
 ]

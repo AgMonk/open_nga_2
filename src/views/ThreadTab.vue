@@ -11,8 +11,6 @@
       </div>
       <thread-table v-if="threads" :threads="threads" :pageData="pageData"/>
     </el-main>
-    <div>{{ $route.params }}</div>
-    <div>{{ $route.query }}</div>
     <el-footer></el-footer>
   </el-container>
 

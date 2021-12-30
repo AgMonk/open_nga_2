@@ -137,7 +137,7 @@ export default {
     ...mapActions('notice', [`updateNotice`, `clearNotice`]),
     clearNotices() {
       ElMessageBox.confirm(
-          `确认清空所有提示？：`,
+          `确认清空所有提示?`,
           '确认清空',
           {
             confirmButtonText: '清空',

@@ -3,7 +3,7 @@
     <!--  <el-container direction="horizontal">-->
     <el-header>
       <div>{{ title }}</div>
-      <my-router-link :to="{name:'发帖',params:{action:'new'},query:{fid:forum.fid}}">
+      <my-router-link :to="{name:'发帖',params:{action:'new'},query:{fid:forum.fid,stid:forum.setName?forum.toppedTid:undefined}}">
         <el-button size="small" type="primary">发帖</el-button>
       </my-router-link>
     </el-header>

@@ -5,7 +5,7 @@ import {parseColor, parseThreadTypeBit} from "@/assets/request/bitUtils";
 import {unEscape} from "@/assets/utils/StringUtils";
 
 // 配合Form-Data传递参数
-const transformRequest = [
+export const transformRequest = [
     (data) => {
         //构造地址栏参数
         const a = [];
@@ -211,6 +211,9 @@ const handleSetInThread = thread => {
 };
 
 const handleThread = thread => {
+    if (!thread.tid) {
+        return
+    }
     //处理时间戳
     handleTime(thread);
     //处理镜像字段
@@ -554,7 +557,10 @@ const transformResponse = [
             // console.log(copyObj(res))
             const {error, data, time} = res;
             if (error) {
-                throw error
+                const array = obj2Array(error)
+                if (!array[0].includes("发贴完毕")) {
+                    throw array[1]
+                }
             }
             const {__CU, __F, __PAGE, __R, __ROWS, __T, __U, __T__ROWS_PAGE, __R__ROWS_PAGE} = data;
 
@@ -809,7 +815,7 @@ export const readRequest = ({pid, tid, page, authorid}) => {
         while (replies.length < replyCount) {
             //    有回复卡审
             if (!replies[index] || replies[index].level !== currentLevel) {
-                replies.splice(index, 0, {authorid: "#anony_[未知用户]", level: currentLevel,content:'[本条回复处于审核中或审核未通过]'})
+                replies.splice(index, 0, {authorid: "#anony_[未知用户]", level: currentLevel, content: '[本条回复处于审核中或审核未通过]'})
             }
             currentLevel++;
             index++;

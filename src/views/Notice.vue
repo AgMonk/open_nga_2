@@ -176,7 +176,7 @@ export default {
     this.update()
     this.timer = setInterval(() => {
       this.update()
-    }, 30 * 1000)
+    }, 60 * 1000)
   },
   unmounted() {
     clearInterval(this.timer)

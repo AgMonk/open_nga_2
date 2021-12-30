@@ -8,25 +8,39 @@ export const setTextareaSelection = (textarea, start, end) => {
     }, 50)
 }
 
-// 在文本框光标的当前位置插入指定文本
-export const insertTextToTextarea = (
-    textarea
-    , {
-        startText, endText = ""
-        , startPosition = textarea.selectionStart
-        , endPosition = textarea.selectionEnd
-        , innerText = true
-    }
-) => {
-    // console.log(startPosition+":"+endPosition)
-    let text = textarea.value;
+export const setSelection = (dom, i1, i2) => {
+    dom.focus()
+    setTimeout(() => {
+        dom.selectionStart = i1;
+        dom.selectionEnd = i2;
+    }, 50)
+};
+
+/**
+ * 向文本框中添加文本
+ * @param dom 文本框
+ * @param startText 插入的开头文本
+ * @param endText   插入的结束文本
+ * @param startPosition 插入开头文本的位置
+ * @param endPosition   插入结束文本的位置
+ * @param useInnerText 是否保留 startPosition~endPosition 位置的文本
+ */
+export const addTextInToTextarea = (dom, {
+    startText,
+    endText = "",
+    startPosition = dom.selectionStart,
+    endPosition = dom.selectionEnd,
+    userInnerText = true,
+}) => {
+    const text = dom.value;
+    const innerText = userInnerText ? text.substring(startPosition, endPosition) : "";
     let t1 = text.substring(0, startPosition);
-    let t2 = innerText ? text.substring(startPosition, endPosition) : "";
     let t3 = text.substring(endPosition);
-    textarea.value = t1 + startText + t2 + endText + t3
-    textarea.focus();
-    let index = t1.length + t2.length + startText.length;
-    setTextareaSelection(textarea, index);
+    dom.value = t1 + startText + innerText + endText + t3;
+
+    const i1 = t1.length + startText.length;
+    const i2 = i1 + innerText.length;
+    setSelection(dom, i1, i2);
 }
 
 export const scrollToId = (id) => {

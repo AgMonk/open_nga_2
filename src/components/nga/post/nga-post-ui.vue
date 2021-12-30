@@ -5,21 +5,27 @@
 
     <el-main>
       <el-input id="nga-post-textarea"
+                ref="nga-post-textarea"
                 v-model="postParams.content"
                 :rows="!postParams.content?5:Math.max(postParams.content.split(`\n`).length+1,5)" placeholder="正文"
                 style="margin-bottom: 5px"
                 type="textarea"
                 @keyup.enter.ctrl="sendPost"
+                @keyup.enter.alt="parseCode"
       />
 
     </el-main>
-    <el-footer></el-footer>
+    <el-footer>
+      <el-button type="success" @click="sendPost">发帖(Ctrl+Enter)</el-button>
+    </el-footer>
   </el-container>
 
 </template>
 
 <script>
 import {postRequest} from "@/assets/request/post-request";
+import {searchBbsCode} from "@/assets/nga/bbscode";
+import {addTextInToTextarea} from "@/assets/utils/DomUtils";
 
 export default {
   name: "nga-post-ui",
@@ -37,6 +43,26 @@ export default {
   methods: {
     keypress(e) {
       console.log(e)
+    },
+    textarea() {
+      return document.getElementById('nga-post-textarea')
+    },
+    parseCode() {
+      const dom = this.textarea();
+      let text = this.postParams.content.substring(0, dom.selectionStart)
+      text = text.substring(text.lastIndexOf(" "))
+      const bbsCode = searchBbsCode(text.trim());
+      if (bbsCode) {
+        //  找到代码
+        const {code, props} = bbsCode
+        const startText = props ? `[${code}=${props}]` : `[${code}]`;
+        const endText = `[/${code}]`
+        addTextInToTextarea(dom, {
+          startText, endText,
+          startPosition: dom.selectionStart - text.length,
+          userInnerText: false,
+        })
+      }
     },
     async sendPost() {
       const data = {
@@ -63,7 +89,7 @@ export default {
     this.postParams.content = this.content
 
     if (this.focus) {
-      document.getElementById('nga-post-textarea').focus()
+      this.textarea().focus()
     }
   },
   watch: {},

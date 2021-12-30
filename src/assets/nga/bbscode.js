@@ -52,7 +52,7 @@ export const searchBbsCode = (key) => {
             const p = props ? props.filter(i => nameEquals(prop, i))[0] : undefined
             return {
                 code: item.en,
-                props: p ? p.en : prop,
+                prop: p ? p.en : prop,
             }
         })[0]
 

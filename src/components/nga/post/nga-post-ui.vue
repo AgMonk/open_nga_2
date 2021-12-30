@@ -1,11 +1,18 @@
 <template>
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
-    <el-header></el-header>
+    <!--    <el-header></el-header>-->
 
     <el-main>
+      <div id="快捷按钮" style="margin-bottom: 10px">
+        <template v-for="(code,i) in bbsCodeLibrary" :key="i">
+          <el-select v-if="code.props" :placeholder="code.cn" class="quick-select" size="mini" @change="quickCode(code.en,$event)">
+            <el-option v-for="(option,j) in code.props" :key="j" :label="option.cn" :value="option.en"/>
+          </el-select>
+          <el-tag v-else class="quick-tag" size="mini" @click="quickCode(code.en)">{{ code.cn }}</el-tag>
+        </template>
+      </div>
       <el-input id="nga-post-textarea"
-                ref="nga-post-textarea"
                 v-model="postParams.content"
                 :rows="!postParams.content?5:Math.max(postParams.content.split(`\n`).length+1,5)" placeholder="正文"
                 style="margin-bottom: 5px"
@@ -24,7 +31,7 @@
 
 <script>
 import {postRequest} from "@/assets/request/post-request";
-import {searchBbsCode} from "@/assets/nga/bbscode";
+import {bbsCodeLibrary, searchBbsCode} from "@/assets/nga/bbscode";
 import {addTextInToTextarea} from "@/assets/utils/DomUtils";
 
 export default {
@@ -37,10 +44,18 @@ export default {
         attachments: [],
         attachmentsCheck: [],
         comment: false,
-      }
+      },
+      bbsCodeLibrary,
+      selection: {},
     }
   },
   methods: {
+    quickCode(code, props) {
+      const startText = props ? `[${code}=${props}]` : `[${code}]`;
+      const endText = `[/${code}]`
+      const dom = this.textarea();
+      addTextInToTextarea(dom, {startText, endText,})
+    },
     keypress(e) {
       console.log(e)
     },
@@ -54,8 +69,8 @@ export default {
       const bbsCode = searchBbsCode(text.trim());
       if (bbsCode) {
         //  找到代码
-        const {code, props} = bbsCode
-        const startText = props ? `[${code}=${props}]` : `[${code}]`;
+        const {code, props: prop} = bbsCode
+        const startText = prop ? `[${code}=${prop}]` : `[${code}]`;
         const endText = `[/${code}]`
         addTextInToTextarea(dom, {
           startText, endText,
@@ -104,5 +119,13 @@ export default {
 </script>
 
 <style scoped>
+.quick-tag {
+  cursor: pointer;
+  margin-left: 2px;
+}
 
+.quick-select {
+  width: 100px;
+  margin-left: 2px
+}
 </style>

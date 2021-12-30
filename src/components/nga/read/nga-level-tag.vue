@@ -24,10 +24,10 @@
         >复制BbsCode
         </el-button>
         <el-button size="small"
-                   v-if="reply.pid"
                    type="primary"
-                   @click="open(`https://bbs.nga.cn/read.php?pid=${reply.pid}&to`)">打开官方地址
+                   @click="reply.pid?open(`https://bbs.nga.cn/read.php?pid=${reply.pid}&to`):open(`https://bbs.nga.cn/read.php?tid=${reply.tid}`)">打开官方地址
         </el-button>
+
       </div>
     </template>
     #{{ reply.level }}

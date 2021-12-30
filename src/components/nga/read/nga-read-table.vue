@@ -38,31 +38,43 @@
                   <nga-thread-type-tag :type="row.type"/>
                 </span>
 
-                  <el-tooltip effect="light" placement="bottom">
-                    <template #content>
-                      <div>
-                        <h4>查看</h4>
-                        <my-tag-with-tooltip :route="{name:'回复列表',params:{page:1,tid:row.tid},query:{authorid:row.authorid}}" disabled text="只看TA"/>
-                        <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid},query:{fid:thread.fid}}" disabled text="本版主题"/>
-                        <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid},query:{fid:thread.fid,searchpost:1}}" disabled text="本版回复"/>
-                        <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid}}" disabled text="用户主题"/>
-                        <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid,searchpost:1}}" disabled text="用户回复"/>
-                      </div>
-                      <div>
-                        <h4>操作</h4>
-                        <!--                      todo -->
-                        <my-tag-with-tooltip disabled text="引用"/>
-                        <my-tag-with-tooltip disabled text="回复"/>
-                        <my-tag-with-tooltip disabled text="举报"/>
+                  <span>
+                    <my-router-link :to="{name:'发帖',params:{action:'quote'},query:{tid:thread.tid,pid:row.pid}}">
+                          <my-tag-with-tooltip disabled text="引用"/>
+                        </my-router-link>
+                        <my-router-link :to="{name:'发帖',params:{action:'reply'},query:{tid:thread.tid,pid:row.pid}}">
+                          <my-tag-with-tooltip disabled text="回复"/>
+                        </my-router-link>
+                    <el-tooltip effect="light" placement="bottom" style="margin-left: 5px">
+                      <template #content>
+                        <div>
+                          <h4>查看</h4>
+                          <my-tag-with-tooltip :route="{name:'回复列表',params:{page:1,tid:row.tid},query:{authorid:row.authorid}}" disabled text="只看TA"/>
+                          <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid},query:{fid:thread.fid}}" disabled text="本版主题"/>
+                          <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid},query:{fid:thread.fid,searchpost:1}}" disabled text="本版回复"/>
+                          <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid}}" disabled text="用户主题"/>
+                          <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid,searchpost:1}}" disabled text="用户回复"/>
+                        </div>
+                        <div>
+                          <h4>操作</h4>
+                          <my-router-link :to="{name:'发帖',params:{action:'quote'},query:{tid:thread.tid,pid:row.pid}}">
+                            <my-tag-with-tooltip disabled text="引用"/>
+                          </my-router-link>
+                          <my-router-link :to="{name:'发帖',params:{action:'reply'},query:{tid:thread.tid,pid:row.pid}}">
+                            <my-tag-with-tooltip disabled text="回复"/>
+                          </my-router-link>
+                          <!--                      todo -->
+                          <my-tag-with-tooltip disabled text="举报"/>
 
-                      </div>
-                    </template>
-                    <el-button class="button" type="text">
-                      <el-icon>
-                        <setting/>
-                      </el-icon>
-                    </el-button>
-                  </el-tooltip>
+                        </div>
+                      </template>
+                      <el-button class="button" type="text">
+                        <el-icon>
+                          <setting/>
+                        </el-icon>
+                      </el-button>
+                    </el-tooltip>
+                  </span>
                 </div>
               </template>
 

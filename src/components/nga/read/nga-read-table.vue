@@ -105,7 +105,7 @@ import MyTagWithTooltip from "@/components/my/my-tag-with-tooltip";
 import MyRouterLink from "@/components/my/my-router-link";
 import {Setting} from '@element-plus/icons'
 import NgaThreadTypeTag from "@/components/nga/thread/nga-thread-type-tag";
-import {scrollToId} from "@/assets/utils/DomUtils";
+import {keypressEvent, scrollMethods, scrollToId} from "@/assets/utils/DomUtils";
 import {ElMessage} from "element-plus";
 
 export default {
@@ -117,6 +117,7 @@ export default {
       currentPage: 1,
       pageSize: 100,
       total: 100,
+      totalPage: 100,
       destLevel: '',
     }
   },
@@ -151,16 +152,31 @@ export default {
       this.currentPage = parseInt(e.currentPage)
       this.total = parseInt(e.total)
       this.pageSize = parseInt(e.pageSize)
+      this.totalPage = parseInt(e.totalPage)
+    },
+    keypress(e) {
+      const methods = {
+        a: () => this.currentChange(Math.max(this.currentPage - 1, 1)),
+        d: () => this.currentChange(Math.min(this.currentPage + 1, this.totalPage)),
+        A: () => this.currentChange(1),
+        D: () => this.currentChange(this.totalPage),
+        ...scrollMethods,
+      }
+      keypressEvent(e, methods)
     },
   },
   updated() {
     const hash = this.$route.hash.substring(1)
     this.$nextTick(() => {
-      const b = scrollToId(hash);
+      scrollToId(hash);
     })
   },
   mounted() {
     this.update()
+    document.addEventListener('keypress', this.keypress)
+  },
+  unmounted() {
+    document.removeEventListener('keypress', this.keypress)
   },
   watch: {
     pageData(e) {

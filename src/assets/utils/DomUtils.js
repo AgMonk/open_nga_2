@@ -11,7 +11,8 @@ export const setTextareaSelection = (textarea, start, end) => {
 // 在文本框光标的当前位置插入指定文本
 export const insertTextToTextarea = (
     textarea
-    , {startText, endText = ""
+    , {
+        startText, endText = ""
         , startPosition = textarea.selectionStart
         , endPosition = textarea.selectionEnd
         , innerText = true
@@ -39,4 +40,39 @@ export const scrollToId = (id) => {
         }
     }
     return false
+}
+
+export const scrollY = (y) => {
+    document.documentElement.scrollTop += parseInt(y)
+    document.body.scrollTop += parseInt(y)
+}
+
+export const scrollYToBottom = () => {
+    document.documentElement.scrollTop = document.documentElement.scrollHeight - document.documentElement.clientHeight
+}
+
+export const scrollYToTop = () => {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+}
+
+/**
+ * 按键响应
+ * @param e 事件
+ * @param methods 方法列表
+ */
+export const keypressEvent = (e, methods) => {
+    const {key} = e;
+    console.log(key)
+    if (methods.hasOwnProperty(key)) {
+        methods[key]();
+    }
+
+}
+
+export const scrollMethods = {
+    s: () => scrollY(150),
+    S: () => scrollYToBottom(),
+    w: () => scrollY(-150),
+    W: () => scrollYToTop(),
 }

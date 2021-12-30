@@ -11,6 +11,7 @@
         </template>
         <el-button size="small" type="primary">声望阈值</el-button>
       </el-tooltip>
+        <el-button size="small" type="success" @click="get(true)">刷新</el-button>
     </el-header>
 
     <el-main>
@@ -24,6 +25,7 @@
 import {mapActions, mapMutations} from "vuex";
 import {setTitle} from "@/assets/request/ProjectUtils";
 import NgaReadTable from "@/components/nga/read/nga-read-table";
+import {ElMessage} from "element-plus";
 
 export default {
   name: "ReadTab",
@@ -71,12 +73,30 @@ export default {
         this.addHistorySet({stid: subForum.tid, name: subForum.subject, forumName: forum.name})
       }
 
+      if (force) {
+        ElMessage.success("刷新成功")
+      }
 
-    }
+    },
+    keypress(e) {
+      if (e.key === 'r') {
+        this.get(true)
+      }
+      if (e.key === 'R') {
+        //  todo 跳转到回复界面
+      }
+
+    },
   },
   mounted() {
     setTitle(this.$route.name)
     this.get(false)
+
+    document.addEventListener('keypress', this.keypress)
+
+  },
+  unmounted() {
+    document.removeEventListener('keypress', this.keypress)
   },
   watch: {
     $route(to, from) {

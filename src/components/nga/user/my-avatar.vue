@@ -3,9 +3,11 @@
       v-if="list && list.length>0"
       class="nga-avatar"
       hide-on-click-modal
+      :infinite="false"
       :src="getUrl(list[i])"
       :preview-src-list="list.map(item=>getUrl(item))"
       :initial-index="i"
+      style="max-width: 200px"
   />
 </template>
 <script>

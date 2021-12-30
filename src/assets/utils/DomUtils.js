@@ -78,7 +78,7 @@ export const scrollYToTop = () => {
  */
 export const keypressEvent = (e, methods) => {
     const {key} = e;
-    console.log(key)
+    // console.log(key)
     if (methods.hasOwnProperty(key)) {
         methods[key]();
     }

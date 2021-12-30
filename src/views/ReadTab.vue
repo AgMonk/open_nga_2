@@ -87,7 +87,7 @@ export default {
     keypress(e) {
       const methods = {
         r: () => this.get(true),
-        //  todo 跳转到回复界面
+        R: () => this.$router.push({name: '发帖', params: {action: 'reply'}, query: {tid: this.thread.tid}}),
       }
       keypressEvent(e, methods)
     },

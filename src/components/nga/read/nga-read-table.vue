@@ -22,7 +22,6 @@
             <nga-read-user-card :uid="row.authorid"/>
           </el-col>
           <el-col :span="18">
-            <!--          todo header 楼层号，时间 对楼层操作-->
             <el-card class="box-card" style="height:100%">
               <template #header>
                 <div class="card-header">

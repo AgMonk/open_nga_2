@@ -1,6 +1,7 @@
 <template>
   <my-router-link :style="data.titleFont?data.titleFont.style:undefined" :to="getRoute(data)">
     {{ text ? text : data.subject }}
+    <slot/>
   </my-router-link>
 </template>
 

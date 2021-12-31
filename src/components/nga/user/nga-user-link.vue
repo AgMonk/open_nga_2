@@ -24,6 +24,7 @@
     <span v-if="text">{{text}}</span>
     <span v-else-if="users[uid]">{{users[uid].username}}</span>
     <span v-else>UID:{{uid}}</span>
+    <slot/>
   </my-router-link>
   </el-tooltip>
 </template>

@@ -1,8 +1,6 @@
 <template>
   <div style="text-align: left">
-    {{ content }}
-    <!--    {{unEscape(content)}}-->
-    <!--    todo 解析 渲染-->
+    <nga-content-render :data="contentArray"/>
   </div>
 
 </template>
@@ -10,9 +8,11 @@
 <script>
 import {unEscape} from "@/assets/utils/StringUtils";
 import {parseBbsCode} from "@/assets/nga/bbsCodeParser";
+import NgaContentRender from "@/components/nga/read/nga-content-render";
 
 export default {
   name: "nga-content",
+  components: {NgaContentRender},
   data() {
     return {
       contentArray: [],

@@ -2,15 +2,15 @@
 
 
 <script>
-import MySpan from "@/components/my/my-span";
 import NgaEmoteImage from "@/components/nga/post/nga-emote-image";
 import NgaReplyLink from "@/components/nga/read/nga-reply-link";
 import NgaUserLink from "@/components/nga/user/nga-user-link";
 import NgaContentLink from "@/components/nga/read/nga-content-link";
+import {searchEmotes} from "@/assets/nga/emotions";
 
 export default {
   name: "nga-content-render",
-  components: {MySpan, NgaEmoteImage, NgaReplyLink, NgaUserLink, NgaContentLink},
+  components: {NgaEmoteImage, NgaReplyLink, NgaUserLink, NgaContentLink},
   render() {
     return this.render(this.data)
     // return this.render(this.myData, 2)
@@ -28,7 +28,7 @@ export default {
         color: ({children, props}) => <span style={'color: ' + props}>{this.render(children)}</span>,
         size: ({children, props}) => <span style={"font-size:" + props}>{this.render(children)}</span>,
         align: ({children, props}) => <span style={"text-align:" + props}>{this.render(children)}</span>,
-        uid: ({children, props}) => <nga-user-link uid={props}>{this.render(children)}</nga-user-link>,
+        uid: ({children, props}) => <nga-user-link uid={props || children[0].raw}>{this.render(children)}</nga-user-link>,
         tid: ({children, props}) => <nga-thread-link data={{tid: props}}>{this.render(children)}</nga-thread-link>,
         table: ({children}) => <table style="border: 1px solid black;border-collapse: collapse;">{this.render(children.filter(item => item.type === 'tr'))}</table>,
         tr: ({children}) => <tr style="border: 1px solid black;">{this.render(children.filter(item => item.type === 'td'))}</tr>,
@@ -56,7 +56,8 @@ export default {
             while (r = regExp.exec(children)) {
               array.push(<span style="white-space: pre-line">{children.substring(startIndex, r.index)}</span>)
               //插入图片
-              array.push(<span>{r[0]}</span>)
+              const emote = searchEmotes(r[0])[0];
+              array.push(<nga-emote-image data={emote}/>)
               //  更新起始位置
               startIndex = r.index + r[0].length;
             }
@@ -73,6 +74,9 @@ export default {
           return <span>{raw}</span>
         },
         url: ({children, props}) => {
+          console.log("url")
+          console.log(children)
+          console.log(props)
           if (!props) {
             return <nga-content-link createText src={children[0].children}/>
           }
@@ -87,7 +91,6 @@ export default {
         return [];
       }
       return tags.map(tag => {
-        console.log(tag.raw)
         if (this.renderMethod.hasOwnProperty(tag.type)) {
           return this.renderMethod[tag.type](tag)
         } else {

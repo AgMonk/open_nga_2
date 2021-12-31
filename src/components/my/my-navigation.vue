@@ -42,7 +42,7 @@ export default {
     },
 
     select(index, indexPath) {
-      console.log(this.activeIndex)
+      // console.log(this.activeIndex)
     }
   },
   mounted() {

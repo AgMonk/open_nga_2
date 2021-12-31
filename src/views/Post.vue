@@ -37,9 +37,13 @@ export default {
   methods: {},
   async mounted() {
     this.params = Object.assign({}, this.$route.query, this.$route.params)
-    this.preData = await postRequest(this.params)
-    console.log(this.preData)
-    this.showPostUi = true;
+    this.preData = await postRequest(this.params).catch(reason => {
+      console.error(reason)
+      history.back()
+    })
+    if (this.preData) {
+      this.showPostUi = true;
+    }
   },
   watch: {},
   props: {},

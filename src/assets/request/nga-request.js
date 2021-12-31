@@ -620,13 +620,11 @@ const transformResponse = [
             }
 
             //分页情况
-            const total = __ROWS
+            const total = __ROWS ? __ROWS : 65535
             const pageSize = __T__ROWS_PAGE ? __T__ROWS_PAGE : __R__ROWS_PAGE
             const currentPage = __PAGE ? __PAGE : 1;
             const totalPage = Math.floor(total / pageSize) + (total % pageSize === 0 ? 0 : 1)
-            if (total) {
-                data.pageData = {total, pageSize, currentPage, totalPage}
-            }
+            data.pageData = {total, pageSize, currentPage, totalPage}
 
             delete data.__ROWS
             delete data.__PAGE

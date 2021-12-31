@@ -52,7 +52,7 @@
                           <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid},query:{fid:thread.fid}}" disabled text="本版主题"/>
                           <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid},query:{fid:thread.fid,searchpost:1}}" disabled text="本版回复"/>
                           <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid}}" disabled text="用户主题"/>
-                          <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid,searchpost:1}}" disabled text="用户回复"/>
+                          <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:row.authorid},query:{searchpost:1}}" disabled text="用户回复"/>
                         </div>
                         <div>
                           <h4>操作</h4>
@@ -65,10 +65,8 @@
                           <my-router-link :to="{name:'发帖',params:{action:'modify'},query:{tid:thread.tid,pid:row.pid}}">
                             <my-tag-with-tooltip disabled text="编辑"/>
                           </my-router-link>
-                          <!--                      todo -->
                           <span @click="report(row)"><my-tag-with-tooltip disabled text="举报"/></span>
-
-                        </div>
+`                        </div>
                       </template>
                       <el-button class="button" type="text">
                         <el-icon>
@@ -91,6 +89,7 @@
             <!--        回复框-->
             <!--          todo 热评区-->
             <!--          todo 评论区-->
+            <!--          todo 附件区-->
             <!--          todo 签名区-->
           </el-col>
 

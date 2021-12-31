@@ -428,8 +428,19 @@ const handleUserData = (__U, data) => {
         const user = __U[id]
         //匿名用户
         if (id < 0) {
-            user.uid = user.username
-            replies.filter(reply => reply.authorid === parseInt(id)).forEach(reply => reply.authorid = user.username)
+            const {username} = user;
+            user.uid = username
+            const handleAnonymousName = (array, uid, username) => {
+                console.log(array)
+                if (array && array.length > 0) {
+                    array.filter(reply => reply && reply.authorid === uid).forEach(reply => reply.authorid = username)
+                }
+            }
+            handleAnonymousName(replies, parseInt(id), username);
+            handleAnonymousName(replies.flatMap(i => i.hotReply), parseInt(id), username);
+            handleAnonymousName(replies.flatMap(i => i.comment), parseInt(id), username);
+            console.log(replies)
+
         }
         //    用户组
         user.groupName = groups[user.memberid]

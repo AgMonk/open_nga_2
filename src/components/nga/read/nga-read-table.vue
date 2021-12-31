@@ -54,14 +54,26 @@
               </div>
 
 
+              <div v-if="row.hotReply && row.hotReply.length>0" id="热评区">
+                <el-divider content-position="left"><span class="divider">热评区({{ row.hotReply.length }})</span></el-divider>
+                <div v-for="hot in row.hotReply">
+                  <nga-comment-card :reply="hot"/>
+                </div>
+              </div>
+              <div v-if="row.comment && row.comment.length>0" id="评论区">
+                <el-divider content-position="left"><span class="divider">评论区({{ row.comment.length }})</span></el-divider>
+                <div v-for="hot in row.comment">
+                  <nga-comment-card :reply="hot"/>
+                </div>
+              </div>
+              <div v-if="row.attachs && row.attachs.length>0" id="附件区">
+                <el-divider content-position="left">附件区({{ row.attachs.length }})</el-divider>
+                <!--          todo 附件区-->
+
+              </div>
+
+              <!--          todo 签名区-->
             </el-card>
-
-
-            <!--        回复框-->
-            <!--          todo 热评区-->
-            <!--          todo 评论区-->
-            <!--          todo 附件区-->
-            <!--          todo 签名区-->
           </el-col>
 
         </el-row>
@@ -92,10 +104,12 @@ import NgaThreadTypeTag from "@/components/nga/thread/nga-thread-type-tag";
 import {keypressEvent, scrollToId} from "@/assets/utils/DomUtils";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {report} from "@/assets/request/nuke-request";
+import NgaCommentCard from "@/components/nga/read/nga-comment-card";
+import NgaReadOperationButton from "@/components/nga/read/nga-read-operation-button";
 
 export default {
   name: "nga-read-table",
-  components: {NgaThreadTypeTag, MyRouterLink, MyTagWithTooltip, NgaLevelTag, NgaScoreTag, NgaReadUserCard, Setting},
+  components: {NgaReadOperationButton, NgaCommentCard, NgaThreadTypeTag, MyRouterLink, MyTagWithTooltip, NgaLevelTag, NgaScoreTag, NgaReadUserCard, Setting},
 
   data() {
     return {
@@ -209,5 +223,10 @@ export default {
 
 .el-card {
   --el-card-padding: 5px;
+}
+
+.divider {
+  color: red;
+  font-weight: bold;
 }
 </style>

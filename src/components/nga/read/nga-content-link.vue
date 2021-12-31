@@ -31,10 +31,40 @@ export default {
       const o = {}
       const [query, hash] = qs.split("#")
       query.split("&").map(i => i.split("=")).forEach(i => o[i[0]] = i[1])
-      if (method === 'read') {
-
-      }
       if (method === 'thread') {
+        const {fid, stid, authorid, page = 1} = o
+        const {orderByPostDateDesc, recommend, searchpost} = o
+        if (authorid) {
+          this.text = `用户:${authorid}的发言`;
+          this.ngaRoute = {
+            name: "搜索用户发言",
+            params: {
+              authorid, page
+            },
+            query: {fid, searchpost, recommend}
+          }
+        } else if (stid) {
+          this.text = `合集：${stid}`;
+          this.ngaRoute = {
+            name: "浏览合集主题",
+            params: {
+              stid, page
+            },
+            query: {orderByPostDateDesc}
+          }
+        } else {
+          this.text = `版面：${fid}`;
+          this.ngaRoute = {
+            name: "浏览版面主题",
+            params: {
+              fid, page
+            },
+            query: {orderByPostDateDesc, recommend}
+          }
+        }
+      }
+
+      if (method === 'read') {
 
       }
 

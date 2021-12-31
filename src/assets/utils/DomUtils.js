@@ -47,7 +47,7 @@ export const addTextInToTextarea = (dom, {
 export const scrollToId = (id) => {
     if (id) {
         const element = document.getElementById(id);
-        console.log(element)
+        // console.log(element)
         if (element) {
             console.log(`滚动到${id}`)
             element.scrollIntoView()

@@ -9,18 +9,30 @@
 
 <script>
 import {unEscape} from "@/assets/utils/StringUtils";
+import {parseBbsCode} from "@/assets/nga/bbsCodeParser";
 
 export default {
   name: "nga-content",
   data() {
-    return {}
+    return {
+      contentArray: [],
+    }
   },
   methods: {
-    unEscape
+    unEscape,
+    parse(s) {
+      this.contentArray = parseBbsCode(s)
+      return this.contentArray
+    }
   },
   mounted() {
+    console.log(this.parse(this.content))
   },
-  watch: {},
+  watch: {
+    content(s) {
+      this.parse(s)
+    }
+  },
   props: {
     content: {type: String, required: true}
   },

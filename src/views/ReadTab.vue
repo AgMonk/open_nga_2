@@ -57,7 +57,7 @@ export default {
       const data = await this.getReplies({pid, tid, page, authorid, force})
       const {forum, thread} = data;
       const subForum = thread.subForum
-      console.log(data);
+      // console.log(data);
       setTitle(forum.name)
 
       this.pageData = data.pageData;
@@ -112,7 +112,7 @@ export default {
   },
   watch: {
     $route(to, from) {
-      console.log(to)
+      // console.log(to)
       if (to.path.startsWith('/read')) {
         this.get(false, to)
       }

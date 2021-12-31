@@ -49,8 +49,8 @@ export default {
             const uid = getCache("currentUser")
             return dispatch("getUserInfo", uid).then(res=>{
                 state.currentUser = res
-                slf4j("加载当前账号用户信息")
-                console.log(res)
+                const {uid, username} = res
+                slf4j(`加载当前账号用户信息 ${username}(${uid})`)
                 return res
             })
         },

@@ -49,6 +49,7 @@ import {addTextInToTextarea} from "@/assets/utils/DomUtils";
 import {emotes, mapEmoteToArray, searchEmotes} from "@/assets/nga/emotions";
 import "@/assets/nga/emotions_cus"
 import NgaEmoteImage from "@/components/nga/post/nga-emote-image";
+import {ElMessage} from "element-plus";
 
 export default {
   name: "nga-post-ui",
@@ -73,6 +74,22 @@ export default {
     }
   },
   methods: {
+    addText(dom, {
+      startText,
+      endText = "",
+      startPosition = dom.selectionStart,
+      endPosition = dom.selectionEnd,
+      useInnerText = true,
+    }) {
+      addTextInToTextarea(dom, {
+        startText,
+        endText,
+        startPosition,
+        endPosition,
+        useInnerText,
+      })
+      this.postParams.content = dom.value;
+    },
     showAllEmotes() {
       this.emoteOptions = emotes.map(i => {
         const {name} = i;
@@ -89,7 +106,7 @@ export default {
       if (name === '搜索结果') {
         let text = this.postParams.content.substring(0, dom.selectionStart)
         text = text.substring(text.lastIndexOf(" "))
-        addTextInToTextarea(dom, {
+        this.addText(dom, {
           startText: code,
           startPosition: dom.selectionStart - text.length,
           useInnerText: false,
@@ -97,14 +114,14 @@ export default {
         console.log("替换")
       } else {
         console.log("插入")
-        addTextInToTextarea(dom, {startText: code,})
+        this.addText(dom, {startText: code,})
       }
     },
     quickCode(code, props) {
       const startText = props ? `[${code}=${props}]` : `[${code}]`;
       const endText = `[/${code}]`
       const dom = this.textarea();
-      addTextInToTextarea(dom, {startText, endText,})
+      this.addText(dom, {startText, endText,})
     },
     keypress(e) {
       console.log(e)
@@ -123,7 +140,7 @@ export default {
         const {code, props: prop} = bbsCode
         const startText = prop ? `[${code}=${prop}]` : `[${code}]`;
         const endText = `[/${code}]`
-        addTextInToTextarea(dom, {
+        this.addText(dom, {
           startText, endText,
           startPosition: dom.selectionStart - text.length,
           useInnerText: false,
@@ -135,7 +152,7 @@ export default {
         if (data.length === 1) {
           //  找到一个表情 添加
           const startText = data[0].code
-          addTextInToTextarea(dom, {
+          this.addText(dom, {
             startText,
             startPosition: dom.selectionStart - text.length,
             useInnerText: false,
@@ -168,6 +185,13 @@ export default {
       }
       const res = await postRequest(data)
       console.log(res)
+      const {tid, page, text, pid} = res;
+      ElMessage.success(text)
+      // if (page) {
+      await this.$router.push({name: '回复列表', params: {tid, page: 'e'}, hash: pid ? `#P${pid}` : undefined})
+      // }else{
+      //   await this.$router.push({name: '单个回复', params: {pid}, hash:pid ? `#P${pid}` : undefined})
+      // }
     },
   },
   mounted() {

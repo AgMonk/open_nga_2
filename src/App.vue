@@ -52,24 +52,41 @@ import NgaBreadcrumb from "@/components/nga/nga-breadcrumb";
 import MyNavigation from "@/components/my/my-navigation";
 import {mapActions} from "vuex";
 import Notice from "@/views/Notice";
+import {keypressEvent, scrollMethods} from "@/assets/utils/DomUtils";
 
 export default {
   components: {Notice, MyNavigation, NgaBreadcrumb},
   methods: {
     ...mapActions("users", [`loadCurrentUser`]),
-    back() {
+    back(e) {
       history.back()
     },
-    forward() {
+    forward(e) {
       history.forward()
     },
+    keypress(e) {
+      const {srcElement} = e;
+      if (srcElement.nodeName === 'TEXTAREA') {
+        return;
+      }
 
+      const methods = {
+        ...scrollMethods,
+        q: () => this.back(),
+        e: () => this.forward(),
+      }
+      keypressEvent(e, methods)
+    },
   },
   async mounted() {
     await this.loadCurrentUser()
+    document.addEventListener('keypress', this.keypress)
   },
-  data(){
-    return{}
+  unmounted() {
+    document.removeEventListener('keypress', this.keypress)
+  },
+  data() {
+    return {}
   }
 }
 </script>

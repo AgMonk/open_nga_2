@@ -559,7 +559,7 @@ const transformResponse = [
             if (error) {
                 const array = obj2Array(error)
                 if (!array[0].includes("发贴完毕")) {
-                    throw array[1]
+                    throw array
                 }
             }
             const {__CU, __F, __PAGE, __R, __ROWS, __T, __U, __T__ROWS_PAGE, __R__ROWS_PAGE} = data;

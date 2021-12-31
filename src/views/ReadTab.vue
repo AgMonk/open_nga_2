@@ -51,7 +51,7 @@ export default {
   methods: {
     ...mapActions("read", [`getReplies`]),
     ...mapMutations("history", [`addHistoryThread`, `addHistoryForum`, `addHistorySet`]),
-    ...mapActions("users",[`getUserInfo`]),
+    ...mapActions("users", [`getUserInfo`]),
     async get(force) {
       const {pid, tid, page, authorid} = Object.assign({}, this.$route.query, this.$route.params)
       const data = await this.getReplies({pid, tid, page, authorid, force})
@@ -88,6 +88,14 @@ export default {
       const methods = {
         r: () => this.get(true),
         R: () => this.$router.push({name: '发帖', params: {action: 'reply'}, query: {tid: this.thread.tid}}),
+        Q: () => {
+          const {subForum, fid} = this.thread
+          if (subForum) {
+            this.$router.push({name: "浏览合集主题", params: {stid: subForum.tid, page: 1}})
+          } else {
+            this.$router.push({name: "浏览版面主题", params: {fid, page: 1}})
+          }
+        },
       }
       keypressEvent(e, methods)
     },

@@ -12,6 +12,7 @@ export const postRequest = (data) => requestUnity({
     };
     const {__MESSAGE} = res;
     if (__MESSAGE) {
+        console.log(__MESSAGE)
         const message = {text: __MESSAGE["1"]}
         const array = __MESSAGE["6"]
             .replace("/read.php?", "")

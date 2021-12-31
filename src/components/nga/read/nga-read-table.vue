@@ -62,6 +62,9 @@
                           <my-router-link :to="{name:'发帖',params:{action:'reply'},query:{tid:thread.tid,pid:row.pid}}">
                             <my-tag-with-tooltip disabled text="回复"/>
                           </my-router-link>
+                          <my-router-link :to="{name:'发帖',params:{action:'modify'},query:{tid:thread.tid,pid:row.pid}}">
+                            <my-tag-with-tooltip disabled text="编辑"/>
+                          </my-router-link>
                           <!--                      todo -->
                           <my-tag-with-tooltip disabled text="举报"/>
 
@@ -116,7 +119,7 @@ import MyTagWithTooltip from "@/components/my/my-tag-with-tooltip";
 import MyRouterLink from "@/components/my/my-router-link";
 import {Setting} from '@element-plus/icons'
 import NgaThreadTypeTag from "@/components/nga/thread/nga-thread-type-tag";
-import {keypressEvent, scrollMethods, scrollToId} from "@/assets/utils/DomUtils";
+import {keypressEvent, scrollToId} from "@/assets/utils/DomUtils";
 import {ElMessage} from "element-plus";
 
 export default {
@@ -171,7 +174,6 @@ export default {
         d: () => this.currentChange(Math.min(this.currentPage + 1, this.totalPage)),
         A: () => this.currentChange(1),
         D: () => this.currentChange(this.totalPage),
-        ...scrollMethods,
       }
       keypressEvent(e, methods)
     },
@@ -179,7 +181,7 @@ export default {
   updated() {
     const hash = this.$route.hash.substring(1)
     this.$nextTick(() => {
-      scrollToId(hash);
+      setTimeout(() => scrollToId(hash), 200)
     })
   },
   mounted() {

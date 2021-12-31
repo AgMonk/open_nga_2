@@ -223,3 +223,10 @@ export const clearNotice = () => nukeRequest({
     __act: "del",
     raw: 3,
 })
+
+//举报
+export const report = ({tid, pid, info}) => nukeRequest({
+    tid, pid, info, raw: 3,
+    __lib: "log_post",
+    __act: "report",
+})

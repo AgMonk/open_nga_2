@@ -66,7 +66,7 @@
                             <my-tag-with-tooltip disabled text="编辑"/>
                           </my-router-link>
                           <!--                      todo -->
-                          <my-tag-with-tooltip disabled text="举报"/>
+                          <span @click="report(row)"><my-tag-with-tooltip disabled text="举报"/></span>
 
                         </div>
                       </template>
@@ -120,7 +120,8 @@ import MyRouterLink from "@/components/my/my-router-link";
 import {Setting} from '@element-plus/icons'
 import NgaThreadTypeTag from "@/components/nga/thread/nga-thread-type-tag";
 import {keypressEvent, scrollToId} from "@/assets/utils/DomUtils";
-import {ElMessage} from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
+import {report} from "@/assets/request/nuke-request";
 
 export default {
   name: "nga-read-table",
@@ -136,6 +137,19 @@ export default {
     }
   },
   methods: {
+    report({tid, pid}) {
+      ElMessageBox.prompt('请填写理由', '举报理由', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+      }).then(({value}) => {
+        report({tid, pid, info: value}).then(res => {
+          ElMessage.success(res.data["0"])
+        })
+      }).catch(reason => {
+        ElMessage.info("已取消")
+        console.log(reason)
+      })
+    },
     jumpLevel() {
       if (!this.destLevel || isNaN(this.destLevel)) {
         ElMessage.error(`无效的楼层 ${this.destLevel}`)

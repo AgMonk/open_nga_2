@@ -4,7 +4,7 @@
       <slot name="tooltip"/>
     </template>
     <el-tag :size="size" :type="type" style="padding:0 1px;cursor: pointer" @click="click">
-      {{ text }}
+      <span v-if="!$slots.defalut">{{ text }}</span>
       <slot/>
     </el-tag>
   </el-tooltip>

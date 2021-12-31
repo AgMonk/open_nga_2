@@ -283,7 +283,7 @@ export const emotes = [
 ]
 
 export const searchEmotes = (key) => {
-    console.log(`搜索表情:` + key)
+    // console.log(`搜索表情:` + key)
     return emotes.flatMap(item => mapEmoteToArray(item))
         .filter(e => e.uuid.includes(key) || key === e.code)
 }

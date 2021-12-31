@@ -35,6 +35,7 @@
                       回复目标
                     </my-tag-with-tooltip>
                   <nga-thread-type-tag :type="row.type"/>
+                    <el-tag v-if="$route.hash===`#P${row.pid}`" size="small" type="danger"><b>这个回复</b></el-tag>
                 </span>
 
                   <span>

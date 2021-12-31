@@ -23,8 +23,8 @@
   <my-router-link :to="{name: '用户中心',params:{uid}}">
     <span v-if="text">{{text}}</span>
     <span v-else-if="users[uid]">{{users[uid].username}}</span>
+    <slot v-else-if="$slots.defalut"/>
     <span v-else>UID:{{uid}}</span>
-    <slot/>
   </my-router-link>
   </el-tooltip>
 </template>

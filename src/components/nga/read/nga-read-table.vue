@@ -50,7 +50,7 @@
               </template>
 
               <div>
-                {{ row.content }}
+                <nga-content :content="row.content"/>
               </div>
 
 
@@ -106,10 +106,11 @@ import {ElMessage, ElMessageBox} from "element-plus";
 import {report} from "@/assets/request/nuke-request";
 import NgaCommentCard from "@/components/nga/read/nga-comment-card";
 import NgaReadOperationButton from "@/components/nga/read/nga-read-operation-button";
+import NgaContent from "@/components/nga/read/nga-content";
 
 export default {
   name: "nga-read-table",
-  components: {NgaReadOperationButton, NgaCommentCard, NgaThreadTypeTag, MyRouterLink, MyTagWithTooltip, NgaLevelTag, NgaScoreTag, NgaReadUserCard, Setting},
+  components: {NgaContent, NgaReadOperationButton, NgaCommentCard, NgaThreadTypeTag, MyRouterLink, MyTagWithTooltip, NgaLevelTag, NgaScoreTag, NgaReadUserCard, Setting},
 
   data() {
     return {

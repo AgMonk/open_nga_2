@@ -26,7 +26,6 @@
         </my-router-link>
         <!--suppress JSCheckFunctionSignatures -->
         <span @click="report(reply)"><my-tag-with-tooltip disabled text="举报"/></span>
-        `
       </div>
     </template>
     <el-button class="齿轮图标" type="text">

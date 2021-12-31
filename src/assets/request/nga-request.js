@@ -3,6 +3,7 @@ import {second2String} from "@/assets/utils/DateFormat";
 import {copyObj, obj2Array} from "@/assets/utils/ObjectUtils";
 import {parseColor, parseThreadTypeBit} from "@/assets/request/bitUtils";
 import {unEscape} from "@/assets/utils/StringUtils";
+import {ElMessage} from "element-plus";
 
 // 配合Form-Data传递参数
 export const transformRequest = [
@@ -559,6 +560,7 @@ const transformResponse = [
             if (error) {
                 const array = obj2Array(error)
                 if (!array[0].includes("发贴完毕")) {
+                    ElMessage.error(array[0])
                     throw array
                 }
             }

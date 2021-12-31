@@ -3,14 +3,15 @@ import {requestUnity} from "@/assets/request/nga-request";
 export const postRequest = (data) => requestUnity({
     url: "post.php",
     data
-}).then(res => res.data).then(res => {
+}).then(res => {
+    const {data} = res;
     const r = {
-        attachUrl: res.attach_url,
-        content: res.content,
-        forum: res.forum,
-        auth: res.auth,
+        attachUrl: data.attach_url,
+        content: data.content,
+        forum: data.forum,
+        auth: data.auth,
     };
-    const {__MESSAGE} = res;
+    const {__MESSAGE} = data;
     if (__MESSAGE) {
         console.log(__MESSAGE)
         const message = {text: __MESSAGE["1"]}

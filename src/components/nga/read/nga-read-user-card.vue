@@ -7,7 +7,10 @@
           <template #content>
             <el-descriptions :column="2">
               <el-descriptions-item label="声望" v-if="user.reputation">
-                <el-tag size="small">{{ user.reputation.name }}({{ user.reputation.value }})</el-tag>
+                <el-tag v-if="user.reputation.value<0" size="small" type="danger">{{ user.reputation.name }}({{ user.reputation.value }})</el-tag>
+                <el-tag v-else-if="user.reputation.value<300" size="small" type="warning">{{ user.reputation.name }}({{ user.reputation.value }})</el-tag>
+                <el-tag v-else-if="user.reputation.value<600" size="small">{{ user.reputation.name }}({{ user.reputation.value }})</el-tag>
+                <el-tag v-else size="small" type="success">{{ user.reputation.name }}({{ user.reputation.value }})</el-tag>
               </el-descriptions-item>
               <el-descriptions-item label="威望等级" v-if="user.groupId">
                 <el-tag size="small">{{ user.groupName }}({{ user.groupId }})</el-tag>

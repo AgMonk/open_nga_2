@@ -33,9 +33,6 @@ export default {
             ElMessage.success(res.message)
             this.reply.score.agree+=res.value;
           })
-          .catch(res => {
-            ElMessage.error(res[0])
-          })
     },
   },
   mounted() {

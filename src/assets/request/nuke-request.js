@@ -94,13 +94,17 @@ export const getNotices = () => nukeRequest({
 
     //赞踩
     let approbation = nukeData["2"];
+    console.log(nukeData["2"])
     approbation = !approbation ? undefined : approbation.map(r => ({
         uid: r["3"],
         thread: {
             tid: r["6"],
             subject: r["5"],
+            page: r["10"],
         },
-        pid: r["7"],
+        reply: {
+            to: r["7"],
+        },
         timestamp: {
             time: r["9"],
             value: second2String(r["9"])

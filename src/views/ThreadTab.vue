@@ -3,6 +3,7 @@
     <!--  <el-container direction="horizontal">-->
     <el-header>
       <div>{{ title }}</div>
+      <el-button size="small" type="success" @click="get(true)">刷新</el-button>
       <my-router-link :to="{name:'发帖',params:{action:'new'},query:{fid:forum.fid,stid:forum.setName?forum.toppedTid:undefined}}">
         <el-button size="small" type="primary">发帖</el-button>
       </my-router-link>
@@ -25,6 +26,8 @@ import {setTitle} from "@/assets/request/ProjectUtils";
 import ThreadTable from "@/components/nga/thread/thread-table";
 import NgaForumAvatar from "@/components/nga/forum/nga-forum-avatar";
 import MyRouterLink from "@/components/my/my-router-link";
+import {keypressEvent} from "@/assets/utils/DomUtils";
+import {ElMessage} from "element-plus";
 
 export default {
   name: "ThreadTab",
@@ -111,13 +114,26 @@ export default {
           this.threads = res.threads
           this.pageData = res.pageData
           this.forum = res.forum
+          if (force) {
+            ElMessage.success("刷新成功")
+          }
         }
       }
+    },
+    keypress(e) {
+      const methods = {
+        r: () => this.get(true),
+      }
+      keypressEvent(e, methods)
     },
   },
   mounted() {
     setTitle(this.$route.name)
+    document.addEventListener('keypress', this.keypress)
     this.get(false)
+  },
+  unmounted() {
+    document.removeEventListener('keypress', this.keypress)
   },
 
   watch: {

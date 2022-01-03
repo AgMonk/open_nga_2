@@ -22,6 +22,7 @@ export default {
     unEscape,
     parse(s) {
       this.contentArray = parseBbsCode(s)
+      console.log(this.contentArray)
       return this.contentArray
     }
   },

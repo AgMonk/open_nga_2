@@ -71,8 +71,13 @@
                 <el-divider content-position="left">附件区({{ row.attachs.length }})</el-divider>
                 <nga-attach-tag v-for="img in row.attachs" :data="img"/>
               </div>
-
-              <!--          todo 签名区-->
+              <div v-if="users[row.authorid].signature" style="text-align: left">
+                <el-collapse>
+                  <el-collapse-item title="[签名区]">
+                    <nga-signature :uid="row.authorid"/>
+                  </el-collapse-item>
+                </el-collapse>
+              </div>
             </el-card>
           </el-col>
 
@@ -108,14 +113,19 @@ import NgaCommentCard from "@/components/nga/read/nga-comment-card";
 import NgaReadOperationButton from "@/components/nga/read/nga-read-operation-button";
 import NgaContent from "@/components/nga/read/nga-content";
 import NgaAttachTag from "@/components/nga/read/nga-attach-tag";
+import NgaSignature from "@/components/nga/read/nga-signature";
+import {mapState} from "vuex";
 
 export default {
   name: "nga-read-table",
   components: {
+    NgaSignature,
     NgaAttachTag,
     NgaContent, NgaReadOperationButton, NgaCommentCard, NgaThreadTypeTag, MyRouterLink, MyTagWithTooltip, NgaLevelTag, NgaScoreTag, NgaReadUserCard, Setting
   },
-
+  computed: {
+    ...mapState('users', ["users"])
+  },
   data() {
     return {
       currentPage: 1,

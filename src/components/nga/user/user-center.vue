@@ -42,8 +42,7 @@
           签名
         </template>
         <el-descriptions-item v-if="data.signature">
-          {{ data.signature }}
-<!--          todo 解析签名论坛代码 -->
+          <nga-signature :uid="data.uid"/>
         </el-descriptions-item>
         <el-descriptions-item v-else>
           无
@@ -60,10 +59,11 @@ import {mapActions, mapState} from "vuex";
 import MyAvatar from "@/components/nga/user/my-avatar";
 import NgaUserLink from "@/components/nga/user/nga-user-link";
 import NgaMoneyText from "@/components/nga/user/nga-money-text";
+import NgaSignature from "@/components/nga/read/nga-signature";
 
 export default {
   name: "user-center",
-  components: {NgaMoneyText, NgaUserLink, MyAvatar},
+  components: {NgaSignature, NgaMoneyText, NgaUserLink, MyAvatar},
   data() {
     return {
       data: {},

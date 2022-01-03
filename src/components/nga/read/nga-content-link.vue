@@ -76,7 +76,7 @@ export default {
       const n1 = this.ngaThreadRegExp1.exec(src)
       const n2 = this.ngaThreadRegExp2.exec(src)
       const ngaMatch = n1 || n2;
-      console.log(ngaMatch)
+      // console.log(ngaMatch)
       if (ngaMatch && ["read", "thread"].includes(ngaMatch[ngaMatch.length - 2])) {
         //是nga链接 且为主题列表或回复列表
         this.type = 'nga'

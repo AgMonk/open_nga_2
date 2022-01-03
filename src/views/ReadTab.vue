@@ -30,7 +30,7 @@ import {mapActions, mapMutations} from "vuex";
 import {setTitle} from "@/assets/request/ProjectUtils";
 import NgaReadTable from "@/components/nga/read/nga-read-table";
 import {ElMessage} from "element-plus";
-import {keypressEvent} from "@/assets/utils/DomUtils";
+import {keypressEvent, scrollYToTop} from "@/assets/utils/DomUtils";
 import MyRouterLink from "@/components/my/my-router-link";
 
 export default {
@@ -114,6 +114,9 @@ export default {
     $route(to, from) {
       // console.log(to)
       if (to.path.startsWith('/read')) {
+        if (!to.hash) {
+          scrollYToTop()
+        }
         this.get(false, to)
       }
     }

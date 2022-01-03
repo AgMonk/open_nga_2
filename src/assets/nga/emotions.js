@@ -296,12 +296,12 @@ export const mapEmoteToArray = ({name, namespace, urlType, data}) => {
         let url;
         if (urlType === '官方') {
             code = `[s:${namespace}:${k}]`
-            url = `https://images.weserv.nl/?url=img4.nga.178.com/ngabbs/post/smile/${u}`
+            url = `/emote/${u}`
             // url = `https://img4.nga.178.com/ngabbs/post/smile/${u}`
         }
         if (urlType === '附件') {
             code = `[img]${u}[/img]`
-            url = `https://images.weserv.nl/?url=img.nga.178.com/attachments` + u.substring(1)
+            url = `/attachments` + u.substring(1)
             // url = `https://img.nga.178.com/attachments`+u.substring(1)
         }
         return {

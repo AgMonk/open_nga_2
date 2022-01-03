@@ -7,10 +7,11 @@ import NgaReplyLink from "@/components/nga/read/nga-reply-link";
 import NgaUserLink from "@/components/nga/user/nga-user-link";
 import NgaContentLink from "@/components/nga/read/nga-content-link";
 import {searchEmotes} from "@/assets/nga/emotions";
+import NgaContentImg from "@/components/nga/read/nga-content-img";
 
 export default {
   name: "nga-content-render",
-  components: {NgaEmoteImage, NgaReplyLink, NgaUserLink, NgaContentLink},
+  components: {NgaEmoteImage, NgaReplyLink, NgaUserLink, NgaContentLink, NgaContentImg},
   render() {
     return this.render(this.data)
     // return this.render(this.myData, 2)
@@ -28,7 +29,7 @@ export default {
         color: ({children, props}) => <span style={'color: ' + props}>{this.render(children)}</span>,
         size: ({children, props}) => <span style={"font-size:" + props}>{this.render(children)}</span>,
         align: ({children, props}) => <span style={"text-align:" + props}>{this.render(children)}</span>,
-        uid: ({children, props}) => <nga-user-link uid={props || children[0].raw}>{this.render(children)}</nga-user-link>,
+        uid: ({children, props}) => <nga-user-link uid={props || children[0].raw} text={children[0].raw}/>,
         tid: ({children, props}) => <nga-thread-link data={{tid: props}}>{this.render(children)}</nga-thread-link>,
         table: ({children}) => <table style="border: 1px solid black;border-collapse: collapse;">{this.render(children.filter(item => item.type === 'tr'))}</table>,
         tr: ({children}) => <tr style="border: 1px solid black;">{this.render(children.filter(item => item.type === 'td'))}</tr>,
@@ -81,7 +82,10 @@ export default {
             return <nga-content-link createText src={children[0].children}/>
           }
           return <nga-content-link src={props}>{this.render(children)}</nga-content-link>
-        }
+        },
+        img: ({children}) => {
+          return <nga-content-img src={children[0].raw}/>
+        },
       }
     }
   },

@@ -16,8 +16,6 @@
 <script>
 
 import MyRouterLink from "@/components/my/my-router-link";
-const proxy ='https://images.weserv.nl/?url='
-const defaultProxy = 'https://images.weserv.nl/?url='
 
 // icon0: `https://img4.nga.178.com/proxy/cache_attach/ficon/${f.fid}u.png`,
 //     icon1: `http://img4.ngacn.cc/ngabbs/nga_classic/f/${f.fid}.png`
@@ -28,10 +26,10 @@ export default {
   components: {MyRouterLink},
   data() {
     return {
-      src:``,
-      route:{},
-      defaultSrc :`${defaultProxy}img4.nga.178.com/ngabbs/nga_classic/f/00.png`,
-      name:"",
+      src: ``,
+      route: {},
+      defaultSrc: require('@/assets/icon/00.png'),
+      name: "",
     }
   },
   methods: {
@@ -45,8 +43,8 @@ export default {
         this.src = this.defaultSrc;
         this.route = {name:"浏览合集主题",params:{page:1,stid}}
       }else{
-        this.src = `${proxy}img4.nga.178.com/proxy/cache_attach/ficon/${fid}u.png`;
-        this.route = {name:"浏览版面主题",params:{page:1,fid}}
+        this.src = `/icon/f/${fid}u.png`;
+        this.route = {name: "浏览版面主题", params: {page: 1, fid}}
       }
     },
   },

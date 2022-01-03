@@ -8,10 +8,11 @@ import NgaUserLink from "@/components/nga/user/nga-user-link";
 import NgaContentLink from "@/components/nga/read/nga-content-link";
 import {searchEmotes} from "@/assets/nga/emotions";
 import NgaContentImg from "@/components/nga/read/nga-content-img";
+import NgaCodeTextarea from "@/components/nga/read/nga-code-textarea";
 
 export default {
   name: "nga-content-render",
-  components: {NgaEmoteImage, NgaReplyLink, NgaUserLink, NgaContentLink, NgaContentImg},
+  components: {NgaEmoteImage, NgaReplyLink, NgaUserLink, NgaContentLink, NgaContentImg, NgaCodeTextarea},
   render() {
     return this.render(this.data)
     // return this.render(this.myData, 2)
@@ -75,9 +76,9 @@ export default {
           return <span>{raw}</span>
         },
         url: ({children, props}) => {
-          console.log("url")
-          console.log(children)
-          console.log(props)
+          // console.log("url")
+          // console.log(children)
+          // console.log(props)
           if (!props) {
             return <nga-content-link createText src={children[0].children}/>
           }
@@ -86,6 +87,9 @@ export default {
         img: ({children}) => {
           return <nga-content-img src={children[0].raw}/>
         },
+        code: ({children, props}) => {
+          return <nga-code-textarea code={children} lang={props}/>
+        }
       }
     }
   },

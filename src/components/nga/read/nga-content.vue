@@ -26,7 +26,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.parse(this.content))
+    // console.log(this.parse(this.content))
   },
   watch: {
     content(s) {

@@ -2,9 +2,15 @@
   <el-tooltip effect="light">
     <template #content>
       <h3>点击打开原图</h3>
-      <div>
+      <div v-if="src">
         <el-divider content-position="left">复制</el-divider>
-        <!--        <my-copy-button :copy-text="" />-->
+        <my-copy-button v-if="isNgaImg(src)" :copy-text="`[img]./${src.substring(src.indexOf('mon_'))}[/img]`" text="BbsCode"/>
+        <my-copy-button v-if="isNgaImg(src)" :copy-text="`https://img.nga.178.com${link}`" text="地址"/>
+      </div>
+      <div v-if="link">
+        <el-divider content-position="left">打开</el-divider>
+        <el-button size="small" type="primary" @click="open(link)">打开原图</el-button>
+        <el-button size="small" type="primary" @click="download(link)">下载原图</el-button>
       </div>
     </template>
     <span><el-image v-if="show" :preview-src-list="srcList" :src="link" hide-on-click-modal/></span>
@@ -26,9 +32,22 @@ export default {
     }
   },
   methods: {
+    download(url) {
+      const a = document.createElement("a")
+      a.href = url;
+      a.download = url.substring(url.lastIndexOf('/') + 1, url.lastIndexOf('.'))
+      a.click()
+    },
+    open(url) {
+      window.open(url)
+    },
+    isNgaImg(src) {
+      //判断是否为nga上的图片
+      return src.startsWith('https://img.nga.178.com/attachments/') || src.startsWith('http://img.nga.178.com/attachments/') || src.startsWith('./')
+    },
     update(src) {
       this.show = false;
-      if (src.startsWith('https://img.nga.178.com/attachments/') || src.startsWith('http://img.nga.178.com/attachments/') || src.startsWith('./')) {
+      if (this.isNgaImg(src)) {
         this.link = '/attachments/' + src.substring(src.indexOf("mon_"))
         this.srcList = ['/attachments/' + src.replace(".medium.jpg", "").replace(/\.thumb.*jpg/, "")]
         this.show = true;
@@ -48,6 +67,7 @@ export default {
   },
   props: {
     src: {type: String, required: true},
+    filename: {type: String},
   },
 }
 

@@ -13,6 +13,9 @@
         </template>
         <el-button size="mini" type="primary" @click="showAllEmotes">表情</el-button>
       </div>
+      <div>
+        <el-input v-model="postParams.subject" placeholder="标题"/>
+      </div>
       <el-input id="nga-post-textarea"
                 v-model="postParams.content"
                 :rows="!postParams.content?5:Math.max(postParams.content.split(`\n`).length+1,5)" placeholder="正文"

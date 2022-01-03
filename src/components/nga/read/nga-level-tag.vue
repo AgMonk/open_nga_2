@@ -1,45 +1,37 @@
 <template>
   <my-tag-with-tooltip effect="light">
     <template #tooltip>
-      <el-button type="primary" size="small"
-                 v-if="reply.pid"
-                 v-clipboard:copy="reply.pid"
-                 v-clipboard:error="onError"
-                 v-clipboard:success="onCopy"
-      >复制PID
-      </el-button>
-      <el-button type="primary" size="small"
-                 v-clipboard:copy="reply.level"
-                 v-clipboard:error="onError"
-                 v-clipboard:success="onCopy"
-      >复制楼层号
-      </el-button>
-
-
+      <div>
+        <el-divider content-position="left">复制</el-divider>
+        <my-copy-button :copy-text="reply.pid" text="PID"/>
+        <my-copy-button :copy-text="reply.level" text="楼层号"/>
+        <my-copy-button :copy-text="getBbsCode(reply)" text="BbsCode"/>
+      </div>
       <div style="margin-top: 3px">
-        <el-button v-clipboard:copy='getBbsCode(reply)' v-clipboard:error="onError"
-                   v-clipboard:success="onCopy"
-                   size="small"
-                   type="primary"
-        >复制BbsCode
-        </el-button>
+        <el-divider content-position="left">打开</el-divider>
         <el-button size="small"
                    type="primary"
-                   @click="reply.pid?open(`https://bbs.nga.cn/read.php?pid=${reply.pid}&to`):open(`https://bbs.nga.cn/read.php?tid=${reply.tid}`)">打开官方地址
+                   @click="reply.pid?open(`https://bbs.nga.cn/read.php?pid=${reply.pid}&to`):open(`https://bbs.nga.cn/read.php?tid=${reply.tid}`)">官方地址
+        </el-button>
+
+        <el-button size="small"
+                   type="primary"
+                   @click="$router.push({name:'单个回复',params:{pid: reply.pid}})">本回复
         </el-button>
 
       </div>
+
     </template>
     #{{ reply.level }}
   </my-tag-with-tooltip>
 </template>
 <script>
-import {ElMessage} from "element-plus";
 import MyTagWithTooltip from "@/components/my/my-tag-with-tooltip";
+import MyCopyButton from "@/components/my/my-copy-button";
 
 export default {
   name: 'nga-agree-button',
-  components: {MyTagWithTooltip},
+  components: {MyCopyButton, MyTagWithTooltip},
   methods: {
     getBbsCode(reply) {
       if (reply.level === 0) {
@@ -50,17 +42,10 @@ export default {
     open(url) {
       window.open(url)
     },
-    onCopy() {
-      ElMessage.success("复制成功")
-    },
-    onError(e) {
-      ElMessage.error("复制失败")
-      console.error(e)
-    },
   },
   props: {
-    reply:{
-      type:Object,
+    reply: {
+      type: Object,
       required: true,
     }
   },

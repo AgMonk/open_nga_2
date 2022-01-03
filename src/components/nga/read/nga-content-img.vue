@@ -1,13 +1,23 @@
 <template>
-  <el-tooltip content="点击打开原图" effect="light">
+  <el-tooltip effect="light">
+    <template #content>
+      <h3>点击打开原图</h3>
+      <div>
+        <el-divider content-position="left">复制</el-divider>
+        <!--        <my-copy-button :copy-text="" />-->
+      </div>
+    </template>
     <span><el-image v-if="show" :preview-src-list="srcList" :src="link" hide-on-click-modal/></span>
   </el-tooltip>
 </template>
 
 <script>
 
+import MyCopyButton from "@/components/my/my-copy-button";
+
 export default {
   name: "nga-content-img",
+  components: {MyCopyButton},
   data() {
     return {
       link: "",

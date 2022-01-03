@@ -94,7 +94,6 @@ export const getNotices = () => nukeRequest({
 
     //赞踩
     let approbation = nukeData["2"];
-    console.log(nukeData["2"])
     approbation = !approbation ? undefined : approbation.map(r => ({
         uid: r["3"],
         thread: {

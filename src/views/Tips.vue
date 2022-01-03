@@ -15,6 +15,10 @@
             <div>q 、 e ：前进、后退(输入框中无效)</div>
           </div>
           <div>
+            <h4>主题列表</h4>
+            <div>r ：刷新当前页</div>
+          </div>
+          <div>
             <h4>主题内</h4>
             <div>a 、 d ：翻页</div>
             <div>A 、 D ：第一页、最后一页</div>

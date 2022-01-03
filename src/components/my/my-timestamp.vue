@@ -19,8 +19,10 @@ export default {
       const range = Math.floor(new Date().getTime() / 1000) - e;
       if (range < 60) {
         this.text = `${range}秒前`
+        this.clazz = 'b1'
       } else if (range < 60 * 60) {
         this.text = `${Math.floor(range / 6) / 10}分钟前`
+        this.clazz = 'b1'
       } else if (range < 60 * 60 * 24) {
         this.text = `${Math.floor(range / 6 / 60) / 10}小时前`
         this.clazz = 'b2'

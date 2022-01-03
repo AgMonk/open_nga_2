@@ -7,6 +7,14 @@
       <my-router-link :to="{name:'发帖',params:{action:'new'},query:{fid:forum.fid,stid:forum.setName?forum.toppedTid:undefined}}">
         <el-button size="small" type="primary">发帖</el-button>
       </my-router-link>
+      <el-switch
+          v-model="orderByPostDateDesc"
+          active-text="按发布时间排序"
+      />
+      <el-switch
+          v-model="recommend"
+          active-text="精华区"
+      />
     </el-header>
     <el-main style="--el-main-padding:0">
       <div v-if="forum && forum.children && forum.children.length>0">
@@ -28,6 +36,7 @@ import NgaForumAvatar from "@/components/nga/forum/nga-forum-avatar";
 import MyRouterLink from "@/components/my/my-router-link";
 import {keypressEvent} from "@/assets/utils/DomUtils";
 import {ElMessage} from "element-plus";
+import {copyObj} from "@/assets/utils/ObjectUtils";
 
 export default {
   name: "ThreadTab",
@@ -38,6 +47,8 @@ export default {
       threads: [],
       pageData: {},
       forum: {},
+      orderByPostDateDesc: false,
+      recommend: false,
     }
   },
 
@@ -131,13 +142,38 @@ export default {
     setTitle(this.$route.name)
     document.addEventListener('keypress', this.keypress)
     this.get(false)
+
+    this.orderByPostDateDesc = this.$route.query.orderByPostDateDesc === '1'
+    this.recommend = this.$route.query.recommend === '1'
   },
   unmounted() {
     document.removeEventListener('keypress', this.keypress)
   },
 
   watch: {
+    orderByPostDateDesc(to, from) {
+      const r = copyObj(this.$route)
+      if (to) {
+        r.query.orderByPostDateDesc = '1'
+      } else {
+        delete r.query.orderByPostDateDesc
+      }
+      console.log(r)
+      this.$router.push(r)
+    },
+    recommend(to, from) {
+      const r = copyObj(this.$route)
+      if (to) {
+        r.query.recommend = '1'
+      } else {
+        delete r.query.recommend
+      }
+      console.log(r)
+      this.$router.push(r)
+    },
     $route(to, from) {
+      this.orderByPostDateDesc = this.$route.query.orderByPostDateDesc === '1'
+      this.recommend = this.$route.query.recommend === '1'
       this.get(false, to)
     }
   },

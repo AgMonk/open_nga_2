@@ -67,10 +67,9 @@
                   <nga-comment-card :reply="hot"/>
                 </div>
               </div>
-              <div v-if="row.attachs && row.attachs.length>0" id="附件区">
+              <div v-if="row.attachs && row.attachs.length>0" id="附件区" style="text-align: left">
                 <el-divider content-position="left">附件区({{ row.attachs.length }})</el-divider>
-                <!--          todo 附件区-->
-
+                <nga-attach-tag v-for="img in row.attachs" :data="img"/>
               </div>
 
               <!--          todo 签名区-->
@@ -108,10 +107,14 @@ import {report} from "@/assets/request/nuke-request";
 import NgaCommentCard from "@/components/nga/read/nga-comment-card";
 import NgaReadOperationButton from "@/components/nga/read/nga-read-operation-button";
 import NgaContent from "@/components/nga/read/nga-content";
+import NgaAttachTag from "@/components/nga/read/nga-attach-tag";
 
 export default {
   name: "nga-read-table",
-  components: {NgaContent, NgaReadOperationButton, NgaCommentCard, NgaThreadTypeTag, MyRouterLink, MyTagWithTooltip, NgaLevelTag, NgaScoreTag, NgaReadUserCard, Setting},
+  components: {
+    NgaAttachTag,
+    NgaContent, NgaReadOperationButton, NgaCommentCard, NgaThreadTypeTag, MyRouterLink, MyTagWithTooltip, NgaLevelTag, NgaScoreTag, NgaReadUserCard, Setting
+  },
 
   data() {
     return {

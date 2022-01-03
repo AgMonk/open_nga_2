@@ -20,13 +20,13 @@ export default {
     },
     update(src) {
 
-      if (src.startsWith('https://img.nga.178.com/attachments/') || src.startsWith('./')) {
+      if (src.startsWith('https://img.nga.178.com/attachments/') || src.startsWith('http://img.nga.178.com/attachments/') || src.startsWith('./')) {
         this.link = '/attachments/' + src.substring(src.indexOf("mon_"))
         this.openUrl = '/attachments/' + src
             .replace(".medium.jpg", "")
             .replace(/\.thumb.*jpg/, "")
       } else {
-        this.link = '/proxy' + src.replace('https://', '').replace('http://', '')
+        this.link = '/proxy/' + src.replace('https://', '').replace('http://', '')
       }
     },
   },

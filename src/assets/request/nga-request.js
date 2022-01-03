@@ -46,11 +46,11 @@ export const parseAvatar = (avatar) => {
         // noinspection HttpUrlsUsage
         const prefix1 = 'http://img.nga.178.com/avatars'
         if (avatar.startsWith(prefix) || avatar.startsWith(prefix1)) {
-            avatar = avatar.replace(prefix, "").replace(prefix1, "")
-            avatar = avatar.replace(/\.a\//g, "").replace(/\?\d+/g, "")
-            const p = avatar.substring(0, avatar.lastIndexOf('/') + 1)
-            return avatar.substring(avatar.lastIndexOf('/') + 1).split("|").map(i => {
-                return prefix + p + i;
+            avatar = avatar.replace(/\.a\//g, "").replace(/\?\d+/g, "").split("|")
+            const p = avatar[0].substring(avatar[0].indexOf('/avatars'), avatar[0].lastIndexOf('/') + 1)
+            return avatar.map(i => {
+                const name = i.substring(i.lastIndexOf('/') + 1)
+                return p + name;
             })
 
         } else {

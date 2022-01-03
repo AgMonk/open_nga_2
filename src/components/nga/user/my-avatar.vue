@@ -4,15 +4,13 @@
       class="nga-avatar"
       hide-on-click-modal
       :infinite="false"
-      :src="getUrl(list[i])"
-      :preview-src-list="list.map(item=>getUrl(item))"
+      :preview-src-list="list"
+      :src="list[i]"
       :initial-index="i"
       style="max-width: 200px"
   />
 </template>
 <script>
-const proxy = 'https://images.weserv.nl/?url='
-const defaultProxy = 'https://images.weserv.nl/?url='
 
 export default {
   name: "my-avatar",
@@ -26,11 +24,6 @@ export default {
     errorHandler(e) {
       console.error(e)
     },
-    getUrl(url) {
-      if (url) {
-        return proxy + url.replace("https://", "").replace("http://", "")
-      }
-    }
   },
   mounted() {
     this.random = Math.floor(Math.random() * this.list.length);

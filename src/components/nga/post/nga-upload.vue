@@ -141,10 +141,24 @@ export default {
     onRemove(file, fileList) {
       this.$emit("file-list-changed", fileList)
     },
+    update(e) {
+      if (!e) {
+        return
+      }
+      console.log(e)
+      this.fileList = this.fileList.filter(i => i.url.startsWith('blob'))
+      this.fileList = [...e, ...this.fileList]
+      console.log(this.fileList)
+    },
   },
   mounted() {
+    this.update(this.existsFiles)
   },
-  watch: {},
+  watch: {
+    existsFiles(to) {
+      this.update(to)
+    }
+  },
   props: {
     auth: {  // 必须提供字段
       type: String,
@@ -158,6 +172,7 @@ export default {
       required: true,
       type: Number,
     },
+    existsFiles: {},
   },
 }
 

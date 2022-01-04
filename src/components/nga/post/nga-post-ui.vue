@@ -26,9 +26,8 @@
       />
 
       <!--      todo 附件区-->
-      <!--      todo 上传-->
       <div>
-        <nga-upload v-if="auth" :auth="auth" :fid="fid"/>
+        <nga-upload v-if="auth" :auth="auth" :exists-files="attachs" :fid="fid"/>
       </div>
     </el-main>
 
@@ -38,7 +37,6 @@
         <el-tab-pane v-for="item in emoteOptions" :label="item.name" :name="item.name" style="text-align: left">
           <span v-for="e in item.data" v-if="currentEmoteTab===item.name" style="cursor: pointer;" @click="clickEmote(e.code,item.name)">
             <nga-emote-image :data="e"/>
-            <!--            {{e}}-->
           </span>
         </el-tab-pane>
       </el-tabs>
@@ -206,7 +204,6 @@ export default {
   },
   mounted() {
     this.postParams.content = this.content
-
     if (this.focus) {
       this.textarea().focus()
     }
@@ -218,6 +215,7 @@ export default {
     auth: {},
     focus: {type: Boolean, default: false},
     fid: {type: Number, required: true},
+    attachs: {}
   },
 }
 

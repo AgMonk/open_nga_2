@@ -90,7 +90,9 @@ export default {
         },
         code: ({children, props}) => {
           return <nga-code-textarea code={children} lang={props}/>
-        }
+        },
+        r: ({children}) => <span style='display: block;float: right;'>{this.render(children)}</span>,
+        l: ({children}) => <span style='display: block;float: left;'>{this.render(children)}</span>,
       }
     }
   },

@@ -102,7 +102,10 @@ let tagParser = {
     "table": (code) => simpleParser("table", code),
     "size": (code) => simpleParser("size", code),
     "tr": (code) => simpleParser("tr", code),
+    "r": (code) => simpleParser("r", code),
+    "l": (code) => simpleParser("l", code),
     "td": (code) => simpleParser("td", code),
+    "dice": (code) => simpleParser("dice", code),
     "align": (code) => simpleParser("align", code),
     "code": (code) => codeParser("code", code),
 }

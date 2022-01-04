@@ -2,10 +2,10 @@
   <el-tooltip effect="light">
     <template #content>
       <h3>点击打开原图</h3>
-      <div v-if="src">
+      <div v-if="src && isNgaImg(src)">
         <el-divider content-position="left">复制</el-divider>
-        <my-copy-button v-if="isNgaImg(src)" :copy-text="`[img]./${src.substring(src.indexOf('mon_'))}[/img]`" text="BbsCode"/>
-        <my-copy-button v-if="isNgaImg(src)" :copy-text="`https://img.nga.178.com${link}`" text="地址"/>
+        <my-copy-button :copy-text="`[img]./${src.substring(src.indexOf('mon_'))}[/img]`" text="BbsCode"/>
+        <my-copy-button :copy-text="`https://img.nga.178.com${link}`" text="地址"/>
       </div>
       <div v-if="link">
         <el-divider content-position="left">打开</el-divider>
@@ -35,7 +35,7 @@ export default {
     download(url) {
       const a = document.createElement("a")
       a.href = url;
-      a.download = url.substring(url.lastIndexOf('/') + 1, url.lastIndexOf('.'))
+      a.download = url.substring(url.lastIndexOf('/') + 1)
       a.click()
     },
     open(url) {
@@ -52,7 +52,7 @@ export default {
         this.srcList = ['/attachments/' + src.replace(".medium.jpg", "").replace(/\.thumb.*jpg/, "")]
         this.show = true;
       } else {
-        this.link = '/proxy/' + src.replace('https://', '').replace('http://', '')
+        this.link = '/proxy/' + encodeURI(src.replace('https://', '').replace('http://', ''))
         this.show = true;
       }
     },

@@ -246,7 +246,7 @@ export const handleAttachs = reply => {
                     type = '图片'
                 }
                 if (["mp4", "mp3"].includes(ext)) {
-                    type = '媒体'
+                    type = ext
                 }
                 if ('zip' === ext) {
                     type = '压缩包'

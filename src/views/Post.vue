@@ -47,6 +47,7 @@ export default {
       console.error(reason)
       history.back()
     })
+    console.log(this.preData)
     if (this.preData) {
       this.showPostUi = true;
     }

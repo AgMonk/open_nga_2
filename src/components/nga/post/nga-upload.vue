@@ -17,36 +17,24 @@
         with-credentials
     >
       <template #file="{file}">
-        <div v-if="file.type==='图片'">
-          <el-image :id="file.url" :preview-src-list="[getUrl(file.url)]" :src="getUrl(file.url)" hide-on-click-modal/>
+        <div v-if="file">
+          <!--图标里的内容-->
+            <el-image v-if="isImage(file)"
+                      :id="file.url" :preview-src-list="[getUrl(file.url)]" :src="getUrl(file.url)" hide-on-click-modal/>
+          <span v-if="isZip(file)">[压缩包] {{ file.name }}</span>
+          <!--loading 图标-->
           <span v-if="!file.status || file.status!==`success`" class="el-upload-list__item-actions">
-                     <el-icon class="is-loading"><loading/></el-icon>
-                    </span>
-          <span v-if="file.status&& file.status===`success`" class="el-upload-list__item-actions">
-                      <el-icon class="click-able" @click="handlePictureCardPreview(file)"><zoom-in/></el-icon>
-
-
-            <!--          <span-->
-            <!--              class="el-upload-list__item-preview"-->
-            <!--              @click="addFile(file)"-->
-            <!--          >-->
-            <!--            <i class="el-icon-plus"></i>-->
-            <!--          </span>-->
-            <!--          <span-->
-            <!--              class="el-upload-list__item-delete"-->
-            <!--              @click="remove(file)"-->
-            <!--          >-->
-            <!--            <i class="el-icon-delete"></i>-->
-            <!--          </span>-->
-                  </span>
+             <el-icon class="is-loading"><loading/></el-icon>
+          </span>
+          <!--完成后的操作图标-->
+          <span v-if="file.status&& file.status===`success`">
+          <span class="el-upload-list__item-actions">
+            <el-icon v-if="isImage(file)" class="click-able" @click="clickZoomIn(file)"><zoom-in/></el-icon>
+            <el-icon class="click-able" @click="clickPlus(file)"><plus/></el-icon>
+            <el-icon class="click-able" @click="clickDelete(file)"><delete/></el-icon>
+          </span>
+          </span>
         </div>
-        <div v-else-if="file.type==='压缩包'">
-          压缩包
-        </div>
-        <div v-else-if="file.type==='媒体'">
-          媒体
-        </div>
-
       </template>
       <el-icon class="el-icon--upload">
         <upload-filled/>
@@ -59,16 +47,17 @@
 </template>
 
 <script>
-import {Loading, UploadFilled, ZoomIn} from '@element-plus/icons';
+import {Briefcase, Delete, Loading, Plus, UploadFilled, ZoomIn} from '@element-plus/icons';
 import {encodeUTF8} from "@/assets/utils/StringUtils";
 import {ElMessage} from "element-plus";
+import {isImage, isMp3, isMp4, isZip} from "@/assets/utils/FileUtils";
 
 export default {
   name: "nga-upload",
-  components: {UploadFilled, Loading, ZoomIn},
+  emits: ["delete", "add", "plus"],
+  components: {UploadFilled, Loading, ZoomIn, Delete, Plus, Briefcase},
   data() {
     return {
-
       params: {
         func: "upload",
         v2: 1,
@@ -77,14 +66,10 @@ export default {
         __inchst: "UTF8",
         auth: this.auth,
         fid: this.fid,
-
       },
-
       fileList: [],
-
     }
   },
-  emits: ["file-list-changed"],
   methods: {
     getUrl(url) {
       if (url.startsWith('mon_')) {
@@ -92,13 +77,29 @@ export default {
       }
       return url;
     },
-    handlePictureCardPreview(file) {
+    isImage, isZip, isMp3, isMp4,
+    clickPlus(file) {
+      console.log(file)
+      /*todo*/
+    },
+    clickDelete(file) {
+      console.log(file)
+      if (file.url.startsWith('mon_')) {
+        /*todo 请求删除附件*/
+      } else {
+        this.$refs.upload.handleRemove(file)
+        console.log(file.response)
+        this.$emit('delete', file.response)
+      }
+      /*todo*/
+    },
+    clickZoomIn(file) {
       // this.dialogImageUrl = file.url;
       // this.dialogVisible = true;
       document.getElementById(file.url).click()
     },
     beforeUpload(file) {
-
+      console.log(file)
       // 把非数字、 字母的字符使用 UTF-8编码
       let regExp = /[\W_]/
       let name = file.name;
@@ -142,18 +143,19 @@ export default {
       }
 
       //上传成功后添加属性
-      const {raw} = file
-      const {type} = raw
-      if (type.startsWith('image')) {
+      if (isImage(file)) {
         file.type = '图片'
-        file.ext = type.split('/')[1]
-      } else if (type === 'application/x-zip-compressed') {
+        file.ext = file.raw.type.split('/')[1]
+      } else if (isZip(file)) {
         file.type = '压缩包'
         file.ext = 'zip'
+      } else if (isMp3(file)) {
+        file.type = 'mp3'
+        file.ext = 'mp3'
+      } else if (isMp4(file)) {
+        file.type = 'mp4'
+        file.ext = 'mp4'
       }
-
-
-      this.$emit("file-list-changed", fileList)
     },
     onError(response, file, fileList) {
       console.log(response)
@@ -161,7 +163,8 @@ export default {
       console.log(fileList)
     },
     onRemove(file, fileList) {
-      this.$emit("file-list-changed", fileList)
+      console.log(file)
+      console.log(fileList)
     },
     update(e) {
       if (!e) {
@@ -203,6 +206,7 @@ export default {
 <style scoped>
 .click-able {
   cursor: pointer;
+  margin: 0 5px;
 }
 
 .el-upload-dragger {

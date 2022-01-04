@@ -29,7 +29,8 @@ export default {
         case "压缩包":
           this.tagType = 'danger';
           break;
-        case "媒体":
+        case "mp3":
+        case "mp4":
           this.tagType = 'warning';
           break;
         default:
@@ -43,7 +44,8 @@ export default {
           return 'success';
         case "压缩包":
           return 'danger';
-        case "媒体":
+        case "mp3":
+        case "mp4":
           return 'warning';
         default:
           return ""

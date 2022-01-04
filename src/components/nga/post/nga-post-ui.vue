@@ -27,6 +27,9 @@
 
       <!--      todo 附件区-->
       <!--      todo 上传-->
+      <div>
+        <nga-upload v-if="auth" :auth="auth" :fid="fid"/>
+      </div>
     </el-main>
 
 
@@ -56,10 +59,11 @@ import {emotes, mapEmoteToArray, searchEmotes} from "@/assets/nga/emotions";
 import "@/assets/nga/emotions_cus"
 import NgaEmoteImage from "@/components/nga/post/nga-emote-image";
 import {ElMessage} from "element-plus";
+import NgaUpload from "@/components/nga/post/nga-upload";
 
 export default {
   name: "nga-post-ui",
-  components: {NgaEmoteImage},
+  components: {NgaUpload, NgaEmoteImage},
   data() {
     return {
       emotes,
@@ -213,6 +217,7 @@ export default {
     content: {},
     auth: {},
     focus: {type: Boolean, default: false},
+    fid: {type: Number, required: true},
   },
 }
 

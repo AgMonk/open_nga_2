@@ -6,7 +6,7 @@
     </el-header>
 
     <el-main>
-      <nga-post-ui v-if="showPostUi" :auth="preData.auth" :content="preData.content" :preParam="params" focus/>
+      <nga-post-ui v-if="showPostUi" :auth="preData.auth" :content="preData.content" :fid="preData.forum.fid" :preParam="params" focus/>
     </el-main>
     <el-footer></el-footer>
   </el-container>

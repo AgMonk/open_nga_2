@@ -1,15 +1,17 @@
-import {requestUnity} from "@/assets/request/nga-request";
+import {handleAttachs, requestUnity} from "@/assets/request/nga-request";
 
 export const postRequest = (data) => requestUnity({
     url: "post.php",
     data
 }).then(res => {
     const {data} = res;
+    handleAttachs(data)
     const r = {
         attachUrl: data.attach_url,
         content: data.content,
         forum: data.forum,
         auth: data.auth,
+        attachs: data.attachs,
     };
     const {__MESSAGE} = data;
     if (__MESSAGE) {
@@ -27,6 +29,7 @@ export const postRequest = (data) => requestUnity({
         })
         return message;
     }
+    console.log(r)
     return r
 })
 

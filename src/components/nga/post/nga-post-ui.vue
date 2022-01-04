@@ -24,6 +24,9 @@
                 @keyup.enter.ctrl="sendPost"
                 @keyup.enter.alt="parseCode"
       />
+
+      <!--      todo 附件区-->
+      <!--      todo 上传-->
     </el-main>
 
 

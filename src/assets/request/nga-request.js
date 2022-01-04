@@ -235,6 +235,32 @@ const handleThread = thread => {
     delete thread.tpcurl;
 };
 
+export const handleAttachs = reply => {
+    if (reply.hasOwnProperty('attachs')) {
+        //ext 的可能项为 jpg png gif mp4 mp3 zip
+        reply.attachs = obj2Array(reply.attachs)
+            .map(i => {
+                const {attachurl, dscp, ext, size, url_utf8_org_name} = i;
+                let type = '其他';
+                if (["jpg", "png", "gif"].includes(ext)) {
+                    type = '图片'
+                }
+                if (["mp4", "mp3"].includes(ext)) {
+                    type = '媒体'
+                }
+                if ('zip' === ext) {
+                    type = '压缩包'
+                }
+                return {
+                    url: attachurl,
+                    dsc: dscp,
+                    name: decodeURI(url_utf8_org_name),
+                    ext, size, type,
+                }
+            })
+    }
+};
+
 const handleReply = reply => {
     handleThreadType(reply)
 
@@ -323,29 +349,7 @@ const handleReply = reply => {
     }
 
     // 附件
-    if (attachs) {
-        //ext 的可能项为 jpg png gif mp4 mp3 zip
-        reply.attachs = obj2Array(attachs)
-            .map(i => {
-                const {attachurl, dscp, ext, size, url_utf8_org_name} = i;
-                let type = '其他';
-                if (["jpg", "png", "gif"].includes(ext)) {
-                    type = '图片'
-                }
-                if (["mp4", "mp3"].includes(ext)) {
-                    type = '媒体'
-                }
-                if ('zip' === ext) {
-                    type = '压缩包'
-                }
-                return {
-                    url: attachurl,
-                    dsc: dscp,
-                    name: decodeURI(url_utf8_org_name),
-                    ext, size, type,
-                }
-            })
-    }
+    handleAttachs(reply);
 
     // 热评
     if (hotreply) {

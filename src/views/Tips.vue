@@ -23,7 +23,7 @@
             <div>a 、 d ：翻页</div>
             <div>A 、 D ：第一页、最后一页</div>
             <div>r ：刷新当前页</div>
-            <div>R ：回复主题</div>
+            <div>R ：回复当前主题</div>
             <div>Q ：回到该主题所在的版面/合集</div>
           </div>
         </el-collapse-item>

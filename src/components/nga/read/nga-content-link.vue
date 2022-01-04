@@ -88,11 +88,6 @@ export default {
           }
         }
       }
-
-      console.log(!this.$slots.default)
-
-      console.log(o)
-
     },
     parse(src) {
       const n1 = this.ngaThreadRegExp1.exec(src)

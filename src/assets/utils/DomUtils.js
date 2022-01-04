@@ -86,8 +86,8 @@ export const keypressEvent = (e, methods) => {
 }
 
 export const scrollMethods = {
-    s: () => scrollY(150),
+    s: () => scrollY(200),
     S: () => scrollYToBottom(),
-    w: () => scrollY(-150),
+    w: () => scrollY(-200),
     W: () => scrollYToTop(),
 }

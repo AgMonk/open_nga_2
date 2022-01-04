@@ -88,8 +88,9 @@ export default {
       if (force) {
         ElMessage.success("刷新成功")
       }
-      this.loading = false;
-
+      await this.$nextTick(() => {
+        this.loading = false
+      })
     },
     keypress(e) {
       const methods = {

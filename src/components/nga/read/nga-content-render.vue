@@ -70,7 +70,7 @@ export default {
         },
         pid: ({children, props}) => {
           const [pid, tid, page] = props.split(',')
-          console.log(`pid渲染 ${pid} ${tid} ${page}`)
+          // console.log(`pid渲染 ${pid} ${tid} ${page}`)
           return <nga-reply-link pid={pid} tid={tid} page={page}>{this.render(children)}</nga-reply-link>
         },
         raw: ({raw}) => {

@@ -15,12 +15,14 @@
       <el-input v-model="destLevel" size="small" style="width:100px"/>
       <el-button size="small" type="success" @click="jumpLevel">跳转楼层</el-button>
 
+<!--      回复列表-->
       <div v-for="(row,i) in replies" :id="'P'+row.pid">
         <el-row :id="'L'+row.level" :key="i">
+          <!--        用户卡片-->
           <el-col :span="6">
-            <!--        用户卡片-->
             <nga-read-user-card :uid="row.authorid"/>
           </el-col>
+          <!--          回复内容-->
           <el-col :span="18">
             <el-card class="box-card" style="height:100%">
               <template #header>
@@ -51,6 +53,7 @@
               </template>
 
               <div>
+                <h2 v-if="row.subject">{{ row.subject }}</h2>
                 <nga-content :content="row.content"/>
               </div>
 
@@ -243,5 +246,11 @@ export default {
 .divider {
   color: red;
   font-weight: bold;
+}
+
+.el-collapse {
+  --el-collapse-border-color: #91adef;
+  --el-collapse-header-height: 30px;
+  --el-collapse-header-bg-color: #9afdda;
 }
 </style>

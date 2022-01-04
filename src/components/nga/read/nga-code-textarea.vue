@@ -1,15 +1,9 @@
 <template>
   <!--  <el-container direction="horizontal">-->
   <div style="border: 1px solid black;background-color: #78e1b3">
-    <h4 style="margin:1px 0;">lang = {{ lang }}
-      <el-button v-clipboard:copy="this.data.join('\n')" v-clipboard:error="onError" v-clipboard:success="onCopy" size="mini"
-                 type="primary">复制代码
-      </el-button>
-    </h4>
+    <h4 style="margin:1px 0;">lang = {{ lang }}</h4>
     <div class="code-area">
-      <div v-for="(item,i) in  data">
-        <pre>{{ item }}</pre>
-      </div>
+      <pre><code :class="clazz">{{ data }}</code></pre>
     </div>
   </div>
 
@@ -18,12 +12,16 @@
 <script>
 import {unEscape} from "@/assets/utils/StringUtils";
 import {ElMessage} from "element-plus";
+import MyCopyButton from "@/components/my/my-copy-button";
+import Prism from "prismjs"; //引入插件
 
 export default {
   name: "nga-code-textarea",
+  components: {MyCopyButton},
   data() {
     return {
       data: [],
+      clazz: '',
     }
   },
   methods: {
@@ -36,8 +34,15 @@ export default {
       console.error(e)
     },
     update(e) {
-      this.data = unEscape(this.code).split('\n')
-      console.log(this.data)
+      const lang = this.lang ? this.lang : 'js'
+      this.data = unEscape(this.code)
+      const clazz = ['line-numbers', 'copy-to-clipboard'];
+      clazz.push(`lang-${lang}`)
+
+      this.clazz = clazz.join(' ')
+      this.$nextTick(() => {
+        Prism.highlightAll()
+      })
     },
   },
   mounted() {
@@ -50,27 +55,16 @@ export default {
   },
   props: {
     code: {type: String, required: true},
-    lang: {type: String, required: true},
+    lang: {type: String},
   },
 }
 
 </script>
 
 <style scoped>
-.code-area {
-  background-color: rgba(0, 0, 0, 0.72);
-  color: white;
-}
 
 pre {
   margin: 0;
 }
 
-.line-index {
-  -moz-user-select: none; /* 火狐 */
-  -webkit-user-select: none; /* 谷歌 */
-  -ms-user-select: none; /* IE */
-  user-select: none;
-  display: inline-block;
-}
 </style>

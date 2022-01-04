@@ -36,7 +36,7 @@ export default {
         default:
           this.tagType = '';
       }
-      this.filename = data.name ? data.name : data.url.substring(data.url.lastIndexOf('/') + 1)
+      this.filename = data.filename ? data.filename : data.url.substring(data.url.lastIndexOf('/') + 1)
     },
     getType(type) {
       switch (type) {

@@ -21,7 +21,7 @@
           <!--图标里的内容-->
             <el-image v-if="isImage(file)"
                       :id="file.url" :preview-src-list="[getUrl(file.url)]" :src="getUrl(file.url)" hide-on-click-modal/>
-          <span v-if="isZip(file)">[压缩包] {{ file.name }}</span>
+          <span v-if="isZip(file)">[压缩包] {{ file.filename }}</span>
           <!--loading 图标-->
           <span v-if="!file.status || file.status!==`success`" class="el-upload-list__item-actions">
              <el-icon class="is-loading"><loading/></el-icon>
@@ -81,7 +81,11 @@ export default {
     isImage, isZip, isMp3, isMp4,
     clickPlus(file) {
       console.log(file)
-      /*todo*/
+      if (file.url.startsWith('mon_')) {
+        this.$emit('plus', file)
+      } else {
+        this.$emit('plus', file.response)
+      }
     },
     clickDelete(file) {
       console.log(file)
@@ -177,6 +181,8 @@ export default {
         file.type = 'mp4'
         file.ext = 'mp4'
       }
+
+      response.filename = file.name
 
       this.$emit("add", response)
     },

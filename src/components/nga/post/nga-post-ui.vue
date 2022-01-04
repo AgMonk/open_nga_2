@@ -27,7 +27,14 @@
 
       <!--      todo 附件区-->
       <div>
-        <nga-upload v-if="auth" :auth="auth" :exists-files="attachs" :fid="fid" @add="addFile" @delete="deleteFile"/>
+        <nga-upload v-if="auth"
+                    :auth="auth"
+                    :exists-files="attachs"
+                    :fid="fid"
+                    @add="addFile"
+                    @delete="deleteFile"
+                    @plus="plusFile"
+        />
       </div>
     </el-main>
 
@@ -83,6 +90,21 @@ export default {
   },
   methods: {
     //上传成功 记录验证码
+    plusFile(file) {
+      console.log(file)
+      const {filename, url} = file
+      let startText;
+      if (url.endsWith(".zip")) {
+        startText = `[url=https://img.nga.178.com/attachments/${url}]下载文件 ${filename}[/url]`
+      } else if (url.endsWith('.mp3')) {
+        startText = `[attach]./${url}[/attach]`
+      } else if (url.endsWith('.mp4')) {
+        startText = `[flash]./${url}[/flash]`
+      } else {
+        startText = `[img]./${url}[/img]`
+      }
+      this.addText(this.textarea(), {startText})
+    },
     addFile(file) {
       const {attachments, attachments_check, isImg, url} = file
       this.postParams.attachments.push(attachments)
@@ -98,10 +120,7 @@ export default {
         this.postParams.attachments = this.postParams.attachments.filter(i => i !== attachments)
         this.postParams.attachmentsCheck = this.postParams.attachmentsCheck.filter(i => i !== attachments_check)
       }
-
       //  已保存文件
-
-
       //删除正文中的代码
       const p = new RegExp(`\\[img]\.\/${url.substring(0,url.length-5)}.+?\\[\/img]`, "g")
       this.postParams.content = this.postParams.content.replace(p, "")

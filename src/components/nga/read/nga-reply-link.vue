@@ -22,7 +22,6 @@ export default {
           hash: `#P${pid}`,
         }
       }
-      console.log(`单个回复 ${pid}`)
       return {
         name: "单个回复",
         params: {pid}

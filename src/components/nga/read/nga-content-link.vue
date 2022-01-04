@@ -1,10 +1,10 @@
 <template>
   <my-router-link v-if="type.startsWith('nga')" :to="ngaRoute">
-    <span v-if="!$slots.defalut">{{ text }}</span>
+    <span v-if="!$slots.default">{{ text }}</span>
     <slot/>
   </my-router-link>
   <el-link v-else :href="src" target="_blank">
-    <span v-if="!$slots.defalut">{{ text }}</span>
+    <span v-if="!$slots.default">{{ text }}</span>
     <slot/>
   </el-link>
 </template>
@@ -65,11 +65,31 @@ export default {
       }
 
 
-      /*todo*/
       if (method === 'read') {
-
+        const {tid, pid, authorid, page = 1} = o
+        if (pid) {
+          this.text = `[用户的发言 pid = ${pid}]`;
+          this.ngaRoute = {
+            name: "单个回复",
+            params: {pid},
+          }
+        } else if (tid) {
+          this.text = `[主题的回复列表 tid = ${tid} 第 ${page} 页]`;
+          this.ngaRoute = {
+            name: "回复列表",
+            params: {tid, page, authorid},
+          }
+          if (hash) {
+            const p = /pid(\d+)Anchor/
+            const match = p.exec(hash)
+            if (match) {
+              this.ngaRoute.hash = `#P${match[1]}`
+            }
+          }
+        }
       }
 
+      console.log(!this.$slots.default)
 
       console.log(o)
 

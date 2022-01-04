@@ -27,7 +27,7 @@
 
       <!--      todo 附件区-->
       <div>
-        <nga-upload v-if="auth" :auth="auth" :exists-files="attachs" :fid="fid"/>
+        <nga-upload v-if="auth" :auth="auth" :exists-files="attachs" :fid="fid" @add="addFile" @delete="deleteFile"/>
       </div>
     </el-main>
 
@@ -82,6 +82,30 @@ export default {
     }
   },
   methods: {
+    //上传成功 记录验证码
+    addFile(file) {
+      const {attachments, attachments_check, isImg, url} = file
+      this.postParams.attachments.push(attachments)
+      this.postParams.attachmentsCheck.push(attachments_check)
+    },
+    //删除文件成功 移除验证码
+    deleteFile(file) {
+      console.log(file)
+      const {attachments, attachments_check, url} = file
+
+      //未保存文件
+      if (attachments && attachments_check) {
+        this.postParams.attachments = this.postParams.attachments.filter(i => i !== attachments)
+        this.postParams.attachmentsCheck = this.postParams.attachmentsCheck.filter(i => i !== attachments_check)
+      }
+
+      //  已保存文件
+
+
+      //删除正文中的代码
+      const p = new RegExp(`\\[img]\.\/${url.substring(0,url.length-5)}.+?\\[\/img]`, "g")
+      this.postParams.content = this.postParams.content.replace(p, "")
+    },
     addText(dom, {
       startText,
       endText = "",

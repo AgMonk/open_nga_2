@@ -233,3 +233,12 @@ export const report = ({tid, pid, info}) => nukeRequest({
     __lib: "log_post",
     __act: "report",
 })
+
+
+//删除附件
+// noinspection SpellCheckingInspection
+export const delAttach = ({tid, pid, aid}) => nukeRequest({
+    func: "delattach",
+    tid, pid, aid,
+    raw: 3,
+})

@@ -49,8 +49,9 @@
 <script>
 import {Briefcase, Delete, Loading, Plus, UploadFilled, ZoomIn} from '@element-plus/icons';
 import {encodeUTF8} from "@/assets/utils/StringUtils";
-import {ElMessage} from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
 import {isImage, isMp3, isMp4, isZip} from "@/assets/utils/FileUtils";
+import {delAttach} from "@/assets/request/nuke-request";
 
 export default {
   name: "nga-upload",
@@ -84,14 +85,35 @@ export default {
     },
     clickDelete(file) {
       console.log(file)
-      if (file.url.startsWith('mon_')) {
-        /*todo 请求删除附件*/
-      } else {
-        this.$refs.upload.handleRemove(file)
-        console.log(file.response)
-        this.$emit('delete', file.response)
-      }
-      /*todo*/
+
+      ElMessageBox.confirm(
+          `确认删除附件？`,
+          '确认删除',
+          {
+            confirmButtonText: '删除',
+            cancelButtonText: '取消',
+            type: '确认删除',
+          }
+      )
+          .then(() => {
+            if (file.url.startsWith('mon_')) {
+              const {tid, pid} = this.$route.query
+              delAttach({tid, pid, aid: file.name}).then(res => {
+                ElMessage.success(res.data["0"])
+                this.$refs.upload.handleRemove(file)
+                this.$emit('delete', file)
+              })
+
+            } else {
+              this.$refs.upload.handleRemove(file)
+              this.$emit('delete', file.response)
+            }
+          })
+          .catch(reason => {
+            ElMessage.info("已取消")
+            console.log(reason)
+          })
+
     },
     clickZoomIn(file) {
       // this.dialogImageUrl = file.url;
@@ -128,7 +150,6 @@ export default {
 
     success(response, file, fileList) {
       const {error_code, error} = response
-      const {attachments, attachments_check, isImg, url} = response
       console.log(file)
       if (error) {
         if (error === 'file too big') {
@@ -156,6 +177,8 @@ export default {
         file.type = 'mp4'
         file.ext = 'mp4'
       }
+
+      this.$emit("add", response)
     },
     onError(response, file, fileList) {
       console.log(response)
@@ -163,8 +186,8 @@ export default {
       console.log(fileList)
     },
     onRemove(file, fileList) {
-      console.log(file)
-      console.log(fileList)
+      // console.log(file)
+      // console.log(fileList)
     },
     update(e) {
       if (!e) {

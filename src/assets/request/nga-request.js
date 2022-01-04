@@ -240,7 +240,7 @@ export const handleAttachs = reply => {
         //ext 的可能项为 jpg png gif mp4 mp3 zip
         reply.attachs = obj2Array(reply.attachs)
             .map(i => {
-                const {attachurl, dscp, ext, size, url_utf8_org_name} = i;
+                const {attachurl, dscp, ext, size, url_utf8_org_name, name} = i;
                 let type = '其他';
                 if (["jpg", "png", "gif"].includes(ext)) {
                     type = '图片'
@@ -254,7 +254,8 @@ export const handleAttachs = reply => {
                 return {
                     url: attachurl,
                     dsc: dscp,
-                    name: decodeURI(url_utf8_org_name),
+                    filename: decodeURI(url_utf8_org_name),
+                    name,
                     ext, size, type,
                 }
             })

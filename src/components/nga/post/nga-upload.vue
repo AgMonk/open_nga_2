@@ -9,7 +9,7 @@
         :on-error="onError"
         :on-remove="onRemove"
         :on-success="success"
-        accept="image/*, .zip"
+        accept="image/*, .zip, .mp3, .mp4"
         drag
         list-type="picture-card"
         multiple
@@ -17,8 +17,8 @@
         with-credentials
     >
       <template #file="{file}">
-        <div>
-          <img :src="file.url" alt="" class="el-upload-list__item-thumbnail"/>
+        <div v-if="file.type==='图片'">
+          <el-image :id="file.url" :preview-src-list="[getUrl(file.url)]" :src="getUrl(file.url)" hide-on-click-modal/>
           <span v-if="!file.status || file.status!==`success`" class="el-upload-list__item-actions">
                      <el-icon class="is-loading"><loading/></el-icon>
                     </span>
@@ -40,18 +40,21 @@
             <!--          </span>-->
                   </span>
         </div>
+        <div v-else-if="file.type==='压缩包'">
+          压缩包
+        </div>
+        <div v-else-if="file.type==='媒体'">
+          媒体
+        </div>
+
       </template>
       <el-icon class="el-icon--upload">
         <upload-filled/>
       </el-icon>
       <div class="el-upload__text">
-        Drop file here or <em>click to upload</em>
+        点击上传
       </div>
     </el-upload>
-    <el-dialog v-model="dialogVisible">
-<!--      <img width="100%" :src="dialogImageUrl" alt=""/>-->
-      <el-image :src="dialogImageUrl"/>
-    </el-dialog>
   </span>
 </template>
 
@@ -65,9 +68,6 @@ export default {
   components: {UploadFilled, Loading, ZoomIn},
   data() {
     return {
-      //显示弹出框
-      dialogVisible: false,
-      dialogImageUrl: '',
 
       params: {
         func: "upload",
@@ -86,9 +86,16 @@ export default {
   },
   emits: ["file-list-changed"],
   methods: {
+    getUrl(url) {
+      if (url.startsWith('mon_')) {
+        return '/attachments/' + url
+      }
+      return url;
+    },
     handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
+      // this.dialogImageUrl = file.url;
+      // this.dialogVisible = true;
+      document.getElementById(file.url).click()
     },
     beforeUpload(file) {
 
@@ -105,7 +112,7 @@ export default {
       }
 
       let m = 1024 * 1024;
-      console.log(file)
+      // console.log(file)
       // 尝试发现pixiv 或 推特图片
       /*填写描述 todo 解析图片来源*/
 
@@ -121,17 +128,32 @@ export default {
     success(response, file, fileList) {
       const {error_code, error} = response
       const {attachments, attachments_check, isImg, url} = response
-      console.log(fileList)
+      console.log(file)
       if (error) {
         if (error === 'file too big') {
           ElMessage.error(`文件过大: ${Math.floor(file.size / 1024)}K`)
+        } else if (error === 'authorization timeout') {
+          ElMessage.error('上传令牌过期请刷新页面重新获取')
         } else {
           ElMessage.error(error)
         }
+        this.$refs.upload.handleRemove(file)
         return
       }
+
+      //上传成功后添加属性
+      const {raw} = file
+      const {type} = raw
+      if (type.startsWith('image')) {
+        file.type = '图片'
+        file.ext = type.split('/')[1]
+      } else if (type === 'application/x-zip-compressed') {
+        file.type = '压缩包'
+        file.ext = 'zip'
+      }
+
+
       this.$emit("file-list-changed", fileList)
-      console.log(fileList)
     },
     onError(response, file, fileList) {
       console.log(response)

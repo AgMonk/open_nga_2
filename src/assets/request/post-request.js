@@ -29,7 +29,6 @@ export const postRequest = (data) => requestUnity({
         })
         return message;
     }
-    console.log(r)
     return r
 })
 

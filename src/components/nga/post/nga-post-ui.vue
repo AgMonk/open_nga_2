@@ -12,6 +12,10 @@
           <el-tag v-else class="quick-tag" size="mini" @click="quickCode(code.en)">{{ code.cn }}</el-tag>
         </template>
         <el-button size="mini" type="primary" @click="showAllEmotes">表情</el-button>
+        <div>
+          <el-switch v-model="postParams.comment" :before-change="confirmComment" active-text="评论"/>
+          <el-switch v-model="postParams.anony" :before-change="confirmAnonymous" active-text="匿名"/>
+        </div>
       </div>
       <div>
         <el-input v-model="postParams.subject" placeholder="标题"/>
@@ -63,8 +67,10 @@ import {addTextInToTextarea} from "@/assets/utils/DomUtils";
 import {emotes, mapEmoteToArray, searchEmotes} from "@/assets/nga/emotions";
 import "@/assets/nga/emotions_cus"
 import NgaEmoteImage from "@/components/nga/post/nga-emote-image";
-import {ElMessage} from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
 import NgaUpload from "@/components/nga/post/nga-upload";
+
+const anonymousWarning = '匿名发布主题、回复分别需要5k、100铜币\n\n匿名发布的内容如果违反班规将会：加 重 处 罚'
 
 export default {
   name: "nga-post-ui",
@@ -79,6 +85,7 @@ export default {
         attachments: [],
         attachmentsCheck: [],
         comment: false,
+        anony: false,
       },
       bbsCodeLibrary,
       selection: {},
@@ -90,6 +97,34 @@ export default {
     }
   },
   methods: {
+    confirmAnonymous() {
+      if (this.postParams.anony) {
+        return true;
+      }
+      return ElMessageBox.confirm(anonymousWarning, {
+        title: '确认使用匿名',
+        type: 'warning',
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+      }).catch(reason => {
+        ElMessage.info("已取消")
+        console.log(reason)
+      })
+    },
+    confirmComment() {
+      if (this.postParams.comment) {
+        return true;
+      }
+      return ElMessageBox.confirm('评论需要100铜币', {
+        title: '确认使用评论',
+        type: 'warning',
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+      }).catch(reason => {
+        ElMessage.info("已取消")
+        console.log(reason)
+      })
+    },
     //上传成功 记录验证码
     plusFile(file) {
       console.log(file)
@@ -227,7 +262,7 @@ export default {
         ...this.preParam,
         step: 2,
       };
-      const {subject, comment, content, attachments, attachmentsCheck} = this.postParams
+      const {subject, comment, content, attachments, attachmentsCheck, anony} = this.postParams
       data.post_subject = subject;
       data.post_content = content;
       if (attachments && attachments.length > 0) {
@@ -238,6 +273,9 @@ export default {
       }
       if (comment) {
         data.comment = 1
+      }
+      if (anony) {
+        data.anony = 1
       }
       const res = await postRequest(data)
       console.log(res)

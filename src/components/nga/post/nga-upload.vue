@@ -1,5 +1,6 @@
 <template>
   <span>
+    <el-switch v-model="drag" active-text="拖拽"/>
     <el-upload
         ref="upload"
         :action="attachUrl"
@@ -10,7 +11,7 @@
         :on-remove="onRemove"
         :on-success="success"
         accept="image/*, .zip, .mp3, .mp4"
-        drag
+        :drag="drag"
         list-type="picture-card"
         multiple
         name="attachment_file0"
@@ -40,7 +41,7 @@
         <upload-filled/>
       </el-icon>
       <div class="el-upload__text">
-        点击上传
+        点击上传 或 Ctrl+V 粘贴
       </div>
     </el-upload>
   </span>
@@ -59,6 +60,7 @@ export default {
   components: {UploadFilled, Loading, ZoomIn, Delete, Plus, Briefcase},
   data() {
     return {
+      drag: false,
       params: {
         func: "upload",
         v2: 1,

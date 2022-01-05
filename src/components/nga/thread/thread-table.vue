@@ -15,8 +15,14 @@
                      :page-size="pageSize"
                      :total="total"
       />
-      <el-table :data="threads" style="width: 100%" @selection-change="handleSelectionChange">
-        <el-table-column v-if="$route.name==='已收藏主题'" type="selection"/>
+      <el-table :data="threads"
+                :header-cell-style="headerRowStyle"
+                :header-row-style="headerRowStyle"
+                :row-style="rowStyle"
+                style="width: 100%"
+                @selection-change="handleSelectionChange"
+      >
+        <el-table-column v-if="$route.name==='已收藏主题'" type="selection" />
         <el-table-column v-if="$route.name!=='已收藏主题'" label="#" width="40px">
           <template #default="s">
             {{ s.$index + 1 }}
@@ -32,23 +38,23 @@
         </el-table-column>
         <el-table-column prop="subject" label="主题">
           <template #default="s">
-            <thread-row :data="s.row"/>
+            <thread-row :data="s.row" />
           </template>
         </el-table-column>
 
         <el-table-column v-if="$route.name!=='已收藏主题'" label="作者" prop="author.name" width="180">
           <template #default="s">
-            <nga-user-link :uid="s.row.author.uid"/>
+            <nga-user-link :uid="s.row.author.uid" />
             <div>
-              <my-timestamp :time="s.row.timestamp.post.time"/>
+              <my-timestamp :time="s.row.timestamp.post.time" />
             </div>
           </template>
         </el-table-column>
         <el-table-column v-if="$route.name==='已收藏主题'" label="作者" prop="author.name" width="180">
           <template #default="s">
-            <nga-user-link :uid="s.row.reply?s.row.reply.authorId:s.row.author.uid"/>
+            <nga-user-link :uid="s.row.reply?s.row.reply.authorId:s.row.author.uid" />
             <div>
-              <my-timestamp :time="s.row.reply?s.row.reply.timestamp.post.time:s.row.timestamp.post.time"/>
+              <my-timestamp :time="s.row.reply?s.row.reply.timestamp.post.time:s.row.timestamp.post.time" />
             </div>
           </template>
         </el-table-column>
@@ -56,7 +62,7 @@
         <el-table-column v-if="$route.name!=='已收藏主题'" label="最后回复" prop="lastposter" width="180">
           <template #default="s">
             <div>
-              <my-timestamp :time="s.row.timestamp.lastPost.time"/>
+              <my-timestamp :time="s.row.timestamp.lastPost.time" />
             </div>
             {{ s.row.lastposter }}
           </template>
@@ -85,12 +91,17 @@ import NgaUserLink from "@/components/nga/user/nga-user-link";
 import MyTimestamp from "@/components/my/my-timestamp";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {delFavor} from "@/assets/request/nuke-request";
+import {mapState} from "vuex";
 
 export default {
   name: "thread-table",
   components: {MyTimestamp, NgaUserLink, ThreadRow},
+  computed: {
+    ...mapState('config', ["config"]),
+  },
   data() {
     return {
+      headerRowStyle: {},
       currentPage: 1,
       pageSize: 100,
       total: 100,
@@ -99,6 +110,20 @@ export default {
   },
   emits: ['favor-updated'],
   methods: {
+    rowStyle({row, rowIndex}) {
+      const {style} = this.config
+      const {rowColor1, rowColor2, textColor} = style
+      if (rowIndex % 2 === 0) {
+        return {
+          "background-color": rowColor1,
+          color: textColor,
+        }
+      }
+      return {
+        "background-color": rowColor2,
+        color: textColor,
+      }
+    },
     delFavor() {
       if (!this.selection || this.selection.length === 0) {
         ElMessage.error("未选中任何主题")
@@ -146,11 +171,26 @@ export default {
   },
   mounted() {
     this.update()
+
+    const {style} = this.config
+    const {rowColor2, textColor} = style
+    this.headerRowStyle = {
+      "background-color": rowColor2,
+      color: textColor,
+    }
   },
   watch: {
     pageData(e) {
       this.update(e)
-    }
+    },
+    config(e) {
+      const {style} = e
+      const {rowColor2, textColor} = style
+      this.headerRowStyle = {
+        "background-color": rowColor2,
+        color: textColor,
+      }
+    },
   },
   props: {
     threads: {
@@ -167,5 +207,12 @@ export default {
 </script>
 
 <style scoped>
+.el-pagination {
+  --el-pagination-bg-color: rgb(0 0 0 / 0%);
+  --el-pagination-button-disabled-bg-color: rgb(0 0 0 / 0%);
+}
 
+.el-pager li {
+  background: rgb(0 0 0 / 0%);
+}
 </style>

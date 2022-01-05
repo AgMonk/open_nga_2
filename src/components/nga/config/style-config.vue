@@ -2,7 +2,7 @@
   <!--界面配色 todo-->
   <div>
     <div style="text-align: left">
-      <el-select placeholder="使用官方配色" @change="useOfficialStyle">
+      <el-select v-model="officialStyleSelection" placeholder="使用官方配色" value-key="name" @change="useOfficialStyle">
         <el-option v-for="item in officialStyle" :label="item.name" :value="item" />
       </el-select>
     </div>
@@ -53,6 +53,7 @@ export default {
   },
   data() {
     return {
+      officialStyleSelection: {},
       officialStyle: [
         {
           name: "青色", style: {
@@ -60,6 +61,22 @@ export default {
             rowColor1: "#e1efeb",
             rowColor2: "#f0f7f5",
             textColor: "#10273f",
+          },
+        },
+        {
+          name: "黄色", style: {
+            backgroundColor: "#f5e8cb",
+            rowColor1: "#fff0cd",
+            rowColor2: "#fff8e7",
+            textColor: "#10273f",
+          },
+        },
+        {
+          name: "黑色", style: {
+            backgroundColor: "#34312e",
+            rowColor1: "#322f2b",
+            rowColor2: "#3c3833",
+            textColor: "#77878f",
           },
         },
       ],
@@ -103,7 +120,11 @@ export default {
   mounted() {
     this.style = copyObj(this.config.style)
   },
-  watch: {},
+  watch: {
+    config(to) {
+      this.style = to.style;
+    }
+  },
   props: {},
 }
 

@@ -85,7 +85,7 @@ export default {
     },
     updateStyle(config) {
       const {style} = config;
-      this.style = `background-color:${style.backgroundColor}`;
+      this.style = `background-color:${style.backgroundColor};color:${style.textColor}`;
     }
   },
   async mounted() {

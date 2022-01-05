@@ -78,5 +78,12 @@ export default {
 </script>
 
 <style scoped>
+.el-pagination {
+  --el-pagination-bg-color: rgb(0 0 0 / 0%);
+  --el-pagination-button-disabled-bg-color: rgb(0 0 0 / 0%);
+}
 
+.el-pager li {
+  background: rgb(0 0 0 / 0%);
+}
 </style>

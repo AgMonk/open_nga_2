@@ -4,7 +4,7 @@
       <nga-thread-link :data="data" />
       <nga-thread-type-tag :type="data.type" />
       <el-pagination
-          v-if="data.replies>19"
+          v-if="data.replies>19 && $route.name!=='已收藏主题'"
           :total="data.replies+1"
           :page-size="20"
           :pager-count="5"

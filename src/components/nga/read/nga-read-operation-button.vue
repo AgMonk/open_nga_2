@@ -26,6 +26,7 @@
         </my-router-link>
         <!--suppress JSCheckFunctionSignatures -->
         <span @click="report(reply)"><my-tag-with-tooltip disabled text="举报"/></span>
+        <span @click="addFavor(reply.tid,reply.pid)"><my-tag-with-tooltip disabled text="收藏"/></span>
       </div>
     </template>
     <el-button class="齿轮图标" type="text">
@@ -41,7 +42,7 @@ import MyTagWithTooltip from "@/components/my/my-tag-with-tooltip";
 import {Setting} from '@element-plus/icons'
 import MyRouterLink from "@/components/my/my-router-link";
 import {ElMessage, ElMessageBox} from "element-plus";
-import {report} from "@/assets/request/nuke-request";
+import {addFavor, report} from "@/assets/request/nuke-request";
 
 export default {
   name: "nga-read-operation-button",
@@ -50,6 +51,21 @@ export default {
     return {}
   },
   methods: {
+    addFavor(tid, pid) {
+      ElMessageBox.confirm('确认收藏', {
+        title: '确认收藏',
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'info'
+      }).then(() => {
+        addFavor({tid, pid}).then(res => {
+          ElMessage.success(res.data["0"])
+        })
+      }).catch(reason => {
+        ElMessage.info("已取消")
+        console.log(reason)
+      })
+    },
     report({tid, pid}) {
       ElMessageBox.prompt('请填写理由', '举报理由', {
         confirmButtonText: '确认',

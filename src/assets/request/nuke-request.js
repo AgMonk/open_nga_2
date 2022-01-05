@@ -242,3 +242,21 @@ export const delAttach = ({tid, pid, aid}) => nukeRequest({
     tid, pid, aid,
     raw: 3,
 })
+//添加收藏
+export const addFavor = ({tid, pid}) => nukeRequest({
+    __lib: "topic_favor"
+    , __act: "topic_favor"
+    , action: "add"
+    , raw: 3
+    , tid, pid
+    , nouse: "post"
+})
+//移除收藏
+export const delFavor = ({tidarray, page = 1}) => nukeRequest({
+    __lib: "topic_favor"
+    , __act: "topic_favor"
+    , raw: 3
+    , action: "del"
+    , tidarray
+    , page
+})

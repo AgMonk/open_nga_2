@@ -21,7 +21,7 @@
         <el-divider content-position="left">子版面/合集</el-divider>
         <nga-forum-avatar v-for="forum in forum.children" :forum="forum"/>
       </div>
-      <thread-table v-if="threads" :threads="threads" :pageData="pageData"/>
+      <thread-table v-if="threads" :pageData="pageData" :threads="threads" @favor-updated="get(true)"/>
     </el-main>
     <el-footer></el-footer>
   </el-container>

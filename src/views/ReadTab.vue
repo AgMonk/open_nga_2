@@ -15,6 +15,7 @@
       <my-router-link :to="{name:'发帖',params:{action:'reply'},query:{tid:thread.tid}}">
         <el-button size="small" type="primary">回复</el-button>
       </my-router-link>
+      <el-switch v-model="config.autoRefresh" active-text="自动刷新(3min)" @change="setConfig({key:'autoRefresh',value:$event})"/>
 
     </el-header>
 
@@ -29,7 +30,7 @@
 </template>
 
 <script>
-import {mapActions, mapMutations} from "vuex";
+import {mapActions, mapMutations, mapState} from "vuex";
 import {setTitle} from "@/assets/request/ProjectUtils";
 import NgaReadTable from "@/components/nga/read/nga-read-table";
 import {ElMessage} from "element-plus";
@@ -39,8 +40,13 @@ import MyRouterLink from "@/components/my/my-router-link";
 export default {
   name: "ReadTab",
   components: {MyRouterLink, NgaReadTable},
+  computed: {
+    ...mapState('config', ["config"]),
+  },
   data() {
     return {
+      refreshInterval: '',
+
       svg: `<path class="path" d=" M 30 15 L 28 17 M 25.61 25.61 A 15 15, 0, 0, 1, 15 30 A 15 15, 0, 1, 1, 27.99 7.5 L 15 15 " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/> `,
       pageData: {
         total: 100,
@@ -56,6 +62,7 @@ export default {
   methods: {
     ...mapActions("read", [`getReplies`]),
     ...mapMutations("history", [`addHistoryThread`, `addHistoryForum`, `addHistorySet`]),
+    ...mapMutations('config', [`setConfig`]),
     ...mapActions("users", [`getUserInfo`]),
     async get(force) {
       this.loading = true;
@@ -111,12 +118,17 @@ export default {
   mounted() {
     setTitle(this.$route.name)
     this.get(false)
-
     document.addEventListener('keypress', this.keypress)
+    this.refreshInterval = setInterval(() => {
+      if (this.config.autoRefresh) {
+        this.get(true)
+      }
+    }, 1000 * 60 * 3);
 
   },
   unmounted() {
     document.removeEventListener('keypress', this.keypress)
+    clearInterval(this.refreshInterval)
   },
   watch: {
     $route(to, from) {

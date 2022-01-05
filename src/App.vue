@@ -50,13 +50,14 @@
 <script>
 import NgaBreadcrumb from "@/components/nga/nga-breadcrumb";
 import MyNavigation from "@/components/my/my-navigation";
-import {mapActions} from "vuex";
+import {mapActions, mapMutations} from "vuex";
 import Notice from "@/views/Notice";
 import {keypressEvent, scrollMethods} from "@/assets/utils/DomUtils";
 
 export default {
   components: {Notice, MyNavigation, NgaBreadcrumb},
   methods: {
+    ...mapMutations('config', [`loadConfig`]),
     ...mapActions("users", [`loadCurrentUser`]),
     back(e) {
       history.back()
@@ -80,6 +81,7 @@ export default {
   },
   async mounted() {
     await this.loadCurrentUser()
+    await this.loadConfig()
     document.addEventListener('keypress', this.keypress)
   },
   unmounted() {

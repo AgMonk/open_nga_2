@@ -1,5 +1,5 @@
 export const isImage = (file) => {
-    return file && (file.type === '图片' || (file.raw && file.raw.type.startsWith('image')))
+    return file && (file.type === '图片' || (file.raw && file.raw.type.startsWith('image'))) || file.name.endsWith('.png') || file.name.endsWith('.jpg') || file.name.endsWith('.gif')
 }
 
 export const isZip = (file) => {

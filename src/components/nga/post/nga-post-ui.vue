@@ -3,7 +3,7 @@
     <!--  <el-container direction="horizontal">-->
     <!--    <el-header></el-header>-->
 
-    <el-main>
+    <el-main v-loading="loading">
       <div id="快捷按钮" style="margin-bottom: 10px">
         <template v-for="(code,i) in bbsCodeLibrary" :key="i">
           <el-select v-if="code.props" :placeholder="code.cn" class="quick-select" size="mini" @change="quickCode(code.en,$event)">
@@ -71,6 +71,7 @@ export default {
   components: {NgaUpload, NgaEmoteImage},
   data() {
     return {
+      loading: false,
       emotes,
       postParams: {
         subject: "",
@@ -218,6 +219,10 @@ export default {
       }
     },
     async sendPost() {
+      if (this.loading) {
+        return;
+      }
+      this.loading = true;
       const data = {
         ...this.preParam,
         step: 2,

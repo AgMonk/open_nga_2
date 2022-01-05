@@ -1,5 +1,5 @@
 <template>
-  <el-tooltip effect="light">
+  <el-tooltip :hide-after="1500" :show-after="500" effect="light">
     <template #content>
       <h3>点击打开原图</h3>
       <div v-if="src && isNgaImg(src)">

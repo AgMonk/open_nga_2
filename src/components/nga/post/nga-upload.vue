@@ -204,9 +204,29 @@ export default {
       this.fileList = [...e, ...this.fileList]
       console.log(this.fileList)
     },
+    onPasteUpload(e) {
+      const upload = this.$refs.upload
+      if (!upload) {
+        return
+      }
+      const items = e.clipboardData.items
+      console.log(Object.assign({}, items))
+      for (const item of items) {
+        if (item.type.startsWith("image/")) {
+          console.log(item);
+          const file = new File([item.getAsFile()], new Date().format("yyyy-MM-dd_hh_mm_ss") + '.png')
+          upload.handleStart(file)
+        }
+      }
+      upload.submit()
+    },
   },
   mounted() {
+    document.addEventListener('paste', this.onPasteUpload)
     this.update(this.existsFiles)
+  },
+  unmounted() {
+    document.removeEventListener('paste', this.onPasteUpload)
   },
   watch: {
     existsFiles(to) {

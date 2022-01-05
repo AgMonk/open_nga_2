@@ -110,7 +110,7 @@ const handleColor = thread => {
         }
 
         thread.titleFont = {
-            color, bold, italic, lineThrough, style
+            color, bold, italic, lineThrough, style, bitData
         }
     }
     delete thread.titlefont

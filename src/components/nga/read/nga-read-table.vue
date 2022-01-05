@@ -1,52 +1,50 @@
 <template>
   <el-container direction="vertical">
-    <!--  <el-container direction="horizontal">-->
-    <!--    <el-header></el-header>-->
+    <!--<el-container direction="horizontal">-->
+    <!--<el-header></el-header>-->
 
     <el-main>
       <el-pagination v-if="pageData"
                      :current-page.sync="currentPage"
+                     :page-size="pageSize"
                      :pager-count="5"
+                     :total="total"
                      layout="total,prev, pager, next,jumper"
                      @current-change="currentChange"
-                     :page-size="pageSize"
-                     :total="total"
       />
       <el-input v-model="destLevel" size="small" style="width:100px"/>
       <el-button size="small" type="success" @click="jumpLevel">跳转楼层</el-button>
 
-<!--      回复列表-->
+      <!--回复列表-->
       <div v-for="(row,i) in replies" :id="'P'+row.pid">
         <el-row :id="'L'+row.level" :key="i">
-          <!--        用户卡片-->
+          <!--用户卡片-->
           <el-col :span="6">
             <nga-read-user-card :uid="row.authorid"/>
           </el-col>
-          <!--          回复内容-->
+          <!--回复内容-->
           <el-col :span="18">
             <el-card class="box-card" style="height:100%">
               <template #header>
                 <div class="card-header">
-                  <!--                赞踩按钮-->
+                  <!--赞踩按钮-->
                   <span>
-                  <nga-level-tag :reply="row"/>
-                  <nga-score-tag :reply="row"/>
-                  <my-tag-with-tooltip disabled v-if="row.timestamp">{{ row.timestamp.post }}</my-tag-with-tooltip>
-                  <my-tag-with-tooltip disabled v-if="row.timestamp && row.timestamp.edit">最后编辑:{{ row.timestamp.edit }}</my-tag-with-tooltip>
-                    <my-tag-with-tooltip v-if="row.reply_to" :route="{name:'单个回复',params:{pid:row.reply_to}}" disabled type="warning">
-                      回复目标
-                    </my-tag-with-tooltip>
-                  <nga-thread-type-tag :type="row.type"/>
-                    <el-tag v-if="$route.hash===`#P${row.pid}`" size="small" type="danger"><b>这个回复</b></el-tag>
-                </span>
+                    <nga-level-tag :reply="row"/>
+                    <nga-score-tag :reply="row"/>
+                    <my-tag-with-tooltip v-if="row.timestamp" disabled>{{ row.timestamp.post }}</my-tag-with-tooltip>
+                    <my-tag-with-tooltip v-if="row.timestamp && row.timestamp.edit" disabled>最后编辑:{{ row.timestamp.edit }}</my-tag-with-tooltip>
+                    <my-tag-with-tooltip v-if="row.reply_to" :route="{name:'单个回复',params:{pid:row.reply_to}}" disabled type="warning">回复目标</my-tag-with-tooltip>
+                    <nga-thread-type-tag :type="row.type"/>
+                    <my-tag-with-tooltip v-if="$route.hash===`#P${row.pid}`" size="small" tooltip="跳转链接指向的回复" type="danger"><b>这个回复</b></my-tag-with-tooltip>
+                  </span>
 
                   <span>
                     <my-router-link :to="{name:'发帖',params:{action:'quote'},query:{tid:thread.tid,pid:row.pid}}">
-                          <my-tag-with-tooltip disabled text="引用"/>
-                        </my-router-link>
-                        <my-router-link :to="{name:'发帖',params:{action:'reply'},query:{tid:thread.tid,pid:row.pid}}">
-                          <my-tag-with-tooltip disabled text="回复"/>
-                        </my-router-link>
+                      <my-tag-with-tooltip disabled text="引用"/>
+                    </my-router-link>
+                    <my-router-link :to="{name:'发帖',params:{action:'reply'},query:{tid:thread.tid,pid:row.pid}}">
+                      <my-tag-with-tooltip disabled text="回复"/>
+                    </my-router-link>
                     <nga-read-operation-button :fid="thread.fid" :reply="row"/>
                   </span>
                 </div>
@@ -89,11 +87,11 @@
 
       <el-pagination v-if="pageData"
                      :current-page.sync="currentPage"
+                     :page-size="pageSize"
                      :pager-count="5"
+                     :total="total"
                      layout="total,prev, pager, next,jumper"
                      @current-change="currentChange"
-                     :page-size="pageSize"
-                     :total="total"
       />
     </el-main>
     <el-footer></el-footer>

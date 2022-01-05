@@ -205,7 +205,7 @@ export default {
     },
     quickCode(code, props) {
       const startText = props ? `[${code}=${props}]` : `[${code}]`;
-      const endText = `[/${code}]`
+      const endText = code === '*' ? '' : `[/${code}]`;
       const dom = this.textarea();
       this.addText(dom, {startText, endText,})
     },

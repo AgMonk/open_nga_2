@@ -29,7 +29,6 @@
                 @keyup.enter.alt="parseCode"
       />
 
-      <!--      todo 附件区-->
       <div>
         <nga-upload v-if="auth"
                     :auth="auth"

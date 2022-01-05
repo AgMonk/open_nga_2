@@ -1,37 +1,45 @@
 <template>
   <!--界面配色 todo-->
-
-  <el-form inline>
-    <el-form-item label="背景颜色">
-      <el-color-picker v-model="style.backgroundColor"
-                       :predefine="predefineColors"
-                       show-alpha
-                       @change="setConfig({key:'style',value:style})"
-      />
-    </el-form-item>
-    <el-form-item label="行颜色1">
-      <el-color-picker v-model="style.rowColor1"
-                       :predefine="predefineColors"
-                       show-alpha
-                       @change="setConfig({key:'style',value:style})"
+  <div>
+    <div style="text-align: left">
+      <el-select placeholder="使用官方配色" @change="useOfficialStyle">
+        <el-option v-for="item in officialStyle" :label="item.name" :value="item" />
+      </el-select>
+    </div>
+    <el-form inline style="text-align: left">
+      <el-form-item label="背景颜色">
+        <el-color-picker v-model="style.backgroundColor"
+                         :predefine="predefineColors"
+                         show-alpha
+                         @change="updateConfig"
+        />
+      </el-form-item>
+      <el-form-item label="行颜色1">
+        <el-color-picker v-model="style.rowColor1"
+                         :predefine="predefineColors"
+                         show-alpha
+                         @change="updateConfig"
       />
     </el-form-item>
     <el-form-item label="行颜色2">
       <el-color-picker v-model="style.rowColor2"
                        :predefine="predefineColors"
                        show-alpha
-                       @change="setConfig({key:'style',value:style})"
+                       @change="updateConfig"
       />
     </el-form-item>
-    <el-form-item label="字体颜色">
-      <el-color-picker v-model="style.textColor"
-                       :predefine="predefineColors"
-                       show-alpha
-                       @change="setConfig({key:'style',value:style})"
-      />
-    </el-form-item>
+      <el-form-item label="字体颜色">
+        <el-color-picker v-model="style.textColor"
+                         :predefine="predefineColors"
+                         show-alpha
+                         @change="updateConfig"
+        />
+      </el-form-item>
 
-  </el-form>
+    </el-form>
+
+  </div>
+
 </template>
 
 <script>
@@ -82,7 +90,15 @@ export default {
   },
   methods: {
     ...mapMutations('config', [`setConfig`]),
-
+    useOfficialStyle(e) {
+      console.slf4j(`应用官方配色:` + e.name)
+      console.log(e)
+      this.style = Object.assign({}, this.style, e.style)
+      this.updateConfig()
+    },
+    updateConfig() {
+      this.setConfig({key: 'style', value: this.style})
+    }
   },
   mounted() {
     this.style = copyObj(this.config.style)

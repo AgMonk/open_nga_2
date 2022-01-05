@@ -11,7 +11,9 @@
         <el-tab-pane label="账号管理">
           <my-accounts/>
         </el-tab-pane>
-        <el-tab-pane label="配置">Config</el-tab-pane>
+        <el-tab-pane label="配置">
+          <my-config/>
+        </el-tab-pane>
       </el-tabs>
     </el-main>
     <el-footer></el-footer>
@@ -23,10 +25,11 @@
 import MyAccounts from "@/components/nga/user/my-accounts";
 import {setTitle} from "@/assets/request/ProjectUtils";
 import UserCenter from "@/components/nga/user/user-center";
+import MyConfig from "@/components/nga/config/my-config";
 
 export default {
   name: "Config",
-  components: {UserCenter, MyAccounts},
+  components: {MyConfig, UserCenter, MyAccounts},
   data() {
     return {}
   },

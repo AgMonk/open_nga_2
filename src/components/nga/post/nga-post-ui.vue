@@ -38,6 +38,7 @@
                     @delete="deleteFile"
                     @plus="plusFile"
         />
+        <el-button type="success" @click="sendPost">发帖(Ctrl+Enter)</el-button>
       </div>
     </el-main>
 
@@ -53,7 +54,6 @@
     </el-dialog>
 
     <el-footer>
-      <el-button type="success" @click="sendPost">发帖(Ctrl+Enter)</el-button>
     </el-footer>
   </el-container>
 

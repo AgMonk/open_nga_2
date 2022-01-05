@@ -2,6 +2,10 @@
   <div>
     <h3>配置</h3>
     <!--界面配色 todo-->
+    <div>
+      <el-divider content-position="left">界面配色</el-divider>
+
+    </div>
   </div>
 </template>
 

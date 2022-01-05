@@ -45,7 +45,7 @@
                     <my-router-link :to="{name:'发帖',params:{action:'reply'},query:{tid:thread.tid,pid:row.pid}}">
                       <my-tag-with-tooltip disabled text="回复"/>
                     </my-router-link>
-                    <nga-read-operation-button :fid="thread.fid" :reply="row"/>
+                    <nga-read-operation-button :fid="thread.fid" :reply="row" style="margin-left: 10px" />
                   </span>
                 </div>
               </template>

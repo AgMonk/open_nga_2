@@ -3,7 +3,7 @@
     <!--  <el-container direction="horizontal">-->
 <!--    <el-header></el-header>-->
 
-    <el-main>
+    <el-main style="--el-main-padding:0">
       <div style="text-align: left">
         <el-button v-if="$route.name==='已收藏主题'" type="danger" @click="delFavor">取消收藏</el-button>
       </div>

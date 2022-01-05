@@ -16,13 +16,17 @@
           active-text="精华区"
       />
     </el-header>
-    <el-main style="--el-main-padding:0">
+    <el-main>
       <div id="版头">
         <!--       todo  -->
       </div>
       <div v-if="forum && forum.children && forum.children.length>0">
-        <el-divider content-position="left">子版面/合集</el-divider>
-        <nga-forum-avatar v-for="forum in forum.children" :forum="forum" />
+        <el-collapse id="subForums">
+          <el-collapse-item title="子版面/合集">
+            <nga-forum-avatar v-for="forum in forum.children" :forum="forum" />
+
+          </el-collapse-item>
+        </el-collapse>
       </div>
       <thread-table v-if="threads" :pageData="pageData" :threads="threads" @favor-updated="get(true)" />
     </el-main>
@@ -186,5 +190,8 @@ export default {
 </script>
 
 <style scoped>
-
+#subForums {
+  --el-collapse-header-bg-color: rgb(0 0 0 / 0%);
+  --el-collapse-content-bg-color: rgb(0 0 0 / 0%);
+}
 </style>

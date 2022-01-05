@@ -4,9 +4,9 @@
     <!--    <el-header></el-header>-->
 
     <el-main>
-      <el-tabs type="border-card">
+      <el-tabs style="background:rgb(0 0 0 / 0%)" type="border-card">
         <el-tab-pane label="我的收藏" style="text-align: left">
-          <nga-forum-avatar v-for="forum in favorForums" :forum="forum"/>
+          <nga-forum-avatar v-for="forum in favorForums" :forum="forum" />
         </el-tab-pane>
 
 
@@ -53,9 +53,11 @@ export default {
   mounted() {
     setTitle("主页")
     this.refresh(false)
-    this.getUserInfo(39841854).then(res=>{
+    this.getUserInfo(39841854).then(res => {
       console.log(res);
     })
   }
 }
 </script>
+<style scoped>
+</style>

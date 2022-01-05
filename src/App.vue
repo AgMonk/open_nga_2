@@ -1,11 +1,13 @@
 <template>
   <my-navigation />
-  <div style="text-align: left;margin-top: 2px;margin-bottom: 2px">
-    <el-button type="primary" size="small" @click="back"><span style="font-weight: bold">返回</span></el-button>
-    <el-button type="primary" size="small" @click="forward"><span style="font-weight: bold">前进</span></el-button>
+  <div :style="style">
+    <div style="text-align: left;margin-top: 2px;margin-bottom: 2px">
+      <el-button size="small" type="primary" @click="back"><span style="font-weight: bold">返回</span></el-button>
+      <el-button size="small" type="primary" @click="forward"><span style="font-weight: bold">前进</span></el-button>
+    </div>
+    <router-view />
   </div>
-  <router-view/>
-  <notice/>
+  <notice />
 
   <el-link href="https://github.com/AgMonk/open_nga_2" target="_blank">[GitHub]</el-link>
   <el-backtop :bottom="100">
@@ -50,12 +52,15 @@
 <script>
 import NgaBreadcrumb from "@/components/nga/nga-breadcrumb";
 import MyNavigation from "@/components/my/my-navigation";
-import {mapActions, mapMutations} from "vuex";
+import {mapActions, mapMutations, mapState} from "vuex";
 import Notice from "@/views/Notice";
 import {keypressEvent, scrollMethods} from "@/assets/utils/DomUtils";
 
 export default {
   components: {Notice, MyNavigation, NgaBreadcrumb},
+  computed: {
+    ...mapState('config', ["config"]),
+  },
   methods: {
     ...mapMutations('config', [`loadConfig`]),
     ...mapActions("users", [`loadCurrentUser`]),
@@ -78,17 +83,30 @@ export default {
       }
       keypressEvent(e, methods)
     },
+    updateStyle(config) {
+      const {style} = config;
+      this.style = `background-color:${style.backgroundColor}`;
+    }
   },
   async mounted() {
     await this.loadCurrentUser()
     await this.loadConfig()
     document.addEventListener('keypress', this.keypress)
+
+    this.updateStyle(this.config)
+  },
+  watch: {
+    config(to) {
+      this.updateStyle(to)
+    }
   },
   unmounted() {
     document.removeEventListener('keypress', this.keypress)
   },
   data() {
-    return {}
+    return {
+      style: '',
+    }
   }
 }
 </script>

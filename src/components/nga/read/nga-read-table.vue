@@ -72,13 +72,13 @@
                 <el-divider content-position="left">附件区({{ row.attachs.length }})</el-divider>
                 <nga-attach-tag v-for="img in row.attachs" :data="img"/>
               </div>
-              <div v-if="users[row.authorid] && users[row.authorid].signature" style="text-align: left">
-                <el-collapse>
-                  <el-collapse-item title="[签名区]">
-                    <nga-signature :uid="row.authorid"/>
-                  </el-collapse-item>
-                </el-collapse>
-              </div>
+              <!--              <div v-if="users[row.authorid] && users[row.authorid].signature" style="text-align: left">-->
+              <!--                <el-collapse>-->
+              <!--                  <el-collapse-item title="[签名区]">-->
+              <!--                    <nga-signature :uid="row.authorid"/>-->
+              <!--                  </el-collapse-item>-->
+              <!--                </el-collapse>-->
+              <!--              </div>-->
             </el-card>
           </el-col>
 

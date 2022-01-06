@@ -11,6 +11,7 @@ import Config from "@/views/Config";
 import User from "@/views/User";
 import Tips from "@/views/Tips";
 import Post from "@/views/Post";
+import Messages from "@/views/Messages";
 
 const routes = [
     {
@@ -64,6 +65,7 @@ const routes = [
             {path: "config", name: "配置", component: Config},
             {path: "favor/:page", name: "已收藏主题", component: ThreadTab},
             {path: "tips", name: "关于", component: Tips,},
+            {path: "messages", name: "短消息", component: Messages,},
         ]
     },
     {

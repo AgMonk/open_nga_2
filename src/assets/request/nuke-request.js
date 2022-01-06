@@ -281,7 +281,7 @@ export const getMessages = (page) => nukeRequest({
         delete data.nextPage
         delete data.currentPage
 
-        const message = obj2Array(res.data[0]).map(data => {
+        const messages = obj2Array(res.data[0]).map(data => {
             const {all_user, bit, from, from_username, last_from, last_from_username, last_modify, mid, posts, sbit, subject, time} = data
             const timestamp = {
                 create: {
@@ -301,13 +301,14 @@ export const getMessages = (page) => nukeRequest({
             }
 
             return {
-                timestamp, bitData, users, mid, replies: posts, subject, multiUsers, unread
+                timestamp, users, mid, replies: posts, subject, multiUsers, unread
             }
         })
 
         res.data = {
             pageData,
-            message,
+            messages,
         }
+        return res
     }
 })

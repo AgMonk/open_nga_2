@@ -42,10 +42,12 @@ export const parseMoney = (money) => {
 
 export const parseAvatar = (avatar) => {
     if (avatar && avatar.length > 0) {
-        const prefix = 'https://img.nga.178.com/avatars'
+        const ngaAvatars = [
+            'img.nga.178.com/avatars',
+            'img.nga.cn/avatars',
+        ]
         // noinspection HttpUrlsUsage
-        const prefix1 = 'http://img.nga.178.com/avatars'
-        if (avatar.startsWith(prefix) || avatar.startsWith(prefix1)) {
+        if (avatar.includes(ngaAvatars[0]) || avatar.includes(ngaAvatars[1])) {
             avatar = avatar.replace(/\.a\//g, "").replace(/\?\d+/g, "").split("|")
             const p = avatar[0].substring(avatar[0].indexOf('/avatars'), avatar[0].lastIndexOf('/') + 1)
             return avatar.map(i => {
@@ -54,7 +56,7 @@ export const parseAvatar = (avatar) => {
             })
 
         } else {
-            console.log(`未识别的头像链接格式：` + avatar)
+            console.error(`未识别的头像链接格式：` + avatar)
             return [avatar]
         }
     }

@@ -67,7 +67,7 @@ export default {
     async get(force) {
       this.loading = true;
       const {pid, tid, page, authorid} = Object.assign({}, this.$route.query, this.$route.params)
-      const data = await this.getReplies({pid, tid, page, authorid, force})
+      const data = await this.getReplies({pid, tid, page, authorid, force: page === 'e' ? true : force})
       const {forum, thread} = data;
       const subForum = thread.subForum
       console.log(data);

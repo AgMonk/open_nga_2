@@ -1,8 +1,16 @@
 <template>
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
-    <el-header>
-      <!--      todo 下一页-->
+    <el-header style="text-align: left">
+      <my-router-link :to="{name:'短消息列表',params:{page:1}}">
+        <el-button size="small" type="primary">返回消息列表</el-button>
+      </my-router-link>
+      <my-router-link v-if="pageData && pageData.currentPage>1" :to="{name:'短消息阅读',params:{page:pageData.currentPage-1}}">
+        <el-button size="small" type="primary">上一页</el-button>
+      </my-router-link>
+      <my-router-link v-if="pageData &&pageData.hasNext" :to="{name:'短消息阅读',params:{page:pageData.currentPage+1}}">
+        <el-button size="small" type="primary">下一页</el-button>
+      </my-router-link>
 
     </el-header>
     <el-main v-loading="loading">
@@ -18,6 +26,7 @@
             </div>
             <div :style="getRowStyle()({rowIndex:i})">
               <h2 v-if="row.subject" style="text-align: left">{{ row.subject }}</h2>
+              <!--              {{row.content}}-->
               <nga-content :content="row.content" />
             </div>
           </el-col>
@@ -36,10 +45,11 @@ import NgaReadUserCard from "@/components/nga/read/nga-read-user-card";
 import NgaContent from "@/components/nga/read/nga-content";
 import MyTimestamp from "@/components/my/my-timestamp";
 import MyTagWithTooltip from "@/components/my/my-tag-with-tooltip";
+import MyRouterLink from "@/components/my/my-router-link";
 
 export default {
   name: "MessageRead",
-  components: {MyTagWithTooltip, MyTimestamp, NgaContent, NgaReadUserCard},
+  components: {MyRouterLink, MyTagWithTooltip, MyTimestamp, NgaContent, NgaReadUserCard},
   data() {
     return {
       loading: false,

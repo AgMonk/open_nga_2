@@ -21,7 +21,7 @@ export default {
                 cacheObj: state.messages,
                 key: `page:${page}`,
                 requestMethod: () => getMessages(page),
-                expires: 3 * 60,
+                expires: 10,
                 force
             }).then(res => res.data)
         },

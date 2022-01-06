@@ -1,4 +1,4 @@
-import {parseAvatar, parseMoney, requestUnity} from "@/assets/request/nga-request";
+import {handleUserData, parseAvatar, parseMoney, requestUnity} from "@/assets/request/nga-request";
 import {second2String} from "@/assets/utils/DateFormat";
 import {obj2Array} from "@/assets/utils/ObjectUtils";
 import {parseBitData} from "@/assets/request/bitUtils";
@@ -319,9 +319,30 @@ export const readMessage = (mid, page = 1) => nukeRequest({
     , act: "read"
     , page, mid
 }).then(res => {
-    if (res.data && res.data[0]) {
-        return res.data[0]
+    const {data} = res;
+    const {currentPage, length, nextPage, subjectBit, userInfo} = data['0']
+    const bitData = subjectBit ? parseBitData(subjectBit) : "0";
+    const [multiUsers, unread] = bitData.split('').map(i => i === '1');
+    const pageData = {
+        pageSize: length,
+        hasNext: nextPage === 1,
+        currentPage,
     }
-}).then(res => {
-    console.log(res)
+    const subjectStatus = {multiUsers, unread}
+
+    const replies = Object.keys(data['0']).filter(i => !isNaN(i)).map(i => data['0'][i])
+
+    const userData = {}
+    handleUserData(userInfo, userData)
+    userData.userData.users.forEach(user => {
+        Object.keys(user).forEach(key => {
+            if (user[key] === '') {
+                delete user[key]
+            }
+        })
+    })
+
+    res.data = {pageData, subjectStatus, replies, userData: userData.userData}
+
+    return res;
 })

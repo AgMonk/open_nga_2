@@ -2,12 +2,13 @@
 // noinspection JSUnusedLocalSymbols
 
 import {getFromCache} from "@/assets/utils/CacheUtils";
-import {getMessages} from "@/assets/request/nuke-request";
+import {getMessages, readMessage} from "@/assets/request/nuke-request";
 
 export default {
     namespaced: true,
     state: {
         messages: {},
+        replies: {},
     },
     mutations: {
         method(state, payload) {
@@ -23,6 +24,20 @@ export default {
                 expires: 3 * 60,
                 force
             }).then(res => res.data)
+        },
+        readMessage: ({dispatch, commit, state}, {mid, page, force}) => {
+            return getFromCache({
+                cacheObj: state.replies,
+                key: `mid:${mid} page:${page}`,
+                requestMethod: () => readMessage(mid, page),
+                expires: 3 * 60,
+                force
+            }).then(res => res.data).then(res => {
+                res.userData.users.forEach(user => {
+                    commit("users/saveUser", user, {root: true})
+                })
+                return res;
+            })
         },
     },
     getters: {},

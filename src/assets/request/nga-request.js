@@ -373,7 +373,7 @@ const handleReply = reply => {
 
 };
 
-const handleUserData = (__U, data) => {
+export const handleUserData = (__U, data) => {
     const {__GROUPS, __MEDALS, __REPUTATIONS} = __U
     const {replies} = data;
     // console.log(__U)
@@ -402,28 +402,30 @@ const handleUserData = (__U, data) => {
 
     //声望等级
     const reputations = {}
-    const level = data.forum.reputationLevel
-    if (level) {
-        Object.keys(__REPUTATIONS).forEach(key => {
-            reputations[key] = {}
-            const item = __REPUTATIONS[key]
-            const rName = item[0]
-            delete item[0]
-            Object.keys(item).forEach(uid => {
-                const value = item[uid];
-                let name;
-                for (let i = 0; i < level.length; i++) {
-                    if (value >= level[i].r) {
-                        name = level[i].n
-                        break;
+    if (data.forum) {
+        const level = data.forum.reputationLevel
+        if (level) {
+            Object.keys(__REPUTATIONS).forEach(key => {
+                reputations[key] = {}
+                const item = __REPUTATIONS[key]
+                const rName = item[0]
+                delete item[0]
+                Object.keys(item).forEach(uid => {
+                    const value = item[uid];
+                    let name;
+                    for (let i = 0; i < level.length; i++) {
+                        if (value >= level[i].r) {
+                            name = level[i].n
+                            break;
+                        }
                     }
-                }
 
-                reputations[key][uid] = {
-                    name, value, rName
-                };
+                    reputations[key][uid] = {
+                        name, value, rName
+                    };
+                })
             })
-        })
+        }
     }
     delete __U.__REPUTATIONS
 
@@ -434,11 +436,10 @@ const handleUserData = (__U, data) => {
     const users = Object.keys(__U).map(id => {
         const user = __U[id]
         //匿名用户
-        if (id < 0) {
+        if (id < 0 && replies) {
             const {username} = user;
             user.uid = username
             const handleAnonymousName = (array, uid, username) => {
-                console.log(array)
                 if (array && array.length > 0) {
                     array.filter(reply => reply && reply.authorid === uid).forEach(reply => reply.authorid = username)
                 }
@@ -642,7 +643,9 @@ const transformResponse = [
             const pageSize = __T__ROWS_PAGE ? __T__ROWS_PAGE : __R__ROWS_PAGE
             const currentPage = __PAGE ? __PAGE : 1;
             const totalPage = Math.floor(total / pageSize) + (total % pageSize === 0 ? 0 : 1)
-            data.pageData = {total, pageSize, currentPage, totalPage}
+            if (totalPage) {
+                data.pageData = {total, pageSize, currentPage, totalPage}
+            }
 
             delete data.__ROWS
             delete data.__PAGE

@@ -9,10 +9,11 @@ import NgaContentLink from "@/components/nga/read/nga-content-link";
 import {searchEmotes} from "@/assets/nga/emotions";
 import NgaContentImg from "@/components/nga/read/nga-content-img";
 import NgaCodeTextarea from "@/components/nga/read/nga-code-textarea";
+import NgaThreadLink from "@/components/nga/thread/nga-thread-link";
 
 export default {
   name: "nga-content-render",
-  components: {NgaEmoteImage, NgaReplyLink, NgaUserLink, NgaContentLink, NgaContentImg, NgaCodeTextarea},
+  components: {NgaEmoteImage, NgaReplyLink, NgaUserLink, NgaContentLink, NgaContentImg, NgaCodeTextarea, NgaThreadLink},
   render() {
     return this.render(this.data)
     // return this.render(this.myData, 2)
@@ -71,7 +72,10 @@ export default {
         pid: ({children, props}) => {
           const [pid, tid, page] = props.split(',')
           // console.log(`pid渲染 ${pid} ${tid} ${page}`)
-          return <nga-reply-link pid={pid} tid={tid} page={page}>{this.render(children)}</nga-reply-link>
+          if (pid) {
+            return <nga-reply-link pid={pid} tid={tid} page={page}>{this.render(children)}</nga-reply-link>
+          }
+          return <nga-reply-link pid={children[0].raw}>[这个回复]</nga-reply-link>
         },
         raw: ({raw}) => {
           return <span>{raw}</span>

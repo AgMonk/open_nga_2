@@ -30,7 +30,7 @@ export default {
                 cacheObj: state.replies,
                 key: `mid:${mid} page:${page}`,
                 requestMethod: () => readMessage(mid, page),
-                expires: 3 * 60,
+                expires: 5,
                 force
             }).then(res => res.data).then(res => {
                 res.userData.users.forEach(user => {

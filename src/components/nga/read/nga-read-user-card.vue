@@ -2,34 +2,34 @@
   <el-card class="box-card" style="height:100%">
     <template #header>
       <div class="card-header">
-        <nga-user-link :uid="uid"/>
+        <nga-user-link :uid="uid" />
         <el-tooltip v-if="!(''+uid).startsWith('#anony_')" effect="light">
           <template #content>
             <el-descriptions :column="2">
-              <el-descriptions-item label="声望" v-if="user.reputation">
+              <el-descriptions-item v-if="user.reputation" label="声望">
                 <el-tag v-if="user.reputation.value<0" size="small" type="danger">{{ user.reputation.name }}({{ user.reputation.value }})</el-tag>
                 <el-tag v-else-if="user.reputation.value<300" size="small" type="warning">{{ user.reputation.name }}({{ user.reputation.value }})</el-tag>
                 <el-tag v-else-if="user.reputation.value<600" size="small">{{ user.reputation.name }}({{ user.reputation.value }})</el-tag>
                 <el-tag v-else size="small" type="success">{{ user.reputation.name }}({{ user.reputation.value }})</el-tag>
               </el-descriptions-item>
-              <el-descriptions-item label="威望等级" v-if="user.groupId">
+              <el-descriptions-item v-if="user.groupId" label="威望等级">
                 <el-tag size="small">{{ user.groupName }}({{ user.groupId }})</el-tag>
               </el-descriptions-item>
-              <el-descriptions-item label="金币" v-if="user.money">
+              <el-descriptions-item v-if="user.money" label="金币">
                 <el-tag size="small">
-                  <nga-money-text :money="user.money"/>
+                  <nga-money-text :money="user.money" />
                 </el-tag>
               </el-descriptions-item>
               <!--         <el-descriptions-item label="注册" v-if="user.timestamp && user.timestamp.reg">-->
               <!--             <el-tag size="small">{{ user.timestamp.reg.value.split(' ')[0] }}</el-tag>-->
               <!--         </el-descriptions-item>-->
-              <el-descriptions-item label="威望" v-if="user.rvrc">
+              <el-descriptions-item v-if="user.rvrc" label="威望">
                 <el-tag size="small">{{ user.rvrc }}</el-tag>
               </el-descriptions-item>
-              <el-descriptions-item label="发帖" v-if="user.postCount">
+              <el-descriptions-item v-if="user.postCount" label="发帖">
                 <el-tag size="small">{{ user.postCount }}</el-tag>
               </el-descriptions-item>
-              <el-descriptions-item label="总赞" v-if="user.totalAgreement">
+              <el-descriptions-item v-if="user.totalAgreement" label="总赞">
                 <el-tag size="small">{{ user.totalAgreement }}</el-tag>
               </el-descriptions-item>
 
@@ -39,10 +39,10 @@
         </el-tooltip>
       </div>
     </template>
-    <span v-if="!(''+uid).startsWith('#anony_')">
-<!--    非匿名用户 -->
+    <span v-if="!disableAvatar && !(''+uid).startsWith('#anony_')">
+      <!--    非匿名用户 -->
       <span v-if="user.avatar && user.avatar.length>0">
-        <my-avatar :list="user.avatar"/>
+        <my-avatar :list="user.avatar" />
       </span>
 
     </span>
@@ -85,7 +85,7 @@ export default {
     uid: {
       required: true,
     },
-
+    disableAvatar: {type: Boolean, default: false}
   },
 }
 

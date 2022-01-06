@@ -76,11 +76,12 @@
               <div v-for="m in pm" :class="m.unread?'unread':''" @click="m.unread=false;updateUnread()">
                 <span>{{ m.timestamp.value.substring(m.timestamp.value.indexOf("-") + 1) }}</span>
                 &nbsp;
-                <nga-user-link :text="m.from.name" :uid="m.from.uid" disabled/>
+                <nga-user-link :text="m.from.name" :uid="m.from.uid" disabled />
                 &nbsp;
                 {{ m.type }}
 
-                <el-link :href="`https://bbs.nga.cn/nuke.php?func=message#mid=${m.mid}`" target="_blank">查看</el-link>
+                <my-router-link :to="{name:'短消息阅读',params:{mid:m.mid,page:1}}">查看</my-router-link>
+
               </div>
             </el-scrollbar>
           </div>

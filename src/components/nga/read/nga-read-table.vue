@@ -51,7 +51,7 @@
               </template>
 
               <div :style="getRowStyle()({rowIndex:i})">
-                <h2 v-if="row.subject">{{ row.subject }}</h2>
+                <h2 v-if="row.subject" style="text-align: left">{{ row.subject }}</h2>
                 <nga-content :content="row.content" />
               </div>
 

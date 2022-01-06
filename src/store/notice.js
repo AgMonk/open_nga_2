@@ -9,7 +9,7 @@ const setUnread = (oldArray, newArray) => {
     const list = newArray.filter(i => !uuid.includes(i.uuid))
     list.forEach(i => i.unread = true);
     oldArray.splice(0, 0, ...list)
-    console.log(oldArray)
+    // console.log(oldArray)
 }
 
 

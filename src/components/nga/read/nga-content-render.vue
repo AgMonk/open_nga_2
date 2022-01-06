@@ -15,6 +15,7 @@ export default {
   name: "nga-content-render",
   components: {NgaEmoteImage, NgaReplyLink, NgaUserLink, NgaContentLink, NgaContentImg, NgaCodeTextarea, NgaThreadLink},
   render() {
+    console.log(this.data)
     return this.render(this.data)
     // return this.render(this.myData, 2)
   },

@@ -187,6 +187,7 @@ export const parseBbsCode = (code) => {
     code = delBrTag(code, "h")
     code = delBrTag(code, "list")
     code = delBrTag(code, "quote")
+    console.log(code)
 
     //表格标签标准化
     code = code
@@ -194,7 +195,9 @@ export const parseBbsCode = (code) => {
         .replace(/\[\*]/g, "[/li][li]")
         .replace(/\[list]\[\/li]/g, "[ul]")
         .replace(/\[\/list]/g, "[/li][/ul]")
+        .replace(/\[list]/g, "[ul][li]")
 
+    console.log(code)
 
     let replyCodeRegExp = /\[b]Reply to \[pid=.+?\[\/b]/g
     let res;

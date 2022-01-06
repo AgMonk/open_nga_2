@@ -43,7 +43,7 @@
                     @delete="deleteFile"
                     @plus="plusFile"
         />
-        <el-button type="success" @click="sendPost">发帖(Ctrl+Enter)</el-button>
+        <el-button style="margin-top: 20px" type="success" @click="sendPost">发帖(Ctrl+Enter)</el-button>
       </div>
     </el-main>
 

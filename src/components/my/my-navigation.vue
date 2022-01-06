@@ -25,7 +25,7 @@ export default {
         {
           path: '/my', name: '我的',
           children: [
-            {path: "messages", name: "短消息"},
+            {path: "messages/list/1", name: "短消息"},
             {path: "config", name: "配置"},
             {path: "favor/1", name: "收藏"},
             {path: "tips", name: "关于"},

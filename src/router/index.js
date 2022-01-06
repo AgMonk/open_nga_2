@@ -12,6 +12,8 @@ import User from "@/views/User";
 import Tips from "@/views/Tips";
 import Post from "@/views/Post";
 import Messages from "@/views/Messages";
+import MessageList from "@/views/MessageList";
+import MessageRead from "@/views/MessageRead";
 
 const routes = [
     {
@@ -65,7 +67,13 @@ const routes = [
             {path: "config", name: "配置", component: Config},
             {path: "favor/:page", name: "已收藏主题", component: ThreadTab},
             {path: "tips", name: "关于", component: Tips,},
-            {path: "messages", name: "短消息", component: Messages,},
+            {
+                path: "messages", name: "短消息", component: Messages,
+                children: [
+                    {path: "list/:page", name: "短消息列表", component: MessageList},
+                    {path: "read/:mid/:page", name: "短消息阅读", component: MessageRead},
+                ]
+            },
         ]
     },
     {

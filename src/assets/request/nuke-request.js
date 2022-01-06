@@ -312,3 +312,16 @@ export const getMessages = (page) => nukeRequest({
         return res
     }
 })
+
+export const readMessage = (mid, page = 1) => nukeRequest({
+    __lib: "message"
+    , __act: "message"
+    , act: "read"
+    , page, mid
+}).then(res => {
+    if (res.data && res.data[0]) {
+        return res.data[0]
+    }
+}).then(res => {
+    console.log(res)
+})

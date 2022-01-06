@@ -1,5 +1,4 @@
 <template>
-  <!--界面配色 todo-->
   <div>
     <div style="text-align: left">
       <el-select v-model="officialStyleSelection" placeholder="使用官方配色" value-key="name" @change="useOfficialStyle">

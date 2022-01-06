@@ -9,8 +9,8 @@ module.exports = {
             //api接口
             '/nga-api': {
                 // 接口的域名
-                target: "https://bbs.nga.cn/",
-                // target:"http://localhost:11451/nga-api/",
+                // target: "https://bbs.nga.cn/",
+                target: "http://localhost:11452/",
                 // target: 'http://119.23.252.72:8900',
                 // 如果是https接口，需要配置这个参数
                 // secure: false,
@@ -18,14 +18,14 @@ module.exports = {
                 changeOrigin: true,
                 pathRewrite: {
                     //本身的接口地址没有 '/api' 这种通用前缀，所以要rewrite，如果本身有则去掉
-                    '^/nga-api': ''
+                    // '^/nga-api': ''
                 },
             },
             //上传接口
             '/upload': {
                 // 接口的域名
-                target: "https://img8.nga.cn/attach.php", // 接口的域名
-                // target:"http://localhost:11451/upload/",
+                // target: "https://img8.nga.cn/attach.php", // 接口的域名
+                target: "http://localhost:11452/upload/",
                 // 如果是https接口，需要配置这个参数
                 secure: false,
                 // 如果接口跨域，需要进行这个参数配置，为true的话，请求的header将会设置为匹配目标服务器的规则（Access-Control-Allow-Origin）
@@ -38,8 +38,8 @@ module.exports = {
             //官方表情
             '/emote': {
                 // 接口的域名
-                target: `${proxy}img4.nga.178.com/ngabbs/post/smile/`,
-                // target:"http://localhost:11451/emote/",
+                // target: `${proxy}img4.nga.178.com/ngabbs/post/smile/`,
+                target: "http://localhost:11452/emote/",
                 // 接口的域名
                 // 如果是https接口，需要配置这个参数
                 secure: false,
@@ -53,8 +53,8 @@ module.exports = {
             //附件
             '/attachments': {
                 // 接口的域名
-                target: `${proxy}img.nga.178.com/attachments/`,
-                // target:"http://localhost:11451/attachments/",
+                // target: `${proxy}img.nga.178.com/attachments/`,
+                target: "http://localhost:11452/attachments/",
                 // 接口的域名
                 // 如果是https接口，需要配置这个参数
                 secure: false,
@@ -68,8 +68,8 @@ module.exports = {
             //版面图标
             '/icon/f': {
                 // 接口的域名
-                target: `${proxy}img4.nga.178.com/proxy/cache_attach/ficon/`,
-                // target:"http://localhost:11451/icon/f/",
+                // target: `${proxy}img4.nga.178.com/proxy/cache_attach/ficon/`,
+                target: "http://localhost:11452/icon/f/",
                 // 接口的域名
                 // 如果是https接口，需要配置这个参数
                 secure: false,
@@ -83,8 +83,8 @@ module.exports = {
             //头像
             '/avatars': {
                 // 接口的域名
-                target: `${proxy}img.nga.178.com/avatars/`,
-                // target:"http://localhost:11451/avatars/",
+                // target: `${proxy}img.nga.178.com/avatars/`,
+                target: "http://localhost:11452/avatars/",
                 // 接口的域名
                 // 如果是https接口，需要配置这个参数
                 secure: false,

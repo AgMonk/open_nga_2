@@ -43,7 +43,7 @@ export default {
     },
     isNgaImg(src) {
       //判断是否为nga上的图片
-      return src.startsWith('https://img.nga.178.com/attachments/') || src.startsWith('http://img.nga.178.com/attachments/') || src.startsWith('./')
+      return src.includes('nga.178.com') || src.startsWith('./')
     },
     update(src) {
       this.show = false;

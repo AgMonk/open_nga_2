@@ -46,5 +46,28 @@ export default {
 
         },
     },
-    getters: {},
+    getters: {
+        getHeaderRowStyle(state) {
+            const {style} = state.config
+            const {rowColor2, textColor} = style
+            return {
+                "background-color": rowColor2,
+                color: textColor,
+            }
+        },
+        getRowStyle: (state) => ({rowIndex}) => {
+            const {style} = state.config
+            const {rowColor1, rowColor2, textColor} = style
+            if (rowIndex % 2 === 0) {
+                return {
+                    "background-color": rowColor1,
+                    color: textColor,
+                }
+            }
+            return {
+                "background-color": rowColor2,
+                color: textColor,
+            }
+        }
+    },
 }

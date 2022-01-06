@@ -97,9 +97,11 @@ export default {
   justify-content: space-between;
   align-items: center;
   height: 25px;
+  background-color: rgb(0 0 0 / 0%);
 }
 
 .el-card {
   --el-card-padding: 5px;
+  background-color: rgb(0 0 0 / 0%);
 }
 </style>

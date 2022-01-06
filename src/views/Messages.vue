@@ -4,9 +4,9 @@
     <el-header><h3>短消息</h3></el-header>
     <el-main style="--el-main-padding:0">
       <el-table :data="messages"
-                :header-cell-style="headerRowStyle"
-                :header-row-style="headerRowStyle"
-                :row-style="rowStyle"
+                :header-cell-style="getHeaderRowStyle"
+                :header-row-style="getHeaderRowStyle"
+                :row-style="getRowStyle()"
       >
         <el-table-column label="回复" prop="replies" width="70px" />
         <!--        todo 详情跳转 未读加粗 -->
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import NgaUserLink from "@/components/nga/user/nga-user-link";
 import MyTimestamp from "@/components/my/my-timestamp";
 
@@ -47,7 +47,6 @@ export default {
     return {
       messages: [],
       pageData: {},
-      headerRowStyle: {},
     }
   },
   computed: {
@@ -55,32 +54,13 @@ export default {
   },
   methods: {
     ...mapActions('messages', [`listMessages`]),
-    rowStyle({row, rowIndex}) {
-      const {style} = this.config
-      const {rowColor1, rowColor2, textColor} = style
-      if (rowIndex % 2 === 0) {
-        return {
-          "background-color": rowColor1,
-          color: textColor,
-        }
-      }
-      return {
-        "background-color": rowColor2,
-        color: textColor,
-      }
-    },
+    ...mapGetters('config', [`getHeaderRowStyle`, `getRowStyle`]),
   },
   async mounted() {
     const data = await this.listMessages({page: 1, force: false})
     this.messages = data.messages
     this.pageData = data.pageData
 
-    const {style} = this.config
-    const {rowColor2, textColor} = style
-    this.headerRowStyle = {
-      "background-color": rowColor2,
-      color: textColor,
-    }
   },
   watch: {},
   props: {},

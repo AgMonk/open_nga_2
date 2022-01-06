@@ -16,9 +16,9 @@
                      :total="total"
       />
       <el-table :data="threads"
-                :header-cell-style="headerRowStyle"
-                :header-row-style="headerRowStyle"
-                :row-style="rowStyle"
+                :header-cell-style="getHeaderRowStyle"
+                :header-row-style="getHeaderRowStyle"
+                :row-style="getRowStyle()"
                 style="width: 100%"
                 @selection-change="handleSelectionChange"
       >
@@ -91,7 +91,7 @@ import NgaUserLink from "@/components/nga/user/nga-user-link";
 import MyTimestamp from "@/components/my/my-timestamp";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {delFavor} from "@/assets/request/nuke-request";
-import {mapState} from "vuex";
+import {mapGetters, mapState} from "vuex";
 
 export default {
   name: "thread-table",
@@ -101,7 +101,6 @@ export default {
   },
   data() {
     return {
-      headerRowStyle: {},
       currentPage: 1,
       pageSize: 100,
       total: 100,
@@ -110,20 +109,7 @@ export default {
   },
   emits: ['favor-updated'],
   methods: {
-    rowStyle({row, rowIndex}) {
-      const {style} = this.config
-      const {rowColor1, rowColor2, textColor} = style
-      if (rowIndex % 2 === 0) {
-        return {
-          "background-color": rowColor1,
-          color: textColor,
-        }
-      }
-      return {
-        "background-color": rowColor2,
-        color: textColor,
-      }
-    },
+    ...mapGetters('config', [`getHeaderRowStyle`, `getRowStyle`]),
     delFavor() {
       if (!this.selection || this.selection.length === 0) {
         ElMessage.error("未选中任何主题")
@@ -172,24 +158,10 @@ export default {
   mounted() {
     this.update()
 
-    const {style} = this.config
-    const {rowColor2, textColor} = style
-    this.headerRowStyle = {
-      "background-color": rowColor2,
-      color: textColor,
-    }
   },
   watch: {
     pageData(e) {
       this.update(e)
-    },
-    config(e) {
-      const {style} = e
-      const {rowColor2, textColor} = style
-      this.headerRowStyle = {
-        "background-color": rowColor2,
-        color: textColor,
-      }
     },
   },
   props: {

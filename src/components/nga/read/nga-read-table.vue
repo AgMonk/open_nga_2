@@ -17,10 +17,10 @@
 
       <!--回复列表-->
       <div v-for="(row,i) in replies" :id="'P'+row.pid">
-        <el-row :id="'L'+row.level" :key="i">
+        <el-row :id="'L'+row.level" :key="i" :style="getRowStyle()({rowIndex:i})">
           <!--用户卡片-->
           <el-col :span="6">
-            <nga-read-user-card :uid="row.authorid"/>
+            <nga-read-user-card :uid="row.authorid" />
           </el-col>
           <!--回复内容-->
           <el-col :span="18">
@@ -50,9 +50,9 @@
                 </div>
               </template>
 
-              <div>
+              <div :style="getRowStyle()({rowIndex:i})">
                 <h2 v-if="row.subject">{{ row.subject }}</h2>
-                <nga-content :content="row.content"/>
+                <nga-content :content="row.content" />
               </div>
 
 
@@ -115,7 +115,7 @@ import NgaReadOperationButton from "@/components/nga/read/nga-read-operation-but
 import NgaContent from "@/components/nga/read/nga-content";
 import NgaAttachTag from "@/components/nga/read/nga-attach-tag";
 import NgaSignature from "@/components/nga/read/nga-signature";
-import {mapState} from "vuex";
+import {mapGetters, mapState} from "vuex";
 
 export default {
   name: "nga-read-table",
@@ -137,6 +137,7 @@ export default {
     }
   },
   methods: {
+    ...mapGetters('config', [`getHeaderRowStyle`, `getRowStyle`]),
     report({tid, pid}) {
       ElMessageBox.prompt('请填写理由', '举报理由', {
         confirmButtonText: '确认',
@@ -235,10 +236,12 @@ export default {
   justify-content: space-between;
   align-items: center;
   height: 25px;
+  background-color: rgb(0 0 0 / 0%);
 }
 
 .el-card {
   --el-card-padding: 5px;
+  background-color: rgb(0 0 0 / 0%);
 }
 
 .divider {

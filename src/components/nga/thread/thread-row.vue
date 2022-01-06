@@ -54,15 +54,6 @@ export default {
     isType(mirror,type) {
       return mirror && mirror.type && (mirror.type===type || type.includes(mirror.type));
     },
-    // getRoutePath(type,id){
-    //   switch (type) {
-    //     case "合集":return `/thread/s/${id}/1`;
-    //     case "版面":return `/thread/f/${id}/1`;
-    //     case "合集主题":return `/thread/s/${id}/1`;
-    //     case "子版主题":return `/thread/f/${id}/1`;
-    //     default:return `/read/t/${id}/1`;
-    //   }
-    // }
   },
   mounted() {
   },

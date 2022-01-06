@@ -7,6 +7,7 @@ import history from "@/store/history";
 import forums from "@/store/forums";
 import notice from "@/store/notice";
 import config from "@/store/config";
+import messages from "@/store/messages";
 
 export default createStore({
   state: {
@@ -16,6 +17,6 @@ export default createStore({
   actions: {
   },
   modules: {
-    read, users, breadcrumb, thread, history, forums, notice, config
+    read, users, breadcrumb, thread, history, forums, notice, config, messages
   }
 })

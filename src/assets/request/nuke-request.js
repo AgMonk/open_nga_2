@@ -1,6 +1,7 @@
 import {parseAvatar, parseMoney, requestUnity} from "@/assets/request/nga-request";
 import {second2String} from "@/assets/utils/DateFormat";
 import {obj2Array} from "@/assets/utils/ObjectUtils";
+import {parseBitData} from "@/assets/request/bitUtils";
 
 export const nukeRequest = (data) => {
     return requestUnity({
@@ -259,4 +260,54 @@ export const delFavor = ({tidarray, page = 1}) => nukeRequest({
     , action: "del"
     , tidarray
     , page
+})
+//获取短消息列表
+export const getMessages = (page) => nukeRequest({
+    __lib: "message"
+    , __act: "message"
+    , act: "list"
+    , page
+}).then(res => {
+    console.log(res)
+    if (res.data && res.data[0]) {
+        const data = res.data[0];
+        const {rowsPerPage, nextPage, currentPage} = data
+        const pageData = {
+            pageSize: rowsPerPage,
+            hasNext: nextPage === '1',
+            currentPage,
+        }
+        delete data.rowsPerPage
+        delete data.nextPage
+        delete data.currentPage
+
+        const message = obj2Array(res.data[0]).map(data => {
+            const {all_user, bit, from, from_username, last_from, last_from_username, last_modify, mid, posts, sbit, subject, time} = data
+            const timestamp = {
+                create: {
+                    time,
+                    value: second2String(time)
+                },
+                lastModify: {
+                    time: last_modify,
+                    value: second2String(last_modify)
+                }
+            }
+            const bitData = bit ? parseBitData(bit) : "0";
+            const [multiUsers, unread] = bitData.split('').map(i => i === '1');
+            const users = {
+                author: {uid: from, username: from_username},
+                lastReply: {uid: last_from, username: last_from_username},
+            }
+
+            return {
+                timestamp, bitData, users, mid, replies: posts, subject, multiUsers, unread
+            }
+        })
+
+        res.data = {
+            pageData,
+            message,
+        }
+    }
 })

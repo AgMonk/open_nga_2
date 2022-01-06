@@ -1,11 +1,11 @@
 <template>
-  <el-tooltip :hide-after="1500" :show-after="500" effect="light">
+  <el-tooltip :show-after="500" effect="light">
     <template #content>
       <h3>点击打开原图</h3>
       <div v-if="src && isNgaImg(src)">
         <el-divider content-position="left">复制</el-divider>
-        <my-copy-button :copy-text="`[img]./${src.substring(src.indexOf('mon_'))}[/img]`" text="BbsCode"/>
-        <my-copy-button :copy-text="`https://img.nga.178.com${link}`" text="地址"/>
+        <my-copy-button :copy-text="`[img]./${src.substring(src.indexOf('mon_'))}[/img]`" text="BbsCode" />
+        <my-copy-button :copy-text="`https://img.nga.178.com${link}`" text="地址" />
       </div>
       <div v-if="link">
         <el-divider content-position="left">打开</el-divider>

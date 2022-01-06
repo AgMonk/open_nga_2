@@ -3,22 +3,27 @@
     <!--  <el-container direction="horizontal">-->
     <!--    <el-header></el-header>-->
 
-    <el-main v-loading="loading">
+    <el-main v-loading="loading"
+             :element-loading-spinner="svg"
+             element-loading-background="rgba(0, 0, 0, 0.8)"
+             element-loading-svg-view-box="-10, -10, 50, 50"
+             element-loading-text="Loading..."
+    >
       <div id="快捷按钮" style="margin-bottom: 10px">
         <template v-for="(code,i) in bbsCodeLibrary" :key="i">
           <el-select v-if="code.props" :placeholder="code.cn" class="quick-select" size="mini" @change="quickCode(code.en,$event)">
-            <el-option v-for="(option,j) in code.props" :key="j" :label="option.cn" :value="option.en"/>
+            <el-option v-for="(option,j) in code.props" :key="j" :label="option.cn" :value="option.en" />
           </el-select>
           <el-tag v-else class="quick-tag" size="mini" @click="quickCode(code.en)">{{ code.cn }}</el-tag>
         </template>
         <el-button size="mini" type="primary" @click="showAllEmotes">表情</el-button>
         <div>
-          <el-switch v-model="postParams.comment" :before-change="confirmComment" active-text="评论"/>
-          <el-switch v-model="postParams.anony" :before-change="confirmAnonymous" active-text="匿名"/>
+          <el-switch v-model="postParams.comment" :before-change="confirmComment" active-text="评论" />
+          <el-switch v-model="postParams.anony" :before-change="confirmAnonymous" active-text="匿名" />
         </div>
       </div>
       <div>
-        <el-input v-model="postParams.subject" placeholder="标题"/>
+        <el-input v-model="postParams.subject" placeholder="标题" />
       </div>
       <el-input id="nga-post-textarea"
                 v-model="postParams.content"
@@ -76,6 +81,7 @@ export default {
   components: {NgaUpload, NgaEmoteImage},
   data() {
     return {
+      svg: `<path class="path" d=" M 30 15 L 28 17 M 25.61 25.61 A 15 15, 0, 0, 1, 15 30 A 15 15, 0, 1, 1, 27.99 7.5 L 15 15 " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/> `,
       loading: false,
       emotes,
       postParams: {

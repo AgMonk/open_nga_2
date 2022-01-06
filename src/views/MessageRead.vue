@@ -13,7 +13,11 @@
       </my-router-link>
 
     </el-header>
-    <el-main v-loading="loading">
+    <el-main v-loading="loading" :element-loading-spinner="svg"
+             element-loading-background="rgba(0, 0, 0, 0.8)"
+             element-loading-svg-view-box="-10, -10, 50, 50"
+             element-loading-text="Loading..."
+    >
       <div v-for="(row,i) in replies">
         <el-row :key="i" :style="getRowStyle()({rowIndex:i})">
           <el-col :span="6">
@@ -52,6 +56,7 @@ export default {
   components: {MyRouterLink, MyTagWithTooltip, MyTimestamp, NgaContent, NgaReadUserCard},
   data() {
     return {
+      svg: `<path class="path" d=" M 30 15 L 28 17 M 25.61 25.61 A 15 15, 0, 0, 1, 15 30 A 15 15, 0, 1, 1, 27.99 7.5 L 15 15 " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/> `,
       loading: false,
       pageData: {},
       replies: {},

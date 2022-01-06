@@ -16,7 +16,11 @@
           active-text="精华区"
       />
     </el-header>
-    <el-main>
+    <el-main v-loading="loading" :element-loading-spinner="svg"
+             element-loading-background="rgba(0, 0, 0, 0.8)"
+             element-loading-svg-view-box="-10, -10, 50, 50"
+             element-loading-text="Loading..."
+    >
       <div id="版头">
         <!--       todo  -->
       </div>
@@ -50,12 +54,14 @@ export default {
   components: {MyRouterLink, ThreadTable, NgaForumAvatar},
   data() {
     return {
+      loading: false,
       title: "",
       threads: [],
       pageData: {},
       forum: {},
       orderByPostDateDesc: false,
       recommend: false,
+      svg: `<path class="path" d=" M 30 15 L 28 17 M 25.61 25.61 A 15 15, 0, 0, 1, 15 30 A 15 15, 0, 1, 1, 27.99 7.5 L 15 15 " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/> `,
     }
   },
 
@@ -116,6 +122,7 @@ export default {
     },
     //获取数据
     async get(force, route = this.$route) {
+      this.loading = true;
       const param = {force, ...route.query, ...route.params,}
       // noinspection NonAsciiCharacters
       const methodMap = {
@@ -128,6 +135,7 @@ export default {
       if (method) {
         const res = await method(param)
         console.log(res)
+        this.loading = false;
         if (res) {
           this.threads = res.threads
           this.pageData = res.pageData

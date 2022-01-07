@@ -46,15 +46,35 @@ export const parseAvatar = (avatar) => {
             'img.nga.178.com/avatars',
             'img.nga.cn/avatars',
         ]
+        const isNgaAvatar = (url) => {
+            for (let i = 0; i < ngaAvatars.length; i++) {
+                if (url.includes(ngaAvatars[i])) {
+                    return true;
+                }
+            }
+            return false
+        }
         // noinspection HttpUrlsUsage
-        if (avatar.includes(ngaAvatars[0]) || avatar.includes(ngaAvatars[1])) {
-            avatar = avatar.replace(/\.a\//g, "").replace(/\?\d+/g, "").split("|")
+        if (isNgaAvatar(avatar)) {
+            avatar = avatar
+                .replace(/\.a\//g, "")
+                .replace(/\?\d+/g, "")
+                .split("|")
             const p = avatar[0].substring(avatar[0].indexOf('/avatars'), avatar[0].lastIndexOf('/') + 1)
             return avatar.map(i => {
                 const name = i.substring(i.lastIndexOf('/') + 1)
                 return p + name;
             })
 
+        } else if (avatar.includes('pic1.178.com')) {
+            avatar = avatar
+                .replace(/\?t=\d+/g, "")
+                .split("|")
+            const p = avatar[0].substring(avatar[0].indexOf('/avatars'), avatar[0].lastIndexOf('/') + 1)
+            return avatar.map(i => {
+                const name = i.substring(i.lastIndexOf('/') + 1)
+                return '/178' + p + name;
+            })
         } else {
             console.error(`未识别的头像链接格式：` + avatar)
             return [avatar]

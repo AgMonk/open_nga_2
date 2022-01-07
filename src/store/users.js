@@ -61,9 +61,11 @@ export default {
             } else {
                 const cache = getCache("Username");
                 if (cache) {
-                    parseUsername(cache).forEach(u => {
+                    const uu = parseUsername(cache);
+                    uu.forEach(u => {
                         saveU(state, u)
                     })
+                    slf4j(`加载用户名缓存 ${uu.length}个`)
                 }
             }
         },

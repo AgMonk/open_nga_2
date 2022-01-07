@@ -90,7 +90,7 @@ export default {
     }
   },
   async mounted() {
-    this.loadUsername()
+    await this.loadUsername()
     await this.loadCurrentUser()
     await this.loadConfig()
     document.addEventListener('keypress', this.keypress)

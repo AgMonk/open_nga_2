@@ -23,7 +23,6 @@ export default {
         async loadConfig(state) {
             state.config = getCache("Config")
             state.config.style = state.config.style ? state.config.style : {}
-            console.log(state.config)
             putCache("Config", state.config)
         },
         setConfig(state, {key, value}) {

@@ -1,13 +1,14 @@
 <template>
   <el-image
       v-if="list && list.length>0"
-      class="nga-avatar"
-      hide-on-click-modal
       :infinite="false"
+      :initial-index="i"
       :preview-src-list="list"
       :src="list[i]"
-      :initial-index="i"
+      class="nga-avatar"
+      hide-on-click-modal
       style="max-width: 200px"
+      @error="errorHandler"
   />
 </template>
 <script>
@@ -22,12 +23,18 @@ export default {
   },
   methods: {
     errorHandler(e) {
-      console.error(e)
+      console.log(`头像加载失败`, e)
+      // if (this.list.length>0){
+      //   this.i++
+      // }
+      // if (this.i === this.list.length){
+      //   this.i = 0;
+      // }
     },
   },
   mounted() {
     this.random = Math.floor(Math.random() * this.list.length);
-    this.i = this.index ? this.index : this.random;
+    this.i = this.index
   },
   watch: {},
   props: {

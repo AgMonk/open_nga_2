@@ -143,7 +143,6 @@ export default {
       let m = 1024 * 1024;
       // console.log(file)
       // 尝试发现pixiv 或 推特图片
-      /*填写描述 todo 解析图片来源*/
 
       const filename = 'attachment_file0'
 

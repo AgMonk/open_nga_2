@@ -27,6 +27,7 @@
       <div v-if="forum && forum.children && forum.children.length>0">
         <el-collapse id="subForums">
           <el-collapse-item title="子版面/合集">
+            <!--todo 关注 取关-->
             <nga-forum-avatar v-for="forum in forum.children" :forum="forum" />
 
           </el-collapse-item>

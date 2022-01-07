@@ -14,7 +14,7 @@
               style="width:100%"
           >
             <el-option
-                v-for="item in getUserArray()"
+                v-for="item in options"
                 :key="item.uid"
                 :label="item.username"
                 :value="item.uid"
@@ -57,7 +57,8 @@ export default {
         content: "",
         subject: "",
         uidArray: [],
-      }
+      },
+      options: [],
     }
   },
   computed: {},
@@ -73,10 +74,13 @@ export default {
       })
     },
   },
-  mounted() {
+  async mounted() {
+    this.options = await this.getUserArray().filter(i => !i.username.startsWith('#anony'));
+    console.log(this.options)
     const {to} = this.$route.query
     if (to) {
       this.params.uidArray = to.split(',').map(i => parseInt(i))
+      this.$forceUpdate()
     }
   },
   watch: {},

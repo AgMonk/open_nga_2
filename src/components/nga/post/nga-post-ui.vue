@@ -133,6 +133,10 @@ export default {
     //上传成功 记录验证码
     plusFile(file) {
       console.log(file)
+
+      /*填写描述 todo 解析图片来源*/
+
+
       const {filename, url} = file
       let startText;
       if (url.endsWith(".zip")) {

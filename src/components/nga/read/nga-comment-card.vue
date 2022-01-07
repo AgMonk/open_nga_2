@@ -19,8 +19,8 @@
  </span>
       </div>
     </template>
-    <div>
-      <nga-content :content="reply.content"/>
+    <div :style="contentStyle">
+      <nga-content :content="reply.content" />
     </div>
   </el-card>
 </template>
@@ -45,7 +45,8 @@ export default {
   },
   watch: {},
   props: {
-    reply: {type: Object, required: true}
+    reply: {type: Object, required: true},
+    contentStyle: {type: Object},
   },
 }
 

@@ -62,14 +62,14 @@
 
               <div v-if="row.hotReply && row.hotReply.length>0" id="热评区">
                 <el-divider content-position="left"><span class="divider">热评区({{ row.hotReply.length }})</span></el-divider>
-                <div v-for="hot in row.hotReply">
-                  <nga-comment-card :reply="hot"/>
+                <div v-for="(hot,i) in row.hotReply">
+                  <nga-comment-card :contentStyle="getRowStyle()({rowIndex:i})" :reply="hot" />
                 </div>
               </div>
               <div v-if="row.comment && row.comment.length>0" id="评论区">
                 <el-divider content-position="left"><span class="divider">评论区({{ row.comment.length }})</span></el-divider>
-                <div v-for="hot in row.comment">
-                  <nga-comment-card :reply="hot"/>
+                <div v-for="(hot,i) in row.comment">
+                  <nga-comment-card :contentStyle="getRowStyle()({rowIndex:i})" :reply="hot" />
                 </div>
               </div>
               <div v-if="row.attachs && row.attachs.length>0" id="附件区" style="text-align: left">

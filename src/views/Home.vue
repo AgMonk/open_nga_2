@@ -53,9 +53,6 @@ export default {
   mounted() {
     setTitle("主页")
     this.refresh(false)
-    this.getUserInfo(39841854).then(res => {
-      console.log(res);
-    })
   }
 }
 </script>

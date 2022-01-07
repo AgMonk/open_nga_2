@@ -43,7 +43,6 @@ import MyRouterLink from "@/components/my/my-router-link";
 import {keypressEvent} from "@/assets/utils/DomUtils";
 import {ElMessage} from "element-plus";
 import {copyObj} from "@/assets/utils/ObjectUtils";
-import {getFollowTid} from "@/assets/request/forum-request";
 import NgaSubForumArea from "@/components/nga/thread/nga-sub-forum-area";
 
 export default {
@@ -122,9 +121,6 @@ export default {
       this.loading = true;
       const param = {force, ...route.query, ...route.params,}
 
-      getFollowTid(param.fid).then(res => {
-        console.log(res)
-      })
       // noinspection NonAsciiCharacters
       const methodMap = {
         "浏览版面主题": this.listThreadsOfForum,

@@ -187,7 +187,6 @@ export const parseBbsCode = (code) => {
     code = delBrTag(code, "h")
     code = delBrTag(code, "list")
     code = delBrTag(code, "quote")
-    console.log(code)
 
     //表格标签标准化
     code = code

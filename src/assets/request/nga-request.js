@@ -137,7 +137,7 @@ const handleTime = obj => {
     setTimestamp(obj, 'lastpost', 'lastPost')
     setTimestamp(obj, 'postdate', 'post')
     setTimestamp(obj, 'regdate', 'reg');
-    /*todo 疑似为上次登陆时间*/
+    /* 疑似为上次登陆时间*/
     setTimestamp(obj, 'thisvisit', 'thisVisit');
 
 };
@@ -267,7 +267,7 @@ export const handleAttachs = reply => {
 const handleReply = reply => {
     handleThreadType(reply)
 
-    const {postdatetimestamp, score, score_2, alterinfo, hotreply, from_client, comment, attachs} = reply
+    const {postdatetimestamp, score, score_2, alterinfo, hotreply, from_client, comment} = reply
 
     // 时间戳
     const timestamp = {}
@@ -575,7 +575,7 @@ const transformResponse = [
         // noinspection JSUnresolvedVariable
         return data.then(res => {
             // console.log(copyObj(res))
-            const {error, data, time} = res;
+            const {error, data} = res;
             if (error) {
                 const array = obj2Array(error)
                 if (!array[0].includes("发贴完毕")) {

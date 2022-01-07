@@ -59,7 +59,7 @@ export default {
             backgroundColor: "#d3dedb",
             rowColor1: "#e1efeb",
             rowColor2: "#f0f7f5",
-            textColor: "#10273f",
+            textColor: "#77878f",
           },
         },
         {
@@ -67,7 +67,7 @@ export default {
             backgroundColor: "#f5e8cb",
             rowColor1: "#fff0cd",
             rowColor2: "#fff8e7",
-            textColor: "#10273f",
+            textColor: "#77878f",
           },
         },
         {

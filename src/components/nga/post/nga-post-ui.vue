@@ -147,6 +147,7 @@ export default {
       this.addText(this.textarea(), {startText})
     },
     addFile(file) {
+      // noinspection JSUnusedLocalSymbols
       const {attachments, attachments_check, isImg, url} = file
       this.postParams.attachments.push(attachments)
       this.postParams.attachmentsCheck.push(attachments_check)
@@ -227,9 +228,10 @@ export default {
       let text = this.postParams.content.substring(0, dom.selectionStart)
       text = text.substring(text.lastIndexOf(" "))
       const bbsCode = searchBbsCode(text.trim());
+      console.log(bbsCode)
       if (bbsCode) {
         //  找到代码
-        const {code, props: prop} = bbsCode
+        const {code, prop} = bbsCode
         const startText = prop ? `[${code}=${prop}]` : `[${code}]`;
         const endText = `[/${code}]`
         this.addText(dom, {
@@ -284,13 +286,9 @@ export default {
       }
       const res = await postRequest(data)
       console.log(res)
-      const {tid, page, text, pid} = res;
+      const {tid, text, pid} = res;
       ElMessage.success(text)
-      // if (page) {
       await this.$router.push({name: '回复列表', params: {tid, page: 'e'}, hash: pid ? `#P${pid}` : undefined})
-      // }else{
-      //   await this.$router.push({name: '单个回复', params: {pid}, hash:pid ? `#P${pid}` : undefined})
-      // }
     },
   },
   mounted() {

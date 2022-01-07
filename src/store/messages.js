@@ -2,7 +2,7 @@
 // noinspection JSUnusedLocalSymbols
 
 import {getFromCache} from "@/assets/utils/CacheUtils";
-import {getMessages, readMessage} from "@/assets/request/nuke-request";
+import {getMessages, readMessage} from "@/assets/request/message-request";
 
 export default {
     namespaced: true,

@@ -36,6 +36,17 @@
           </el-col>
         </el-row>
       </div>
+      <div style="margin-top: 30px">
+        <el-input v-model="params.subject" placeholder="标题" />
+        <el-input id="nga-post-textarea"
+                  v-model="params.content"
+                  :rows="!params.content?5:Math.max(params.content.split(`\n`).length+1,5)" placeholder="正文"
+                  style="margin-bottom: 5px"
+                  type="textarea"
+                  @keyup.enter.ctrl="reply"
+        />
+        <el-button style="margin-top: 20px" type="success" @click="reply">回复(Ctrl+Enter)</el-button>
+      </div>
     </el-main>
     <el-footer></el-footer>
   </el-container>
@@ -50,6 +61,8 @@ import NgaContent from "@/components/nga/read/nga-content";
 import MyTimestamp from "@/components/my/my-timestamp";
 import MyTagWithTooltip from "@/components/my/my-tag-with-tooltip";
 import MyRouterLink from "@/components/my/my-router-link";
+import {replyMessage} from "@/assets/request/message-request";
+import {ElMessage} from "element-plus";
 
 export default {
   name: "MessageRead",
@@ -61,6 +74,10 @@ export default {
       pageData: {},
       replies: {},
       subjectStatus: {},
+      params: {
+        content: "",
+        subject: "",
+      }
     }
   },
   computed: {},
@@ -75,7 +92,18 @@ export default {
       this.replies = res.replies
       this.subjectStatus = res.subjectStatus
       this.loading = false;
-
+      this.focus()
+    },
+    async reply() {
+      const {mid, page} = this.$route.params
+      const {content, subject} = this.params
+      const res = await replyMessage(mid, content, subject)
+      ElMessage.success(res['0'])
+      this.params = {}
+      await this.update(mid, page, true)
+    },
+    focus() {
+      document.getElementById('nga-post-textarea').focus()
     }
   },
   mounted() {

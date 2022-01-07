@@ -594,7 +594,7 @@ const transformResponse = [
     (data) => {
         // noinspection JSUnresolvedVariable
         return data.then(res => {
-            // console.log(copyObj(res))
+            console.log(copyObj(res))
             const {error, data} = res;
             if (error) {
                 const array = obj2Array(error)
@@ -614,11 +614,24 @@ const transformResponse = [
                     Object.keys(sub_forums).forEach(key => {
                         if (key.startsWith("t")) {
                             //   主题合集
-                            children.push({type: "合集", name: sub_forums[key]["1"], stid: sub_forums[key]["0"]})
+                            children.push({
+                                type: "合集",
+                                name: sub_forums[key]["1"],
+                                stid: sub_forums[key]["0"],
+                                dsc: sub_forums[key]["2"]
+                            })
                         }
                         if (!isNaN(key)) {
                             //   子版面
-                            children.push({type: "版面", name: sub_forums[key]["1"], fid: sub_forums[key]["0"]})
+                            children.push({
+                                    type: "版面",
+                                    name: sub_forums[key]["1"],
+                                    fid: sub_forums[key]["0"],
+                                    stid: sub_forums[key]["3"],
+                                    dsc: sub_forums[key]["2"],
+                                    avatar: `/icon/f/${sub_forums[key]["0"]}u.png`,
+                                }
+                            )
                         }
                     })
                 }

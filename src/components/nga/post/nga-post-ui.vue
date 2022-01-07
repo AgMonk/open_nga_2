@@ -52,7 +52,7 @@
       <el-tabs v-model="currentEmoteTab" type="border-card">
         <el-tab-pane v-for="item in emoteOptions" :label="item.name" :name="item.name" style="text-align: left">
           <span v-for="e in item.data" v-if="currentEmoteTab===item.name" style="cursor: pointer;" @click="clickEmote(e.code,item.name)">
-            <nga-emote-image :data="e"/>
+            <nga-emote-image :data="e" />
           </span>
         </el-tab-pane>
       </el-tabs>
@@ -73,6 +73,7 @@ import "@/assets/nga/emotions_cus"
 import NgaEmoteImage from "@/components/nga/post/nga-emote-image";
 import {ElMessage, ElMessageBox} from "element-plus";
 import NgaUpload from "@/components/nga/post/nga-upload";
+import {antiHeXieUrl} from "@/assets/request/ProjectUtils";
 
 const anonymousWarning = '匿名发布主题、回复分别需要5k、100铜币\n\n匿名发布的内容如果违反班规将会：加 重 处 罚'
 
@@ -134,9 +135,6 @@ export default {
     plusFile(file) {
       console.log(file)
 
-      /*填写描述 todo 解析图片来源*/
-
-
       const {filename, url} = file
       let startText;
       if (url.endsWith(".zip")) {
@@ -148,6 +146,32 @@ export default {
       } else {
         startText = `[img]./${url}[/img]`
       }
+
+
+      let antiUrl = `img.nga.178.com/attachments/${url}`
+      startText = antiHeXieUrl(antiUrl) + '\n' + startText
+
+      //检查文件名是否为pixiv格式，如果是，添加pid
+      const pixivPattern = /(\d+)_p(\d{1,3})/
+      const pixivMatch = pixivPattern.exec(filename)
+      if (pixivMatch) {
+        const pid = pixivMatch[1]
+        if (!this.postParams.content.includes(pid)) {
+          startText = `pix:${pid}\n` + startText
+        }
+      }
+
+      //有19位数字，疑似为twitter图片名
+      const twitterPattern = /(\d{19})/
+      const twitterMatch = twitterPattern.exec(filename)
+      if (twitterMatch) {
+        const twi = twitterMatch[1]
+        let text = `twi:${twi}`;
+        if (!this.postParams.content.includes(text)) {
+          startText = text + '\n' + startText
+        }
+      }
+
       this.addText(this.textarea(), {startText})
     },
     addFile(file) {

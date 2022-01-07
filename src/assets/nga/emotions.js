@@ -3,7 +3,7 @@
 // noinspection NonAsciiCharacters,SpellCheckingInspection,JSNonASCIINames
 
 export const emotes = [
-    {
+    /*{
         name: '默认',
         namespace: '',
         urlType: '官方',
@@ -36,7 +36,7 @@ export const emotes = [
             42: '22.gif',
             43: '23.gif'
         }
-    },
+    },*/
     {
         name: 'AC娘(v1)',
         namespace: 'ac',

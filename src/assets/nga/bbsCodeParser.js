@@ -84,6 +84,8 @@ function codeParser(tagName, code) {
 
 // tag解析方法
 let tagParser = {
+    "flash": (code) => simpleParser("flash", code),
+    "attach": (code) => simpleParser("attach", code),
     "quote": (code) => simpleParser("quote", code),
     "collapse": (code) => simpleParser("collapse", code),
     "img": (code) => simpleParser("img", code),

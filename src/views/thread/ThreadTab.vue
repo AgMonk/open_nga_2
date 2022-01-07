@@ -25,13 +25,7 @@
         <!--       todo  -->
       </div>
       <div v-if="forum && forum.children && forum.children.length>0">
-        <el-collapse id="subForums">
-          <el-collapse-item title="子版面/合集">
-            <!--todo 关注 取关-->
-            <nga-forum-avatar v-for="forum in forum.children" :forum="forum" />
-
-          </el-collapse-item>
-        </el-collapse>
+        <nga-sub-forum-area :forum="forum" />
       </div>
       <thread-table v-if="threads" :pageData="pageData" :threads="threads" @favor-updated="get(true)" />
     </el-main>
@@ -49,10 +43,12 @@ import MyRouterLink from "@/components/my/my-router-link";
 import {keypressEvent} from "@/assets/utils/DomUtils";
 import {ElMessage} from "element-plus";
 import {copyObj} from "@/assets/utils/ObjectUtils";
+import {getFollowTid} from "@/assets/request/forum-request";
+import NgaSubForumArea from "@/components/nga/thread/nga-sub-forum-area";
 
 export default {
   name: "ThreadTab",
-  components: {MyRouterLink, ThreadTable, NgaForumAvatar},
+  components: {NgaSubForumArea, MyRouterLink, ThreadTable, NgaForumAvatar},
   data() {
     return {
       loading: false,
@@ -125,6 +121,10 @@ export default {
     async get(force, route = this.$route) {
       this.loading = true;
       const param = {force, ...route.query, ...route.params,}
+
+      getFollowTid(param.fid).then(res => {
+        console.log(res)
+      })
       // noinspection NonAsciiCharacters
       const methodMap = {
         "浏览版面主题": this.listThreadsOfForum,

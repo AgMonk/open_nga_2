@@ -39,12 +39,12 @@ export default {
     update(f){
       const {fid,stid,name} = f;
       this.name = name.substring(0,Math.min(name.length,10));
-      if (stid){
-        this.src = this.defaultSrc;
-        this.route = {name:"浏览合集主题",params:{page:1,stid}}
-      }else{
+      if (fid) {
         this.src = `/icon/f/${fid}u.png`;
         this.route = {name: "浏览版面主题", params: {page: 1, fid}}
+      } else {
+        this.src = this.defaultSrc;
+        this.route = {name: "浏览合集主题", params: {page: 1, stid}}
       }
     },
   },

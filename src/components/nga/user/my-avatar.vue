@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     errorHandler(e) {
-      console.log(`头像加载失败`, e)
+      console.error(`头像加载失败`, e)
       // if (this.list.length>0){
       //   this.i++
       // }
@@ -34,7 +34,7 @@ export default {
   },
   mounted() {
     this.random = Math.floor(Math.random() * this.list.length);
-    this.i = this.index
+    this.i = this.index ? this.index : this.random
   },
   watch: {},
   props: {

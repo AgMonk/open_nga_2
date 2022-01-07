@@ -7,7 +7,7 @@ export const getCache = (key, storage = localStorage) => {
     return JSON.parse(storage.getItem(key));
 }
 
-export const delCache = (key, storage = localStorage) =>{
+export const delCache = (key, storage = localStorage) => {
     storage.removeItem(key)
 }
 
@@ -18,10 +18,18 @@ export const clearCache = (storage = localStorage) => {
 export const getCacheByPrefix = (prefix, storage = localStorage) => {
     let map = {}
     Object.keys(storage)
-        .filter(key=>key.startsWith(prefix))
-        .forEach(key=>map[key.replace(prefix,"").trim()]=getCache(key,storage))
-     return map;
-
+        .filter(key => key.startsWith(prefix))
+        .forEach(key => map[key.replace(prefix, "").trim()] = getCache(key, storage))
+    return map;
 }
 
+export const checkStorageSize = (storage = localStorage) => {
+    let size = 0;
+    for (const storageKey in storage) {
+        if (storage.hasOwnProperty((storageKey))) {
+            size += storage.getItem(storageKey).length
+        }
+    }
+    return size
+}
 

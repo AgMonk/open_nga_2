@@ -64,6 +64,7 @@ export default {
   methods: {
     ...mapMutations('config', [`loadConfig`]),
     ...mapActions("users", [`loadCurrentUser`]),
+    ...mapMutations("users", [`loadUsername`]),
     back(e) {
       history.back()
     },
@@ -89,6 +90,7 @@ export default {
     }
   },
   async mounted() {
+    this.loadUsername()
     await this.loadCurrentUser()
     await this.loadConfig()
     document.addEventListener('keypress', this.keypress)

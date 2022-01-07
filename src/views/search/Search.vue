@@ -14,6 +14,7 @@
 
 <script>
 import NgaBreadcrumb from "@/components/nga/nga-breadcrumb";
+
 export default {
   name: "Search",
   components: {NgaBreadcrumb},

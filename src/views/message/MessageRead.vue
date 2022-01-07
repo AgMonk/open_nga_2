@@ -36,7 +36,7 @@
           </el-col>
         </el-row>
       </div>
-      <div style="margin-top: 30px">
+      <div v-if="showPostUi" style="margin-top: 30px">
         <el-input v-model="params.subject" placeholder="标题" />
         <el-input id="nga-post-textarea"
                   v-model="params.content"
@@ -71,6 +71,7 @@ export default {
     return {
       svg: `<path class="path" d=" M 30 15 L 28 17 M 25.61 25.61 A 15 15, 0, 0, 1, 15 30 A 15 15, 0, 1, 1, 27.99 7.5 L 15 15 " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/> `,
       loading: false,
+      showPostUi: true,
       pageData: {},
       replies: {},
       subjectStatus: {},
@@ -92,7 +93,14 @@ export default {
       this.replies = res.replies
       this.subjectStatus = res.subjectStatus
       this.loading = false;
-      this.focus()
+
+      const user0 = res.userData.users[0]
+      if (user0.uid === 0) {
+        this.showPostUi = false
+      } else {
+        this.showPostUi = true
+        this.focus()
+      }
     },
     async reply() {
       const {mid, page} = this.$route.params
@@ -104,7 +112,7 @@ export default {
     },
     focus() {
       document.getElementById('nga-post-textarea').focus()
-    }
+    },
   },
   mounted() {
     const {mid, page} = this.$route.params

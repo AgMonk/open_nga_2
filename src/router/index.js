@@ -1,19 +1,19 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import Home from '../views/Home.vue'
-import Search from "@/views/Search";
-import SearchTab from "@/views/SearchTab";
-import Read from "@/views/Read";
-import ReadTab from "@/views/ReadTab";
-import ThreadTab from "@/views/ThreadTab";
-import Thread from "@/views/Thread";
+import Search from "@/views/search/Search";
+import SearchTab from "@/views/search/SearchTab";
+import Read from "@/views/read/Read";
+import ReadTab from "@/views/read/ReadTab";
+import ThreadTab from "@/views/thread/ThreadTab";
+import Thread from "@/views/thread/Thread";
 import My from "@/views/My";
 import Config from "@/views/Config";
 import User from "@/views/User";
 import Tips from "@/views/Tips";
 import Post from "@/views/Post";
-import Messages from "@/views/Messages";
-import MessageList from "@/views/MessageList";
-import MessageRead from "@/views/MessageRead";
+import Messages from "@/views/message/Messages";
+import MessageList from "@/views/message/MessageList";
+import MessageRead from "@/views/message/MessageRead";
 
 const routes = [
     {

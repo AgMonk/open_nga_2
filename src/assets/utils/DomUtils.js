@@ -49,7 +49,7 @@ export const scrollToId = (id) => {
         const element = document.getElementById(id);
         // console.log(element)
         if (element) {
-            console.log(`滚动到${id}`)
+            console.slf4j(`滚动到${id}`)
             element.scrollIntoView()
             return true
         }

@@ -196,7 +196,7 @@ export const parseBbsCode = (code) => {
         .replace(/\[\/list]/g, "[/li][/ul]")
         .replace(/\[list]/g, "[ul][li]")
 
-    console.log(code)
+    // console.log(code)
 
     let replyCodeRegExp = /\[b]Reply to \[pid=.+?\[\/b]/g
     let res;

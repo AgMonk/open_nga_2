@@ -96,9 +96,4 @@ export const replyMessage = (mid, content, subject) => nukeRequest({
     , __act: "message"
     , act: "reply"
     , mid, content, subject
-}).then(res => {
-    const {data} = res;
-
-
-    return data;
-})
+}).then(res => res.data)

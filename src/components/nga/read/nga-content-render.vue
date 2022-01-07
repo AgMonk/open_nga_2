@@ -15,7 +15,7 @@ export default {
   name: "nga-content-render",
   components: {NgaEmoteImage, NgaReplyLink, NgaUserLink, NgaContentLink, NgaContentImg, NgaCodeTextarea, NgaThreadLink},
   render() {
-    console.log(this.data)
+    // console.log(this.data)
     return this.render(this.data)
     // return this.render(this.myData, 2)
   },
@@ -45,7 +45,7 @@ export default {
             </el-collapse-item>
           </el-collapse>
         },
-        quote: ({children, props}) => {
+        quote: ({children}) => {
           return <el-card className="box-card" body-style="padding:10px;border: 1px solid #81a3f3;background-color: #0cb2fb1f;">
             {this.render(children)}
           </el-card>

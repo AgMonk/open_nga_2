@@ -29,13 +29,17 @@
                 <div class="card-header">
                   <!--赞踩按钮-->
                   <span>
-                    <nga-level-tag :reply="row"/>
-                    <nga-score-tag :reply="row"/>
+                    <nga-level-tag :reply="row" />
+                    <nga-score-tag :reply="row" />
                     <my-tag-with-tooltip v-if="row.timestamp" disabled>{{ row.timestamp.post }}</my-tag-with-tooltip>
                     <my-tag-with-tooltip v-if="row.timestamp && row.timestamp.edit" disabled>最后编辑:{{ row.timestamp.edit }}</my-tag-with-tooltip>
                     <my-tag-with-tooltip v-if="row.reply_to" :route="{name:'单个回复',params:{pid:row.reply_to}}" disabled type="warning">回复目标</my-tag-with-tooltip>
-                    <nga-thread-type-tag :type="row.type"/>
-                    <my-tag-with-tooltip v-if="$route.hash===`#P${row.pid}`" size="small" tooltip="跳转链接指向的回复" type="danger"><b>这个回复</b></my-tag-with-tooltip>
+                    <nga-thread-type-tag :type="row.type" />
+                    <my-tag-with-tooltip v-if="$route.hash===`#P${row.pid}` || $route.hash===`#L${row.level}`"
+                                         size="small"
+                                         tooltip="跳转链接指向的回复"
+                                         type="danger"
+                    ><b>这个回复</b></my-tag-with-tooltip>
                   </span>
 
                   <span>
@@ -230,6 +234,7 @@ export default {
 
 </script>
 
+<!--suppress CssUnusedSymbol -->
 <style scoped>
 .card-header {
   display: flex;

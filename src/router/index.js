@@ -14,6 +14,7 @@ import Post from "@/views/Post";
 import Messages from "@/views/message/Messages";
 import MessageList from "@/views/message/MessageList";
 import MessageRead from "@/views/message/MessageRead";
+import MessageNew from "@/views/message/MessageNew";
 
 const routes = [
     {
@@ -72,6 +73,7 @@ const routes = [
                 children: [
                     {path: "list/:page", name: "短消息列表", component: MessageList},
                     {path: "read/:mid/:page", name: "短消息阅读", component: MessageRead},
+                    {path: "new", name: "短消息发起", component: MessageNew},
                 ]
             },
         ]

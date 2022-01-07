@@ -5,12 +5,16 @@
     <el-main>
       <el-descriptions border>
         <template #title>
-          <nga-user-link v-if="data.uid" :uid="data.uid" style="font-size: 20px"/>
+          <nga-user-link v-if="data.uid" :uid="data.uid" style="font-size: 20px" />
         </template>
-        <template #extra>操作区</template>
+        <template #extra>
+          <el-button size="small" type="primary" @click="$router.push({name:'短消息发起',query:{to:data.uid}})">
+            私信
+          </el-button>
+        </template>
         <el-descriptions-item label="UID">{{ data.uid }}</el-descriptions-item>
         <el-descriptions-item v-if="data.money" label="金钱">
-         <nga-money-text :money="data.money" />
+          <nga-money-text :money="data.money" />
         </el-descriptions-item>
         <el-descriptions-item v-if="data.rvrc" label="威望">{{ data.rvrc }}</el-descriptions-item>
         <el-descriptions-item v-if="data.totalAgreement" label="总赞数">{{ data.totalAgreement }}</el-descriptions-item>

@@ -2,7 +2,7 @@
   <span v-if="(''+uid).startsWith('#anony_')">匿名用户{{(''+uid).substring(7,13)}}</span>
   <el-tooltip v-else :disabled="disabled" effect="light" placement="right">
     <template #content>
-      <el-button type="primary" size="small"
+      <el-button :size="size" :type="type"
                  v-clipboard:copy="uid"
                  v-clipboard:error="onError"
                  v-clipboard:success="onCopy"
@@ -10,15 +10,19 @@
       </el-button>
       <el-button v-clipboard:copy="`[@${uid}]`" v-clipboard:error="onError"
                  v-clipboard:success="onCopy"
-                 size="small"
-                 type="primary"
+                 :size="size"
+                 :type="type"
       >复制@代码
       </el-button>
+      <el-button :size="size" :type="type" @click="$router.push({name:'短消息发起',query:{to:uid}})">
+        私信
+      </el-button>
       <br>
-      <el-button style="margin-top: 3px" type="primary" size="small"
+      <el-button :size="size" :type="type" style="margin-top: 3px"
                  @click="open(`https://bbs.nga.cn/nuke.php?func=ucp&uid=${uid}`)"
       >打开官方用户中心
       </el-button>
+
     </template>
   <my-router-link :to="{name: '用户中心',params:{uid}}">
     <span v-if="text">{{text}}</span>
@@ -38,7 +42,10 @@ export default {
   name: "nga-user-link",
   components: {MyRouterLink},
   data() {
-    return {}
+    return {
+      size: "small",
+      type: "primary",
+    }
   },
   computed: {
     ...mapState("users",[`users`]),

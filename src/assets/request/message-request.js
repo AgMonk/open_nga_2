@@ -97,3 +97,11 @@ export const replyMessage = (mid, content, subject) => nukeRequest({
     , act: "reply"
     , mid, content, subject
 }).then(res => res.data)
+
+//发起新短消息
+export const createMessage = ({content, subject, uidArray}) => nukeRequest({
+    __lib: "message"
+    , __act: "message"
+    , act: "new"
+    , content, subject, to: uidArray.join(',')
+}).then(res => res.data)

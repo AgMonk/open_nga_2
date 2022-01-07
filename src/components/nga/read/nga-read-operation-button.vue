@@ -16,17 +16,24 @@
       <div>
         <h4>操作</h4>
         <my-router-link :to="{name:'发帖',params:{action:'quote'},query:{tid:reply.tid,pid:reply.pid}}">
-          <my-tag-with-tooltip disabled text="引用"/>
+          <my-tag-with-tooltip disabled text="引用" />
         </my-router-link>
         <my-router-link :to="{name:'发帖',params:{action:'reply'},query:{tid:reply.tid,pid:reply.pid}}">
-          <my-tag-with-tooltip disabled text="回复"/>
+          <my-tag-with-tooltip disabled text="回复" />
         </my-router-link>
         <my-router-link :to="{name:'发帖',params:{action:'modify'},query:{tid:reply.tid,pid:reply.pid}}">
-          <my-tag-with-tooltip disabled text="编辑"/>
+          <my-tag-with-tooltip disabled text="编辑" />
+        </my-router-link>
+        <my-router-link :to="{name:'短消息发起',query:{to:reply.authorid}}">
+          <my-tag-with-tooltip disabled text="私信" />
         </my-router-link>
         <!--suppress JSCheckFunctionSignatures -->
-        <span @click="report(reply)"><my-tag-with-tooltip disabled text="举报"/></span>
-        <span @click="addFavor(reply.tid,reply.pid)"><my-tag-with-tooltip disabled text="收藏"/></span>
+        <span @click="report(reply)">
+          <my-tag-with-tooltip disabled text="举报" />
+        </span>
+        <span @click="addFavor(reply.tid,reply.pid)">
+          <my-tag-with-tooltip disabled text="收藏" />
+        </span>
       </div>
     </template>
     <el-button class="齿轮图标" type="text">

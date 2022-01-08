@@ -254,7 +254,7 @@ export default {
     parseCode() {
       const dom = this.textarea();
       let text = this.postParams.content.substring(0, dom.selectionStart)
-      text = text.substring(text.lastIndexOf(" "))
+      text = text.substring(text.lastIndexOf(" ")).replace(/：/g, ":")
       const bbsCode = searchBbsCode(text.trim());
       console.log(bbsCode)
       if (bbsCode) {

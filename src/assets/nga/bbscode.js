@@ -2,7 +2,7 @@
 
 export const bbsCodeLibrary = [
     {
-        cn: "颜色", en: "color",
+        cn: "颜色", short: ["颜", '色'], en: "color",
         props: [
             {cn: "红", en: "red"},
             {cn: "蓝", en: "blue"},
@@ -15,7 +15,7 @@ export const bbsCodeLibrary = [
         ],
     },
     {
-        cn: "字号", en: "size",
+        cn: "字号", short: ["号"], en: "size",
         props: [
             {cn: "100", en: "100%"},
             {cn: "120", en: "120%"},
@@ -23,27 +23,26 @@ export const bbsCodeLibrary = [
             {cn: "200", en: "200%"},
         ],
     },
-    {cn: "加粗", en: "b"},
-    {cn: "删除线", en: "del"},
-    {cn: "标题", en: "h"},
-    {cn: "列表", en: "list"},
-    {cn: "列表项", en: "*"},
-    {cn: "图片", en: "img"},
-    {cn: "链接", en: "url"},
-    {cn: "引用", en: "quote"},
-    {cn: "代码", en: "code"},
-    {cn: "表格", en: "table"},
-    {cn: "行", en: "tr"},
-    {cn: "列", en: "td"},
-    {cn: "折叠", short: ["col"], en: "collapse"},
+    {cn: "加粗", short: ["粗"], en: "b"},
+    {cn: "删除线", short: ["删"], en: "del"},
+    {cn: "标题", short: ["标"], en: "h"},
+    {cn: "列表", short: ["列"], en: "list"},
+    {cn: "列表项", short: [], en: "*"},
+    {cn: "图片", short: ["图"], en: "img"},
+    {cn: "链接", short: ["链", "link"], en: "url"},
+    {cn: "引用", short: ["quo", "引"], en: "quote"},
+    {cn: "代码", short: ["代"], en: "code"},
+    {cn: "表格", short: ["表"], en: "table"},
+    {cn: "行", short: [], en: "tr"},
+    {cn: "列", short: [], en: "td"},
+    {cn: "折叠", short: ["col", "折"], en: "collapse"},
 ]
 
 const nameEquals = (name, item) => name === item.cn || name === item.en || (item.short && item.short.includes(name))
 
 export const searchBbsCode = (key) => {
-    key = key.replace(`：`, `:`);
-    const name = key.includes(":") ? key.split(":")[0] : key;
-    const prop = key.includes(":") ? key.split(":")[1] : undefined;
+    const name = key.split(":")[0]
+    const prop = key.split(":")[1]
     console.log(`搜索代码:${name} ${prop}`)
     return bbsCodeLibrary
         .filter(item => nameEquals(name, item))

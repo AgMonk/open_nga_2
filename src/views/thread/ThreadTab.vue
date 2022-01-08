@@ -25,7 +25,7 @@
         <!--       todo  -->
       </div>
       <div v-if="forum && forum.children && forum.children.length>0">
-        <nga-sub-forum-area :forum="forum" />
+        <nga-sub-forum-area :forum="forum" @follow-changed="get(true)" />
       </div>
       <thread-table v-if="threads" :pageData="pageData" :threads="threads" @favor-updated="get(true)" />
     </el-main>
@@ -195,8 +195,4 @@ export default {
 </script>
 
 <style scoped>
-#subForums {
-  --el-collapse-header-bg-color: rgb(0 0 0 / 0%);
-  --el-collapse-content-bg-color: rgb(0 0 0 / 0%);
-}
 </style>

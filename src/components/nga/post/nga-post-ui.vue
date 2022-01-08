@@ -156,7 +156,7 @@ export default {
       const pixivMatch = pixivPattern.exec(filename)
       if (pixivMatch) {
         const pid = pixivMatch[1]
-        if (!this.postParams.content.includes(pid)) {
+        if (!this.postParams.content || !this.postParams.content.includes(pid)) {
           startText = `pix:${pid}\n` + startText
         }
       }
@@ -167,7 +167,7 @@ export default {
       if (twitterMatch) {
         const twi = twitterMatch[1]
         let text = `twi:${twi}`;
-        if (!this.postParams.content.includes(text)) {
+        if (!this.postParams.content || !this.postParams.content.includes(text)) {
           startText = text + '\n' + startText
         }
       }

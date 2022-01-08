@@ -30,7 +30,7 @@ export const forumRequest = ({key, page=1}) => {
 }
 
 //关注子版 或 合集
-export const followTid = (id, fid) => nukeRequest({
+export const followStid = (id, fid) => nukeRequest({
     __lib: "user_option"
     , __act: "set"
     , raw: 3
@@ -38,9 +38,9 @@ export const followTid = (id, fid) => nukeRequest({
     , fid
     , type: 1
     , info: "add_to_block_tids"
-})
+}).then(res => res.data ? res.data["0"] : undefined)
 //取关子版 或 合集
-export const unfollowTid = (id, fid) => nukeRequest({
+export const unfollowStid = (id, fid) => nukeRequest({
     __lib: "user_option"
     , __act: "set"
     , raw: 3
@@ -48,10 +48,10 @@ export const unfollowTid = (id, fid) => nukeRequest({
     , fid
     , type: 1
     , info: "add_to_block_tids"
-})
+}).then(res => res.data ? res.data["0"] : undefined)
 
 // 查询子版状态
-export const getFollowTid = (fid) => nukeRequest({
+export const getBlockTid = (fid) => nukeRequest({
     __lib: "user_option"
     , __act: "get"
     , raw: 3

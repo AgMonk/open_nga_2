@@ -594,7 +594,7 @@ const transformResponse = [
     (data) => {
         // noinspection JSUnresolvedVariable
         return data.then(res => {
-            console.log(copyObj(res))
+            // console.log(copyObj(res))
             const {error, data} = res;
             if (error) {
                 const array = obj2Array(error)

@@ -76,11 +76,12 @@ export default {
         },
         loadAccounts: (state) => {
             state.accounts = getCache("accounts")
+            state.accounts = state.accounts ? state.accounts : []
             slf4j("加载所有账号信息")
             console.log(state.accounts)
         },
         delAccount: (state, uid) => {
-            state.accounts = state.accounts.filter(i => i.uid !== uid)
+            state.accounts = state.accounts ? state.accounts.filter(i => i.uid !== uid) : []
             putCache("accounts", state.accounts)
         },
     },

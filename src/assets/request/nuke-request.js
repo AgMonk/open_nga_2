@@ -170,12 +170,14 @@ export const getUserInfo = (uid) => nukeRequest({
         user.username = username
     }
     //总赞数
-    const a = obj2Array(more_info).filter(i => i.type === 8)[0]
-    if (a) {
-        user.totalAgreement = a.data
-    }
-    if (muteTime && muteTime > 0) {
-        user.timestamp.mute = {time: muteTime, value: second2String(muteTime)}
+    if (more_info) {
+        const a = obj2Array(more_info).filter(i => i.type === 8)[0]
+        if (a) {
+            user.totalAgreement = a.data
+        }
+        if (muteTime && muteTime > 0) {
+            user.timestamp.mute = {time: muteTime, value: second2String(muteTime)}
+        }
     }
 
     if (verified) {

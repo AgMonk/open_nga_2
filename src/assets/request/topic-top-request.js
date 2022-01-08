@@ -14,9 +14,7 @@ export const setTopicTop = (tid, top = true) => nukeRequest({
 
 export const getTopicTop = (fid) => nukeRequest({
     __lib: "topic_top",
-    __act: "topic_top_get",
-    level: 1,
+    __act: "get_topic_top",
     fid,
     raw: 3,
 })
-

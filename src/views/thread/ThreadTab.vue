@@ -2,7 +2,17 @@
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
     <el-header>
-      <div>{{ title }}</div>
+      <div>
+        <my-router-link v-if="forum.toppedTid" :to="{name:'回复列表',params:{tid:forum.toppedTid,page:1}}">
+          <h2 style="margin-top: 3px">
+            {{ title }}
+          </h2>
+        </my-router-link>
+        <el-switch
+            v-model="showTopicTop"
+            active-text="显示版头"
+        />
+      </div>
       <el-button size="small" type="success" @click="get(true)">刷新</el-button>
       <my-router-link :to="{name:'发帖',params:{action:'new'},query:{fid:forum.fid,stid:forum.setName?forum.toppedTid:undefined}}">
         <el-button size="small" type="primary">发帖</el-button>
@@ -21,8 +31,8 @@
              element-loading-svg-view-box="-10, -10, 50, 50"
              element-loading-text="Loading..."
     >
-      <div id="版头">
-        <!--       todo  -->
+      <div v-if="showTopicTop" id="版头">
+        <nga-content :content="topicTopContent" />
       </div>
       <div v-if="forum && forum.children && forum.children.length>0">
         <nga-sub-forum-area :forum="forum" @follow-changed="get(true)" />
@@ -44,12 +54,15 @@ import {keypressEvent} from "@/assets/utils/DomUtils";
 import {ElMessage} from "element-plus";
 import {copyObj} from "@/assets/utils/ObjectUtils";
 import NgaSubForumArea from "@/components/nga/thread/nga-sub-forum-area";
+import NgaContent from "@/components/nga/read/nga-content";
 
 export default {
   name: "ThreadTab",
-  components: {NgaSubForumArea, MyRouterLink, ThreadTable, NgaForumAvatar},
+  components: {NgaContent, NgaSubForumArea, MyRouterLink, ThreadTable, NgaForumAvatar},
   data() {
     return {
+      topicTopContent: "",
+      showTopicTop: false,
       loading: false,
       title: "",
       threads: [],
@@ -63,6 +76,7 @@ export default {
 
   methods: {
     ...mapActions("thread", [`getThreadsOfSet`, `getThreadsOfForum`, `getFavor`, `getSearchByUser`]),
+    ...mapActions("read", [`getTopicTopContent`]),
     ...mapMutations("breadcrumb", [`setWithThread`]),
     ...mapMutations("history", [`addHistoryForum`, `addHistorySet`]),
     //浏览版面主题
@@ -74,10 +88,7 @@ export default {
       this.addHistoryForum({fid, name: forum.name, recommend})
       this.title = recommend ? `${forum.name}[精华区]` : forum.name
       setTitle(this.title)
-
-      // getTopicTop(fid).then(res=>{
-      //   console.log(res)})
-
+      // getTopicTop(fid).then(res=>{console.log(res)})
       return res;
     },
     //浏览合集主题
@@ -143,6 +154,11 @@ export default {
           this.forum = res.forum
           if (force) {
             ElMessage.success("刷新成功")
+          }
+          if (this.forum.toppedTid) {
+            this.getTopicTopContent({tid: this.forum.toppedTid}).then(res => {
+              this.topicTopContent = res
+            })
           }
         }
       }

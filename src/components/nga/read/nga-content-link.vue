@@ -116,7 +116,9 @@ export default {
     }
   },
   props: {
+    //链接
     src: {type: String, required: true},
+
     createText: {type: Boolean, default: false},
   },
 }

@@ -2,7 +2,6 @@
 // noinspection JSUnusedLocalSymbols
 
 import {getFromCache} from "@/assets/utils/CacheUtils";
-import {cache} from "@vue/cli-service/lib/config/terserOptions";
 import {readRequest} from "@/assets/request/nga-request";
 
 export default {
@@ -17,19 +16,26 @@ export default {
                 cacheObj: state.cache,
                 key: JSON.stringify({pid, tid, page, authorid}),
                 requestMethod: () => readRequest({pid, tid, page, authorid}),
-                expires: 3*60,
+                expires: 3 * 60,
                 force
-            }).then(res=>{
+            }).then(res => {
                 //设置面包屑
-                commit("breadcrumb/setWithRead",res.data,{root:true})
+                commit("breadcrumb/setWithRead", res.data, {root: true})
 
                 //保存用户信息
-                res.data.userData.users.forEach(user=>{
-                    commit("users/saveUser",user,{root:true})
+                res.data.userData.users.forEach(user => {
+                    commit("users/saveUser", user, {root: true})
                 })
                 return res.data
             })
         },
+
+        getTopicTopContent: ({dispatch, commit, state}, {tid, force}) => {
+            return dispatch('getReplies', {tid, force}).then(res => {
+                return res.replies[0].content
+            })
+        },
+
         method: ({dispatch, commit, state}, payload) => {
 
         },

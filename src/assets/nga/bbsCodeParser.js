@@ -84,6 +84,8 @@ function codeParser(tagName, code) {
 
 // tag解析方法
 let tagParser = {
+    "randomblocks": (code) => simpleParser("randomblocks", code),
+    "randomblock": (code) => simpleParser("randomblock", code),
     "flash": (code) => simpleParser("flash", code),
     "attach": (code) => simpleParser("attach", code),
     "quote": (code) => simpleParser("quote", code),
@@ -198,6 +200,15 @@ export const parseBbsCode = (code) => {
         .replace(/\[\/list]/g, "[/li][/ul]")
         .replace(/\[list]/g, "[ul][li]")
 
+    //处理 random block 标签
+    if (code.includes("[randomblock]")) {
+        const i1 = code.indexOf("[randomblock]");
+        const i2 = code.lastIndexOf("[/randomblock]") + "[/randomblock]".length;
+        const s1 = code.substring(0, i1)
+        const s2 = code.substring(i1, i2)
+        const s3 = code.substring(i2)
+        code = s1 + '[randomblocks]' + s2 + '[/randomblocks]' + s3
+    }
     // console.log(code)
 
     let replyCodeRegExp = /\[b]Reply to \[pid=.+?\[\/b]/g

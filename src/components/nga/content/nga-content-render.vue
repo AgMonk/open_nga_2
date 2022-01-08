@@ -5,15 +5,27 @@
 import NgaEmoteImage from "@/components/nga/post/nga-emote-image";
 import NgaReplyLink from "@/components/nga/read/nga-reply-link";
 import NgaUserLink from "@/components/nga/user/nga-user-link";
-import NgaContentLink from "@/components/nga/read/nga-content-link";
+import NgaContentLink from "@/components/nga/content/nga-content-link";
 import {searchEmotes} from "@/assets/nga/emotions";
-import NgaContentImg from "@/components/nga/read/nga-content-img";
+import NgaContentImg from "@/components/nga/content/nga-content-img";
 import NgaCodeTextarea from "@/components/nga/read/nga-code-textarea";
 import NgaThreadLink from "@/components/nga/thread/nga-thread-link";
+import NgaContentCarousel from "@/components/nga/content/nga-content-carousel";
+import NgaContentTd from "@/components/nga/content/nga-content-td";
 
 export default {
   name: "nga-content-render",
-  components: {NgaEmoteImage, NgaReplyLink, NgaUserLink, NgaContentLink, NgaContentImg, NgaCodeTextarea, NgaThreadLink},
+  components: {
+    NgaEmoteImage,
+    NgaReplyLink,
+    NgaUserLink,
+    NgaContentLink,
+    NgaContentImg,
+    NgaCodeTextarea,
+    NgaThreadLink,
+    NgaContentCarousel,
+    NgaContentTd,
+  },
   render() {
     // console.log(this.data)
     return this.render(this.data)
@@ -32,11 +44,14 @@ export default {
         color: ({children, props}) => <span style={'color: ' + props}>{this.render(children)}</span>,
         size: ({children, props}) => <span style={"font-size:" + props}>{this.render(children)}</span>,
         align: ({children, props}) => <span style={"text-align:" + props}>{this.render(children)}</span>,
-        uid: ({children, props}) => <nga-user-link uid={props || children[0].raw} text={children[0].raw}/>,
+        uid: ({children, props}) => <nga-user-link uid={props || children[0].raw} text={children[0].raw} />,
         tid: ({children, props}) => <nga-thread-link data={{tid: props}}>{this.render(children)}</nga-thread-link>,
-        table: ({children}) => <table style="border: 1px solid black;border-collapse: collapse;">{this.render(children.filter(item => item.type === 'tr'))}</table>,
+        table: ({children}) => <table style="border: 1px solid black;border-collapse: collapse;width:100%">{this.render(children.filter(item => item.type === 'tr'))}</table>,
+        randomblocks: ({children}) => <el-carousel trigger="click">{this.render(children.filter(item => item.type === 'randomblock'))}</el-carousel>,
+        randomblock: ({children}) => <el-carousel-item>{this.render(children)}</el-carousel-item>,
+        // randomblock:({children})=><el-carousel-item>{this.render(children)}</el-carousel-item>,
         tr: ({children}) => <tr style="border: 1px solid black;">{this.render(children.filter(item => item.type === 'td'))}</tr>,
-        td: ({children}) => <td style="border: 1px solid black;">{this.render(children)}</td>,
+        td: ({children, props}) => <nga-content-td props={props}>{this.render(children)}</nga-content-td>,
         collapse: ({children, props}) => {
           const title = props ? `折叠：${props}` : "[折叠内容]";
           return <el-collapse>

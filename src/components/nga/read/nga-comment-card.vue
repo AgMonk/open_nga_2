@@ -32,7 +32,7 @@ import MyTagWithTooltip from "@/components/my/my-tag-with-tooltip";
 import NgaUserLink from "@/components/nga/user/nga-user-link";
 import MyRouterLink from "@/components/my/my-router-link";
 import NgaReadOperationButton from "@/components/nga/read/nga-read-operation-button";
-import NgaContent from "@/components/nga/read/nga-content";
+import NgaContent from "@/components/nga/content/nga-content";
 
 export default {
   name: "nga-comment-card",

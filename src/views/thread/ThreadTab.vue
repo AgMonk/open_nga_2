@@ -54,7 +54,7 @@ import {keypressEvent} from "@/assets/utils/DomUtils";
 import {ElMessage} from "element-plus";
 import {copyObj} from "@/assets/utils/ObjectUtils";
 import NgaSubForumArea from "@/components/nga/thread/nga-sub-forum-area";
-import NgaContent from "@/components/nga/read/nga-content";
+import NgaContent from "@/components/nga/content/nga-content";
 
 export default {
   name: "ThreadTab",

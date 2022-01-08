@@ -6,7 +6,7 @@
 
 <script>
 import {mapState} from "vuex";
-import NgaContent from "@/components/nga/read/nga-content";
+import NgaContent from "@/components/nga/content/nga-content";
 
 export default {
   name: "nga-signature",

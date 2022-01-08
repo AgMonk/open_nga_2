@@ -116,7 +116,7 @@ import {ElMessage, ElMessageBox} from "element-plus";
 import {report} from "@/assets/request/nuke-request";
 import NgaCommentCard from "@/components/nga/read/nga-comment-card";
 import NgaReadOperationButton from "@/components/nga/read/nga-read-operation-button";
-import NgaContent from "@/components/nga/read/nga-content";
+import NgaContent from "@/components/nga/content/nga-content";
 import NgaAttachTag from "@/components/nga/read/nga-attach-tag";
 import NgaSignature from "@/components/nga/read/nga-signature";
 import {mapGetters, mapState} from "vuex";

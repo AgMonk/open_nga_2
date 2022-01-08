@@ -57,7 +57,7 @@
 import {mapActions, mapGetters} from "vuex";
 import {setTitle} from "@/assets/request/ProjectUtils";
 import NgaReadUserCard from "@/components/nga/read/nga-read-user-card";
-import NgaContent from "@/components/nga/read/nga-content";
+import NgaContent from "@/components/nga/content/nga-content";
 import MyTimestamp from "@/components/my/my-timestamp";
 import MyTagWithTooltip from "@/components/my/my-tag-with-tooltip";
 import MyRouterLink from "@/components/my/my-router-link";

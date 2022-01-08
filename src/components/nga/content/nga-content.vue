@@ -8,7 +8,7 @@
 <script>
 import {unEscape} from "@/assets/utils/StringUtils";
 import {parseBbsCode} from "@/assets/nga/bbsCodeParser";
-import NgaContentRender from "@/components/nga/read/nga-content-render";
+import NgaContentRender from "@/components/nga/content/nga-content-render";
 
 export default {
   name: "nga-content",
@@ -28,7 +28,7 @@ export default {
   },
   mounted() {
     this.parse(this.content)
-    // console.log(this.parse(this.content))
+    console.log(this.parse(this.content))
   },
   watch: {
     content(s) {

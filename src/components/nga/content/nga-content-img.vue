@@ -13,7 +13,9 @@
         <el-button size="small" type="primary" @click="download(link)">下载原图</el-button>
       </div>
     </template>
-    <span><el-image v-if="show" :preview-src-list="srcList" :src="link" hide-on-click-modal/></span>
+    <span>
+      <el-image v-if="show" :preview-src-list="srcList" :src="link" append-to-body hide-on-click-modal />
+    </span>
   </el-tooltip>
 </template>
 

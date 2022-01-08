@@ -186,7 +186,13 @@ export default {
     $route(to, from) {
       this.orderByPostDateDesc = this.$route.query.orderByPostDateDesc === '1'
       this.recommend = this.$route.query.recommend === '1'
-      this.get(false, to)
+      if (to.path.startsWith('/thread')) {
+        this.get(false, to).catch(reason => {
+          console.error(reason)
+          this.loading = false
+          this.$router.push(from)
+        })
+      }
     }
   },
   props: {},

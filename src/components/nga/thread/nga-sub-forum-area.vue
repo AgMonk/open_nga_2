@@ -19,8 +19,6 @@
                 <span v-if="item.dsc">({{ item.dsc }})</span>
               </my-router-link>
               <el-checkbox v-model="item.selection" style="margin-left: 15px" @change="blockChanged(item,$event)" />
-              <!--todo 关注 取关-->
-              <!--todo 描述-->
             </span>
           </el-descriptions-item>
         </el-descriptions>

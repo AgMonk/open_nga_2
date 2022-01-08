@@ -74,6 +74,10 @@ export default {
       this.addHistoryForum({fid, name: forum.name, recommend})
       this.title = recommend ? `${forum.name}[精华区]` : forum.name
       setTitle(this.title)
+
+      // getTopicTop(fid).then(res=>{
+      //   console.log(res)})
+
       return res;
     },
     //浏览合集主题

@@ -55,15 +55,15 @@
               </template>
 
               <div :style="getRowStyle()({rowIndex:i})">
-                <div v-if="row.gifts" style="text-align: left;border: 1px solid #42b983">
+                <h2 v-if="row.subject" style="text-align: left">{{ row.subject }}</h2>
+                <div v-if="row.gifts" style="text-align: left">
                   <el-divider content-position="left"><span class="divider">礼物</span></el-divider>
                   <span v-for="item in row.gifts">
                     <el-image :src="`/items/5_${item.id}.png`" style="max-width: 32px;max-height: 32px" />
                     X {{ item.count }}
                   </span>
                 </div>
-                <h2 v-if="row.subject" style="text-align: left">{{ row.subject }}</h2>
-                <nga-content :content="row.content" />
+                <nga-content :content="row.content" :mode="row.mode" />
               </div>
 
 

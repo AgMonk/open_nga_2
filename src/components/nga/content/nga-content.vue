@@ -1,6 +1,9 @@
 <template>
-  <div style="text-align: left">
-    <nga-content-render :data="contentArray"/>
+  <div v-if="mode==='render'" class="content">
+    <nga-content-render :data="contentArray" />
+  </div>
+  <div v-if="mode==='code'" class="content">
+    <div v-for="item in code">{{ item }}</div>
   </div>
 
 </template>
@@ -16,6 +19,7 @@ export default {
   data() {
     return {
       contentArray: [],
+      code: [],
     }
   },
   methods: {
@@ -23,6 +27,7 @@ export default {
     parse(s) {
       this.contentArray = parseBbsCode(s)
       // console.log(this.contentArray)
+      this.code = s.split('<br/>')
       return this.contentArray
     }
   },
@@ -36,12 +41,15 @@ export default {
     }
   },
   props: {
-    content: {required: true}
+    content: {required: true},
+    mode: {type: String, default: 'render'},
   },
 }
 
 </script>
 
 <style scoped>
-
+.content {
+  text-align: left
+}
 </style>

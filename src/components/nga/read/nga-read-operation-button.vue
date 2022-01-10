@@ -3,7 +3,7 @@
   <el-tooltip effect="light" placement="bottom" style="margin-left: 5px">
     <template #content>
       <div>
-        <h4>查看</h4>
+        <el-divider style="text-align: left">查看</el-divider>
         <my-tag-with-tooltip :route="{name:'回复列表',params:{page:1,tid:reply.tid},query:{authorid:reply.authorid}}" disabled text="只看TA"/>
         <my-tag-with-tooltip v-if="fid || reply.fid" :route="{name:'搜索用户发言',params:{page:1,authorid:reply.authorid},query:{fid:fid || reply.fid}}" disabled text="本版主题"/>
         <my-tag-with-tooltip v-if="fid || reply.fid"
@@ -14,7 +14,7 @@
         <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:reply.authorid},query:{searchpost:1}}" disabled text="用户回复"/>
       </div>
       <div>
-        <h4>操作</h4>
+        <el-divider style="text-align: left">操作</el-divider>
         <my-router-link :to="{name:'发帖',params:{action:'quote'},query:{tid:reply.tid,pid:reply.pid}}">
           <my-tag-with-tooltip disabled text="引用" />
         </my-router-link>
@@ -35,6 +35,11 @@
           <my-tag-with-tooltip disabled text="收藏" />
         </span>
       </div>
+      <div>
+        <el-divider style="text-align: left">源代码</el-divider>
+        <my-copy-button :copy-text="reply.content.replace(/<br\/>/g,'\n')" size="small" text="复制" />
+        <el-switch v-model="reply.mode" active-text="源代码" active-value="code" inactive-value="render" style="margin-left: 5px" />
+      </div>
     </template>
     <el-button class="齿轮图标" type="text">
       <el-icon>
@@ -50,10 +55,11 @@ import {Setting} from '@element-plus/icons'
 import MyRouterLink from "@/components/my/my-router-link";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {addFavor, report} from "@/assets/request/nuke-request";
+import MyCopyButton from "@/components/my/my-copy-button";
 
 export default {
   name: "nga-read-operation-button",
-  components: {MyRouterLink, MyTagWithTooltip, Setting},
+  components: {MyCopyButton, MyRouterLink, MyTagWithTooltip, Setting},
   data() {
     return {}
   },

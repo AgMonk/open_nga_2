@@ -287,7 +287,7 @@ export const handleAttachs = reply => {
 const handleReply = reply => {
     handleThreadType(reply)
 
-    const {postdatetimestamp, score, score_2, alterinfo, hotreply, from_client, comment} = reply
+    const {postdatetimestamp, score, score_2, alterinfo, hotreply, from_client, comment, "14": gifts} = reply
 
     // 时间戳
     const timestamp = {}
@@ -390,7 +390,15 @@ const handleReply = reply => {
         delete reply.comment_id
     }
 
-
+//礼物
+    if (gifts) {
+        const g = [];
+        Object.keys(gifts).forEach(i => {
+            g.push({id: parseInt(i), count: gifts[i]})
+        })
+        reply.gifts = g;
+        delete reply['14']
+    }
 };
 
 export const handleUserData = (__U, data) => {

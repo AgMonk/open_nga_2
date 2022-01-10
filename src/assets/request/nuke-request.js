@@ -129,7 +129,7 @@ export const getUserInfo = (uid) => nukeRequest({
     // console.log(nukeData)
     //    用户信息
     // noinspection JSUnusedLocalSymbols
-    const {group, groupid, medal, more_info, regdate, uid, avatar, email, money, phone, sign, rvrc, posts, username, muteTime, verified} = nukeData
+    const {audit_stat, group, groupid, medal, more_info, regdate, uid, avatar, email, money, phone, sign, rvrc, posts, username, muteTime, verified} = nukeData
 
     const user = {
         uid,
@@ -203,6 +203,16 @@ export const getUserInfo = (uid) => nukeRequest({
             status, verified
         }
     }
+
+    if (audit_stat) {
+        console.log(audit_stat)
+        const pattern = /name_block\( (.+?) \)/
+        const match = pattern.exec(audit_stat)
+        if (match) {
+            user.username = match[1]
+        }
+    }
+
     // console.log(user)
     res.data.user = user;
     return user;

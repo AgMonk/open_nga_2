@@ -108,7 +108,7 @@ export default {
             const uid = map.ngaPassportUid;
             const info = await dispatch("getUserInfo", uid)
             console.log(info)
-            if (info && info.phone) {
+            if (info && (info.email || info.phone)) {
                 //    登陆成功
                 commit("delAccount", uid)
                 state.accounts.push({uid, username: info.username, cookie})

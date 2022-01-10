@@ -3,7 +3,7 @@
     <!--<el-container direction="horizontal">-->
     <!--<el-header></el-header>-->
 
-    <el-main>
+    <el-main style="--el-main-padding:0">
       <el-pagination v-if="pageData"
                      :current-page.sync="currentPage"
                      :page-size="pageSize"
@@ -12,7 +12,7 @@
                      layout="total,prev, pager, next,jumper"
                      @current-change="currentChange"
       />
-      <el-input v-model="destLevel" size="small" style="width:100px"/>
+      <el-input v-model="destLevel" size="small" style="width:100px" />
       <el-button size="small" type="success" @click="jumpLevel">跳转楼层</el-button>
 
       <!--回复列表-->

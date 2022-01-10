@@ -6,7 +6,7 @@
         <template #content>
           <span v-for="(item,i) in forum.reputationLevel">
             <el-tag>{{ item.n }}({{ item.r }})</el-tag>
-            <br v-if="i%4===1"/>
+            <br v-if="i%4===1" />
           </span>
         </template>
         <el-button size="small" type="primary">声望阈值</el-button>
@@ -15,15 +15,16 @@
       <my-router-link :to="{name:'发帖',params:{action:'reply'},query:{tid:thread.tid}}">
         <el-button size="small" type="primary">回复</el-button>
       </my-router-link>
-      <el-switch v-model="config.autoRefresh" active-text="自动刷新(3min)" @change="setConfig({key:'autoRefresh',value:$event})"/>
+      <el-switch v-model="config.autoRefresh" active-text="自动刷新(3min)" @change="setConfig({key:'autoRefresh',value:$event})" />
 
     </el-header>
 
-    <el-main v-loading="loading" :element-loading-spinner="svg"
-             element-loading-background="rgba(0, 0, 0, 0.8)"
+    <el-main v-loading="loading" :element-loading-spinner="svg" element-loading-background="rgba(0, 0, 0, 0.8)"
              element-loading-svg-view-box="-10, -10, 50, 50"
-             element-loading-text="Loading...">
-      <nga-read-table :page-data="pageData" :replies="replies" :thread="thread"/>
+             element-loading-text="Loading..."
+             style="--el-main-padding:0"
+    >
+      <nga-read-table :page-data="pageData" :replies="replies" :thread="thread" />
     </el-main>
   </el-container>
 

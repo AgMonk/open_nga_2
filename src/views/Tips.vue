@@ -8,7 +8,25 @@
     <el-main>
       <el-collapse accordion>
         <el-collapse-item style="text-align: left" title="功能说明">
+          <b style="color:red">注：本UI大量使用了数据缓存功能提升体验；多个标签页无法共享缓存，有可能造成数据混乱；故仅推荐使用一个标签进行浏览</b>
 
+          <h2>导航栏：社区</h2>
+          <ol>
+            <li>收藏的版面：点击进入版面</li>
+            <li>
+              <h4>版面主题</h4>
+              <ol>
+                <li>路径导航（面包屑）：位于顶部，每一级路径的下拉列表会显示本级的浏览历史；其中版面历史中还包含了收藏版面，以背景颜色区分</li>
+              </ol>
+            </li>
+          </ol>
+          <h2>导航栏：我的</h2>
+          <ol>
+            <li>短消息：私信和系统消息</li>
+            <li>配置：当前用户个人中心，账号管理，界面配置</li>
+            <li>收藏：当前账号收藏的主题</li>
+            <li>关于：本UI的功能说明，使用技巧等</li>
+          </ol>
         </el-collapse-item>
         <el-collapse-item style="text-align: left" title="快捷键">
           <div>

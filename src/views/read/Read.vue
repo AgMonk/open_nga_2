@@ -6,8 +6,8 @@
       <nga-breadcrumb/>
     </el-header>
 
-    <el-main>
-      <router-view/>
+    <el-main style="--el-main-padding:0">
+      <router-view />
     </el-main>
     <el-footer></el-footer>
   </el-container>

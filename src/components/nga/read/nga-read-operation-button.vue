@@ -3,7 +3,7 @@
   <el-tooltip effect="light" placement="bottom" style="margin-left: 5px">
     <template #content>
       <div>
-        <el-divider style="text-align: left">查看</el-divider>
+        <el-divider content-position="left">查看</el-divider>
         <my-tag-with-tooltip :route="{name:'回复列表',params:{page:1,tid:reply.tid},query:{authorid:reply.authorid}}" disabled text="只看TA"/>
         <my-tag-with-tooltip v-if="fid || reply.fid" :route="{name:'搜索用户发言',params:{page:1,authorid:reply.authorid},query:{fid:fid || reply.fid}}" disabled text="本版主题"/>
         <my-tag-with-tooltip v-if="fid || reply.fid"
@@ -14,7 +14,7 @@
         <my-tag-with-tooltip :route="{name:'搜索用户发言',params:{page:1,authorid:reply.authorid},query:{searchpost:1}}" disabled text="用户回复"/>
       </div>
       <div>
-        <el-divider style="text-align: left">操作</el-divider>
+        <el-divider content-position="left">操作</el-divider>
         <my-router-link :to="{name:'发帖',params:{action:'quote'},query:{tid:reply.tid,pid:reply.pid}}">
           <my-tag-with-tooltip disabled text="引用" />
         </my-router-link>
@@ -36,7 +36,7 @@
         </span>
       </div>
       <div>
-        <el-divider style="text-align: left">源代码</el-divider>
+        <el-divider content-position="left">源代码</el-divider>
         <my-copy-button :copy-text="reply.content.replace(/<br\/>/g,'\n')" size="small" text="复制" />
         <el-switch v-model="reply.mode" active-text="源代码" active-value="code" inactive-value="render" style="margin-left: 5px" />
       </div>

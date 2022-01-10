@@ -90,6 +90,8 @@
           <div class="tabs-pane">
             <el-scrollbar>
               <div v-for="m in approbation" :class="m.unread?'unread':''" @click="m.unread=false;updateUnread()">
+                <span>{{ m.timestamp.value.substring(m.timestamp.value.indexOf("-") + 1) }}</span>
+
                 主题
                 <my-router-link :style="{color:'blue'}" :to="{name:'回复列表',params:{tid:m.thread.tid,page:m.thread.page},hash:`#P${m.reply.to}`}">
                   {{ m.thread.subject.substring(0, Math.min(m.thread.subject.length, 15)) }}

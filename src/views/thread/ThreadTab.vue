@@ -18,12 +18,13 @@
         <el-button size="small" type="primary">发帖</el-button>
       </my-router-link>
       <el-switch
-          v-model="orderByPostDateDesc"
-          active-text="按发布时间排序"
-      />
-      <el-switch
           v-model="recommend"
           active-text="精华区"
+      />
+      <el-switch
+          v-if="!recommend"
+          v-model="orderByPostDateDesc"
+          active-text="按发布时间排序"
       />
     </el-header>
     <el-main v-loading="loading" :element-loading-spinner="svg"

@@ -4,6 +4,7 @@
     <!--  <el-container direction="horizontal">-->
     <el-header>
       <el-button type="primary" @click="addAccounts">添加</el-button>
+      <el-button type="primary" @click="showDialog=true">cookie获取方法</el-button>
     </el-header>
 
     <el-main>
@@ -17,6 +18,18 @@
 
         </el-table-column>
       </el-table>
+      <el-dialog v-model="showDialog" close-on-click-modal width="80%">
+        <div style="text-align: left">
+          <ol>
+            <li>本UI没有常规登陆功能，需要使用已登陆的账号Cookie</li>
+            <li>以chrome为例，其他浏览器大同小异，界面有可能是中文，自行对应</li>
+            <li>打开一个新标签，按F12打开控制台，点击“Network”或“网络”，使用该标签打开任一一个帖子后如下图操作</li>
+            <li>
+              <el-image :src="cookieImg" />
+            </li>
+          </ol>
+        </div>
+      </el-dialog>
     </el-main>
     <el-footer></el-footer>
   </el-container>
@@ -30,7 +43,10 @@ import {mapActions, mapMutations, mapState} from "vuex";
 export default {
   name: "my-accounts",
   data() {
-    return {}
+    return {
+      showDialog: false,
+      cookieImg: require('@/assets/image/cookie.png'),
+    }
   },
   computed: {
     ...mapState("users", [`accounts`]),

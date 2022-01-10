@@ -95,12 +95,12 @@ export default {
         },
         loadCurrentUser: ({dispatch, commit, state}) => {
             const uid = getCache("currentUser")
-            return dispatch("getUserInfo", uid).then(res => {
+            return uid ? dispatch("getUserInfo", uid).then(res => {
                 state.currentUser = res
                 const {uid, username} = res
                 slf4j(`加载当前账号用户信息 ${username}(${uid})`)
                 return res
-            })
+            }) : undefined
         },
         loginWithCookie: async ({dispatch, commit, state}, cookie) => {
             setCookies(cookie, 90, "/nga-api")

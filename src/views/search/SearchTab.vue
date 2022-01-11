@@ -2,7 +2,6 @@
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
     <el-header>
-      <!--      todo -->
       <div>{{ $route.name }}</div>
     </el-header>
 
@@ -11,7 +10,7 @@
              element-loading-text="Loading..."
              style="--el-main-padding:0"
     >
-      <thread-table v-if="threads" :pageData="pageData" :threads="threads" @favor-updated="get(true)" />
+      <thread-table v-if="threads" :pageData="pageData" :threads="threads" />
 
     </el-main>
     <el-footer></el-footer>
@@ -51,6 +50,10 @@ export default {
         this.threads = res.threads
         this.pageData = res.pageData
         this.loading = false;
+      }).catch(reason => {
+        console.error(reason)
+        this.loading = false;
+        this.threads = []
       })
     },
     update(route) {

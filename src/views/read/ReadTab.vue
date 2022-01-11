@@ -9,9 +9,11 @@
             <br v-if="i%4===1" />
           </span>
         </template>
-        <el-button size="small" type="primary">声望阈值</el-button>
+        <el-button size="small" style="margin-right: 10px" type="primary">声望阈值</el-button>
       </el-tooltip>
-      <el-button size="small" type="success" @click="get(true)">刷新</el-button>
+      <nga-search-dialog v-if="thread.subForum" :data="{stid:[thread.subForum.tid]}" mode="合集" />
+      <nga-search-dialog v-else :data="{fid:[thread.fid]}" mode="版面" />
+      <el-button size="small" style="margin-right: 10px" type="success" @click="get(true)">刷新</el-button>
       <my-router-link :to="{name:'发帖',params:{action:'reply'},query:{tid:thread.tid}}">
         <el-button size="small" type="primary">回复</el-button>
       </my-router-link>
@@ -37,10 +39,11 @@ import NgaReadTable from "@/components/nga/read/nga-read-table";
 import {ElMessage} from "element-plus";
 import {keypressEvent, scrollYToTop} from "@/assets/utils/DomUtils";
 import MyRouterLink from "@/components/my/my-router-link";
+import NgaSearchDialog from "@/components/nga/search/nga-search-dialog";
 
 export default {
   name: "ReadTab",
-  components: {MyRouterLink, NgaReadTable},
+  components: {NgaSearchDialog, MyRouterLink, NgaReadTable},
   computed: {
     ...mapState('config', ["config"]),
   },
@@ -82,6 +85,7 @@ export default {
       this.forum = data.forum;
       this.thread = data.thread;
 
+      console.log(this.forum)
       //请求用户数据
       data.userData.users
           .filter(user => !isNaN(user.uid))

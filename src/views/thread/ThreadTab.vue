@@ -11,8 +11,15 @@
         <el-switch v-model="showTopicTop" active-text="显示版头" />
       </div>
       <div style="text-align: left">
-          <el-button size="small" type="success" @click="get(true)">刷新</el-button>
-        <el-button size="small" type="primary" @click="$router.push({name:'发帖',params:{action:'new'},query:{fid:forum.fid,stid:forum.setName?forum.toppedTid:undefined}})">发帖
+        <nga-search-dialog v-if="$route.name==='浏览版面主题'" :data="{fid:[forum.fid]}" mode="版面" />
+        <nga-search-dialog v-if="$route.name==='浏览合集主题'" :data="{stid:[forum.toppedTid]}" mode="合集" />
+        <el-button size="small" type="success" @click="get(true)">
+          刷新
+        </el-button>
+        <el-button size="small" type="primary"
+                   @click="$router.push({name:'发帖',params:{action:'new'},query:{fid:forum.fid,stid:forum.setName?forum.toppedTid:undefined}})"
+        >
+          发帖
         </el-button>
         <el-switch
             v-model="recommend"
@@ -57,10 +64,11 @@ import {ElMessage} from "element-plus";
 import {copyObj} from "@/assets/utils/ObjectUtils";
 import NgaSubForumArea from "@/components/nga/thread/nga-sub-forum-area";
 import NgaContent from "@/components/nga/content/nga-content";
+import NgaSearchDialog from "@/components/nga/search/nga-search-dialog";
 
 export default {
   name: "ThreadTab",
-  components: {NgaContent, NgaSubForumArea, MyRouterLink, ThreadTable, NgaForumAvatar},
+  components: {NgaSearchDialog, NgaContent, NgaSubForumArea, MyRouterLink, ThreadTable, NgaForumAvatar},
   data() {
     return {
       topicTopContent: "",
@@ -185,6 +193,8 @@ export default {
     setTitle(this.$route.name)
     document.addEventListener('keypress', this.keypress)
     this.get(false)
+
+    console.log(this.$route)
 
     this.orderByPostDateDesc = this.$route.query.orderByPostDateDesc === '1'
     this.recommend = this.$route.query.recommend === '1'

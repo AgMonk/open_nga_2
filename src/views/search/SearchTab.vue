@@ -54,8 +54,6 @@ export default {
     },
     update(route) {
       const {params, query, name} = route
-
-      console.log(params, query, name)
       this.get(name, params, query, false)
     },
   },

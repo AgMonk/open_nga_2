@@ -109,7 +109,7 @@ export default {
       const {fid} = param
       const forum = res.forum
       this.setWithThread({forum})
-      this.addHistoryForum({fid, name: forum.name})
+      this.addHistoryForum({fid: forum.fid, name: forum.name})
       this.addHistorySet({stid: forum.toppedTid, name: forum.setName, forumName: forum.name})
       this.title = `${forum.setName} - ${forum.name}`;
       setTitle(this.title)

@@ -23,15 +23,24 @@ export const parseBitData = (num) => {
     return num.toString(2).split('').reverse().join('');
 }
 
-export const parseColor = (data) => {
+export const parseTitleFont = (data) => {
     const s = window.atob(data).split("");
     const array = s
-        .map(i=>bin2UInt(i).toString(2))
-        .map(i=>('00000000'+i).slice(-8))
-        .map(i=>i.split("").reverse().join(''))
-    ;
-    // console.log(`${data} => ${array}`)
-    return array
+        .map(i => bin2UInt(i).toString(2))
+        .map(i => ('00000000' + i).slice(-8));
+
+    const res = {}
+    for (let i = 0; i < array.length - 1; i += 5) {
+        const type = parseInt(array[i], 2) === 2 ? "stid" : 'bit'
+        let bit = parseInt(array.slice(i + 1, i + 5).join(''), 2)
+        if (type === 'stid') {
+            res.stid = bit;
+        }
+        if (type === 'bit') {
+            res.titleFont = bit.toString(2).split("").reverse().join('')
+        }
+    }
+    return res
 }
 
 //二进制字符串转为多字节整数(big-endian)

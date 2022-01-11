@@ -1,7 +1,7 @@
 import axios from "axios";
 import {second2String} from "@/assets/utils/DateFormat";
 import {copyObj, obj2Array} from "@/assets/utils/ObjectUtils";
-import {parseColor, parseThreadTypeBit} from "@/assets/request/bitUtils";
+import {parseThreadTypeBit, parseTitleFont} from "@/assets/request/bitUtils";
 import {unEscape} from "@/assets/utils/StringUtils";
 import {ElMessage} from "element-plus";
 
@@ -85,16 +85,15 @@ export const parseAvatar = (avatar) => {
 // noinspection JSUnresolvedVariable
 const handleColor = thread => {
     // console.log(thread.subject)
-    const array = thread.hasOwnProperty('titlefont') ? parseColor(thread.titlefont)
-        : (thread.hasOwnProperty('topic_misc') ? parseColor(thread.topic_misc) : undefined)
-    if (!array) {
+    const data = thread.hasOwnProperty('titlefont') ? parseTitleFont(thread.titlefont)
+        : (thread.hasOwnProperty('topic_misc') ? parseTitleFont(thread.topic_misc) : undefined)
+    if (!data) {
         return
     }
-    const index = (thread.mirror && ['合集主题'].includes(thread.mirror.type)) ? 9 : array.length - 1;
-    const bitData = array[index]
-    if (bitData) {
-        const colorData = bitData.substring(0, 5)
-        const fontData = bitData.substring(5)
+    const {stid, titleFont} = data;
+    if (titleFont) {
+        const colorData = titleFont.substring(0, 5)
+        const fontData = titleFont.substring(5)
         let color = 'black';
         const bold = fontData[0] === '1'
         const italic = fontData[1] === '1'
@@ -132,7 +131,7 @@ const handleColor = thread => {
         }
 
         thread.titleFont = {
-            color, bold, italic, lineThrough, style, bitData
+            color, bold, italic, lineThrough, style, raw: data
         }
     }
     delete thread.titlefont
@@ -174,19 +173,19 @@ const handleMirror = thread => {
 
 //   版面镜像
     if (parent) {
-        if (parent[0] === 635) {
+        if (parent['0'] === 635) {
             thread.mirror.fid = topic_misc_var['3']
             thread.mirror.type = '版面'
             delete thread.topic_misc_var
-        } else if (parent[1]) {
+        } else if (parent["1"]) {
             thread.mirror.type = '合集主题'
-            thread.mirror.fid = parent[0];
-            thread.mirror.stid = parent[1];
-            thread.mirror.collection = parent[2];
+            thread.mirror.fid = parent["0"];
+            thread.mirror.stid = parent["1"];
+            thread.mirror.collection = parent["2"];
         } else {
             thread.mirror.type = '子版主题'
-            thread.mirror.fid = parent[0];
-            thread.mirror.forum = parent[2];
+            thread.mirror.fid = parent["0"];
+            thread.mirror.forum = parent["2"];
         }
         delete thread.parent
     } else if (topic_misc_var && topic_misc_var[1] && !topic_misc_var[2]) {

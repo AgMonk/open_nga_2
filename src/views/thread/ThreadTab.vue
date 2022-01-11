@@ -3,29 +3,34 @@
     <!--  <el-container direction="horizontal">-->
     <el-header>
       <div>
+        <el-switch v-model="showTopicTop" active-text="显示版头" />
         <my-router-link v-if="forum.toppedTid" :to="{name:'回复列表',params:{tid:forum.toppedTid,page:1}}">
           <h2 style="margin-top: 3px">
             {{ title }}
           </h2>
         </my-router-link>
+        <el-icon :size="1000" color="red">
+          <search />
+        </el-icon>
+      </div>
+      <div style="text-align: left">
+        <my-router-link :to="{name:'发帖',params:{action:'new'},query:{fid:forum.fid,stid:forum.setName?forum.toppedTid:undefined}}">
+          <el-button size="small" type="success" @click="get(true)">刷新</el-button>
+          <el-button size="small" type="primary">发帖</el-button>
+        </my-router-link>
         <el-switch
-            v-model="showTopicTop"
-            active-text="显示版头"
+            v-model="recommend"
+            active-text="精华区"
+            style="margin-left: 5px"
+            @change="changeQuery('recommend',$event)"
+        />
+        <el-switch
+            v-if="!recommend"
+            v-model="orderByPostDateDesc"
+            active-text="按发布时间排序"
+            @change="changeQuery('orderByPostDateDesc',$event)"
         />
       </div>
-      <el-button size="small" type="success" @click="get(true)">刷新</el-button>
-      <my-router-link :to="{name:'发帖',params:{action:'new'},query:{fid:forum.fid,stid:forum.setName?forum.toppedTid:undefined}}">
-        <el-button size="small" type="primary">发帖</el-button>
-      </my-router-link>
-      <el-switch
-          v-model="recommend"
-          active-text="精华区"
-      />
-      <el-switch
-          v-if="!recommend"
-          v-model="orderByPostDateDesc"
-          active-text="按发布时间排序"
-      />
     </el-header>
     <el-main v-loading="loading" :element-loading-spinner="svg"
              element-loading-background="rgba(0, 0, 0, 0.8)"
@@ -56,10 +61,11 @@ import {ElMessage} from "element-plus";
 import {copyObj} from "@/assets/utils/ObjectUtils";
 import NgaSubForumArea from "@/components/nga/thread/nga-sub-forum-area";
 import NgaContent from "@/components/nga/content/nga-content";
+import {Search} from "@element-plus/icons";
 
 export default {
   name: "ThreadTab",
-  components: {NgaContent, NgaSubForumArea, MyRouterLink, ThreadTable, NgaForumAvatar},
+  components: {NgaContent, NgaSubForumArea, MyRouterLink, ThreadTable, NgaForumAvatar, Search},
   data() {
     return {
       topicTopContent: "",
@@ -80,6 +86,16 @@ export default {
     ...mapActions("read", [`getTopicTopContent`]),
     ...mapMutations("breadcrumb", [`setWithThread`]),
     ...mapMutations("history", [`addHistoryForum`, `addHistorySet`]),
+    changeQuery(key, e) {
+      let {name, query} = this.$route
+      query = copyObj(query)
+      if (e) {
+        query[key] = '1'
+      } else {
+        delete query[key]
+      }
+      this.$router.push({name, query})
+    },
     //浏览版面主题
     async listThreadsOfForum(param) {
       const res = await this.getThreadsOfForum(param)
@@ -184,26 +200,6 @@ export default {
   },
 
   watch: {
-    orderByPostDateDesc(to, from) {
-      const r = copyObj(this.$route)
-      if (to) {
-        r.query.orderByPostDateDesc = '1'
-      } else {
-        delete r.query.orderByPostDateDesc
-      }
-      console.log(r)
-      this.$router.push(r)
-    },
-    recommend(to, from) {
-      const r = copyObj(this.$route)
-      if (to) {
-        r.query.recommend = '1'
-      } else {
-        delete r.query.recommend
-      }
-      console.log(r)
-      this.$router.push(r)
-    },
     $route(to, from) {
       this.orderByPostDateDesc = this.$route.query.orderByPostDateDesc === '1'
       this.recommend = this.$route.query.recommend === '1'

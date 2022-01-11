@@ -64,8 +64,8 @@ export default {
     },
     //在面包屑里添加收藏里的 版面 、 合集
     async updateFavor(forums = this.forums, sets = this.sets) {
-      const res = await this.getFavorForums(false)
-      const list = res.data.favorForums;
+      const list = await this.getFavorForums(false)
+      // const list = res.data.favorForums;
 
       const historyFid = forums.map(i => parseInt(i.fid))
       this.favorsForums = list.filter(i => !i.stid).filter(i => !historyFid.includes(i.fid))

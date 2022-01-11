@@ -45,9 +45,8 @@ export default {
     ...mapActions("forums", [`getFavorForums`,`searchForum`]),
     ...mapActions("users", [`getUserInfo`]),
     async refresh(force) {
-      const res = await this.getFavorForums(force);
-      this.favorForums = res.data.favorForums;
-      return res.data.favorForums
+      this.favorForums = await this.getFavorForums(force);
+      return this.favorForums
     }
   },
   mounted() {

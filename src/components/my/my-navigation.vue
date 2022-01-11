@@ -22,6 +22,7 @@ export default {
     return {
       routes: [
         {path: '/home', name: '社区'},
+        {path: '/search', name: '搜索'},
         {
           path: '/my', name: '我的',
           children: [

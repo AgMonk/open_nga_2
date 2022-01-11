@@ -27,8 +27,13 @@ const routes = [
         component: Home
     },
     {
-        path: '/search/:key',
+        path: '/search',
         name: '搜索',
+        component: Search
+    },
+    {
+        path: '/search/:key',
+        name: '搜索关键字',
         children: [
             {path: "f/:fid/:page", name: "搜索版面主题", component: SearchTab},
             {path: "s/:stid/:page", name: "搜索合集主题", component: SearchTab},

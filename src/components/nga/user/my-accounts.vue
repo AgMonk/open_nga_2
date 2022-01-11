@@ -56,9 +56,9 @@ export default {
     ...mapMutations("users", [`loadAccounts`, `delAccount`]),
     login(cookie){
       this.loginWithCookie(cookie).then(()=>{
-        setTimeout(()=>{
+        setTimeout(() => {
           location.reload()
-        },1000)
+        }, 500)
       })
     },
     addAccounts() {

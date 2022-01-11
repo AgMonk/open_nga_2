@@ -15,6 +15,7 @@ import Messages from "@/views/message/Messages";
 import MessageList from "@/views/message/MessageList";
 import MessageRead from "@/views/message/MessageRead";
 import MessageNew from "@/views/message/MessageNew";
+import MyPost from "@/views/MyPost";
 
 const routes = [
     {
@@ -70,6 +71,7 @@ const routes = [
         name: "我的",
         component: My,
         children: [
+            {path: "my-post", name: "我的主题/回复", component: MyPost,},
             {path: "config", name: "配置", component: Config},
             {path: "favor/:page", name: "已收藏主题", component: ThreadTab},
             {path: "tips", name: "关于", component: Tips,},
@@ -88,7 +90,6 @@ const routes = [
         name: "发帖",
         component: Post,
     },
-
 ]
 
 const router = createRouter({

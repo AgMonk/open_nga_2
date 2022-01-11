@@ -26,6 +26,8 @@ export default {
         {
           path: '/my', name: '我的',
           children: [
+            {path: "my-post", name: "我的主题"},
+            {path: "my-post?searchpost=1", name: "我的回复"},
             {path: "messages/list/1", name: "短消息"},
             {path: "config", name: "配置"},
             {path: "favor/1", name: "收藏"},
@@ -42,7 +44,6 @@ export default {
     handleClick(e) {
       console.log(e)
     },
-
     select(index, indexPath) {
       // console.log(this.activeIndex)
     }

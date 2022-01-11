@@ -93,11 +93,12 @@ export default {
       const {recommend, content} = query;
 
       this.params = {key}
-      if (fid) {
-        this.params.fid = fid.split(',').map(i => parseInt(i))
-      }
       if (stid) {
+        this.mode = '合集'
         this.params.stid = stid.split(',').map(i => parseInt(i))
+      } else if (fid) {
+        this.mode = '版面'
+        this.params.fid = fid.split(',').map(i => parseInt(i))
       }
       this.params.recommend = recommend === '1'
       this.params.content = content === '1'

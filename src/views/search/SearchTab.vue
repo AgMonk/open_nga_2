@@ -6,9 +6,13 @@
       <div>{{ $route.name }}</div>
     </el-header>
 
-    <el-main style="--el-main-padding:0">
-      <div>{{ $route.params }}</div>
-      <div>{{ $route.query }}</div>
+    <el-main v-loading="loading" :element-loading-spinner="svg" element-loading-background="rgba(0, 0, 0, 0.8)"
+             element-loading-svg-view-box="-10, -10, 50, 50"
+             element-loading-text="Loading..."
+             style="--el-main-padding:0"
+    >
+      <thread-table v-if="threads" :pageData="pageData" :threads="threads" @favor-updated="get(true)" />
+
     </el-main>
     <el-footer></el-footer>
   </el-container>
@@ -17,15 +21,23 @@
 
 <script>
 import {mapActions} from "vuex";
+import ThreadTable from "@/components/nga/thread/thread-table";
 
 export default {
   name: "SearchTab",
+  components: {ThreadTable},
   data() {
-    return {}
+    return {
+      svg: `<path class="path" d=" M 30 15 L 28 17 M 25.61 25.61 A 15 15, 0, 0, 1, 15 30 A 15 15, 0, 1, 1, 27.99 7.5 L 15 15 " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/> `,
+      loading: false,
+      threads: [],
+      pageData: [],
+    }
   },
   methods: {
     ...mapActions("search", [`getSearchInThread`, `getSearchInSet`]),
-    async request(name, params, query, force) {
+    async request(name, params = {}, query = {}, force) {
+      this.loading = true;
       if (name === '搜索版面主题') {
         return this.getSearchInThread({...params, ...query, force})
       }
@@ -35,7 +47,9 @@ export default {
     },
     get(name, params, query, force) {
       this.request(name, params, query, force).then(res => {
-        console.log(res)
+        this.threads = res.data.threads
+        this.pageData = res.data.pageData
+        this.loading = false;
       })
     },
     update(route) {
@@ -48,7 +62,11 @@ export default {
   mounted() {
     this.update(this.$route)
   },
-  watch: {},
+  watch: {
+    $route(to) {
+      this.update(to)
+    }
+  },
   props: {},
 }
 

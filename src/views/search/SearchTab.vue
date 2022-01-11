@@ -47,8 +47,9 @@ export default {
     },
     get(name, params, query, force) {
       this.request(name, params, query, force).then(res => {
-        this.threads = res.data.threads
-        this.pageData = res.data.pageData
+        console.log(res)
+        this.threads = res.threads
+        this.pageData = res.pageData
         this.loading = false;
       })
     },

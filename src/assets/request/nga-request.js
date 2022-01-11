@@ -876,7 +876,8 @@ export const readRequest = ({pid, tid, page, authorid}) => {
         while (replies.length < replyCount) {
             //    有回复卡审
             if (!replies[index] || replies[index].level !== currentLevel) {
-                replies.splice(index, 0, {authorid: "#anony_[未知用户]", level: currentLevel, content: '[本条回复处于审核中或审核未通过]'})
+                replies.splice(index, 0,
+                    {authorid: "#anony_[未知用户]", level: currentLevel, content: '[color=red][b][本条回复处于审核中或审核未通过][/b][/color]'})
             }
             currentLevel++;
             index++;

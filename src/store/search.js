@@ -21,6 +21,12 @@ export default {
                 requestMethod: () => searchInThread(param),
                 expires: 3 * 60,
                 force
+            }).then(res => {
+                //保存用户信息
+                res.data.threads.forEach(thread => {
+                    commit("users/saveUser", thread.author, {root: true})
+                })
+                return res.data
             })
         },
         getSearchInSet: ({dispatch, commit, state}, {page, key, stid, content, force}) => {
@@ -31,6 +37,12 @@ export default {
                 requestMethod: () => searchInSet(param),
                 expires: 3 * 60,
                 force
+            }).then(res => {
+                //保存用户信息
+                res.data.threads.forEach(thread => {
+                    commit("users/saveUser", thread.author, {root: true})
+                })
+                return res.data
             })
         },
         method: ({dispatch, commit, state}, payload) => {

@@ -106,7 +106,6 @@ export default {
     //浏览合集主题
     async listThreadsOfSet(param) {
       const res = await this.getThreadsOfSet(param)
-      const {fid} = param
       const forum = res.forum
       this.setWithThread({forum})
       this.addHistoryForum({fid: forum.fid, name: forum.name})

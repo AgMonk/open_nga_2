@@ -37,7 +37,7 @@ import {copyObj} from "@/assets/utils/ObjectUtils";
 import {ElMessage} from "element-plus";
 
 export default {
-  name: "nga-search-param",
+  name: "nga-search-form",
   data() {
     return {
       size: 'small',

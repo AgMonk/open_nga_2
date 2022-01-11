@@ -5,7 +5,7 @@
 
     <el-main>
       <div id="搜索条件" style="text-align: left">
-        <nga-search-param :data="params" :mode="mode" />
+        <nga-search-form :data="params" :mode="mode" />
       </div>
 
       <router-view />
@@ -16,16 +16,12 @@
 
 <script>
 import NgaBreadcrumb from "@/components/nga/nga-breadcrumb";
-import {mapActions, mapState} from "vuex";
-import NgaSearchParam from "@/components/nga/search/nga-search-param";
+import NgaSearchForm from "@/components/nga/search/nga-search-form";
 
 
 export default {
   name: "Search",
-  components: {NgaSearchParam, NgaBreadcrumb},
-  computed: {
-    ...mapState('history', [`forums`, `sets`]),
-  },
+  components: {NgaSearchForm, NgaBreadcrumb},
   data() {
     return {
       size: 'small',
@@ -42,7 +38,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions('forums', [`getFavorForums`]),
     update(route) {
 
       const {params, query} = route;

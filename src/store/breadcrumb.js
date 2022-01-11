@@ -21,6 +21,7 @@ export default {
             a.push({type:'主题',tid:thread.tid,name:thread.subject})
 
             state.breadcrumbs = a;
+            console.log(a)
             console.slf4j(`面包屑更新: ${a.map(i => i.name).join(' > ')}`)
         },
         setWithThread(state, {forum,recommend}){
@@ -36,6 +37,7 @@ export default {
                 a.push({type:'精华区',fid:forum.fid,name:'精华区',})
             }
             state.breadcrumbs = a;
+            console.log(a)
             console.slf4j(`面包屑更新: ${a.map(i => i.name).join(' > ')}`)
         }
     },

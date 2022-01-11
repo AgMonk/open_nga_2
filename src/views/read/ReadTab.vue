@@ -64,11 +64,14 @@ export default {
     ...mapActions("read", [`getReplies`]),
     ...mapMutations("history", [`addHistoryThread`, `addHistoryForum`, `addHistorySet`]),
     ...mapMutations('config', [`setConfig`]),
+    ...mapMutations('breadcrumb', [`setWithRead`]),
     ...mapActions("users", [`getUserInfo`]),
     async get(force) {
       this.loading = true;
       const {pid, tid, page, authorid} = Object.assign({}, this.$route.query, this.$route.params)
       const data = await this.getReplies({pid, tid, page, authorid, force: page === 'e' ? true : force})
+      this.setWithRead(data)
+
       const {forum, thread} = data;
       const subForum = thread.subForum
       console.log(data);

@@ -19,9 +19,6 @@ export default {
                 expires: 3 * 60,
                 force
             }).then(res => {
-                //设置面包屑
-                commit("breadcrumb/setWithRead", res.data, {root: true})
-
                 //保存用户信息
                 res.data.userData.users.forEach(user => {
                     commit("users/saveUser", user, {root: true})

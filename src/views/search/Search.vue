@@ -10,7 +10,7 @@
             <el-switch v-model="mode" active-text="版面" active-value="版面" inactive-text="合集" inactive-value="合集" />
           </el-form-item>
           <el-form-item v-if="mode==='版面'" label="版面">
-            <el-select v-model="params.fid" :size="size" multiple>
+            <el-select v-model="params.fid" :size="size" multiple value-key="fid">
               <el-option v-for="item in forums" :label="item.name" :value="item.fid" />
               <el-option v-for="item in favorForums" :label="item.name" :value="item.fid" />
             </el-select>
@@ -61,8 +61,8 @@ export default {
       favorForums: [],
       favorSets: [],
       params: {
-        fid: "",
-        stid: "",
+        fid: [],
+        stid: [],
         key: "",
         recommend: false,
         content: false,
@@ -83,15 +83,34 @@ export default {
         this.$router.push({name: "搜索合集主题", params: {key, stid: stid.join(','), page}, query})
       }
     },
+    async update(route) {
+      const res = await this.getFavorForums()
+      this.favorForums = res.filter(i => !i.stid).filter(i => !this.forums.map(j => parseInt(j.fid)).includes(i.fid))
+      this.favorSets = res.filter(i => i.stid).filter(i => !this.sets.map(j => parseInt(j.stid)).includes(i.stid))
+
+      const {params, query} = route;
+      const {fid, stid, key} = params
+      const {recommend, content} = query;
+
+      this.params = {key}
+      if (fid) {
+        this.params.fid = fid.split(',').map(i => parseInt(i))
+      }
+      if (stid) {
+        this.params.stid = stid.split(',').map(i => parseInt(i))
+      }
+      this.params.recommend = recommend === '1'
+      this.params.content = content === '1'
+    }
   },
   async mounted() {
-    const res = await this.getFavorForums()
-    console.log(res)
-    console.log(this.forums)
-    this.favorForums = res.filter(i => !i.stid).filter(i => !this.forums.map(j => parseInt(j.fid)).includes(i.fid))
-    this.favorSets = res.filter(i => i.stid).filter(i => !this.sets.map(j => parseInt(j.stid)).includes(i.stid))
+    await this.update(this.$route)
   },
-  watch: {},
+  watch: {
+    $route(to) {
+      this.update(to)
+    }
+  },
   props: {},
 }
 

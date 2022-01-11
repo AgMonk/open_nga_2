@@ -12,6 +12,7 @@
 <script>
 import NgaThreadLink from "@/components/nga/thread/nga-thread-link";
 import MyRouterLink from "@/components/my/my-router-link";
+import {unEscape} from "@/assets/utils/StringUtils";
 
 export default {
   name: "nga-content-link",
@@ -90,6 +91,7 @@ export default {
       }
     },
     parse(src) {
+      src = unEscape(src)
       const n1 = this.ngaThreadRegExp1.exec(src)
       const n2 = this.ngaThreadRegExp2.exec(src)
       const ngaMatch = n1 || n2;

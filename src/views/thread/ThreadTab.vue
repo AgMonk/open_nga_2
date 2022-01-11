@@ -3,21 +3,17 @@
     <!--  <el-container direction="horizontal">-->
     <el-header>
       <div>
-        <el-switch v-model="showTopicTop" active-text="显示版头" />
         <my-router-link v-if="forum.toppedTid" :to="{name:'回复列表',params:{tid:forum.toppedTid,page:1}}">
           <h2 style="margin-top: 3px">
             {{ title }}
           </h2>
         </my-router-link>
-        <el-icon :size="1000" color="red">
-          <search />
-        </el-icon>
+        <el-switch v-model="showTopicTop" active-text="显示版头" />
       </div>
       <div style="text-align: left">
-        <my-router-link :to="{name:'发帖',params:{action:'new'},query:{fid:forum.fid,stid:forum.setName?forum.toppedTid:undefined}}">
           <el-button size="small" type="success" @click="get(true)">刷新</el-button>
-          <el-button size="small" type="primary">发帖</el-button>
-        </my-router-link>
+        <el-button size="small" type="primary" @click="$router.push({name:'发帖',params:{action:'new'},query:{fid:forum.fid,stid:forum.setName?forum.toppedTid:undefined}})">发帖
+        </el-button>
         <el-switch
             v-model="recommend"
             active-text="精华区"
@@ -61,11 +57,10 @@ import {ElMessage} from "element-plus";
 import {copyObj} from "@/assets/utils/ObjectUtils";
 import NgaSubForumArea from "@/components/nga/thread/nga-sub-forum-area";
 import NgaContent from "@/components/nga/content/nga-content";
-import {Search} from "@element-plus/icons";
 
 export default {
   name: "ThreadTab",
-  components: {NgaContent, NgaSubForumArea, MyRouterLink, ThreadTable, NgaForumAvatar, Search},
+  components: {NgaContent, NgaSubForumArea, MyRouterLink, ThreadTable, NgaForumAvatar},
   data() {
     return {
       topicTopContent: "",

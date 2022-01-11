@@ -17,7 +17,6 @@ export const getFavorForums = () => nukeRequest({
     const nukeData = res.data["0"];
     res.data.favorForums = obj2Array(nukeData).sort((a, b) => a.id - b.id)
     return res;
-
 })
 //获取提醒消息
 export const getNotices = () => nukeRequest({

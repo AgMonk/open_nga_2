@@ -77,7 +77,7 @@ export default {
       const {unionFid, blockTid} = await getBlockTid(forum.fid)
       const children = forum.children
       children.forEach(item => item.selection = !blockTid.includes(item.stid))
-      console.log(children)
+      // console.log(children)
     }
   },
   mounted() {

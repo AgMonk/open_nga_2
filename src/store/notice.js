@@ -29,7 +29,7 @@ export default {
             const notices = await getNotices();
             const {data} = notices;
             const {replies, pm, approbation} = data;
-            console.log(data)
+            // console.log(data)
             if (replies) {
                 setUnread(state.replies, replies)
             } else {

@@ -90,6 +90,31 @@
           </div>
 
         </el-collapse-item>
+
+        <el-collapse-item style="text-align: left" title="本地部署操作步骤(推荐使用)">
+          <h3>好处</h3>
+          <ol>
+            <li>不依赖本服务器</li>
+            <li>自己的带宽直连一般而言速度更快</li>
+            <li>降低本服务器的压力(滑稽)</li>
+          </ol>
+
+          <h3>Nginx配置</h3>
+          <ol>
+            <li>将下文的 http:{} 的花括号中间的内容，添加到 nginx 的配置文件（nginx.conf）的相同位置里</li>
+            <li>其中2-4行如果之前已有名称相同的配置项，保留数字较大的</li>
+            <li>如果你使用Pixiv-Nginx，配置文件在conf文件夹中，如果使用官方nginx请参考官方说明</li>
+            <li>启动nginx.exe，如果之前已经启动，需要使用 cmd 命令行 到 nginx文件夹下 执行该命令重启 让配置生效 <b style="color:red">.\nginx.exe -s reload</b></li>
+            <li>也可以使用Powershell执行该命令，打开方法：在nginx文件夹下的空白处，按住Shift+右键，在菜单中选择"在此处打开Powershell窗口"</li>
+            <li>在nginx文件夹下创建一个文件夹 nga , 下载本UI的压缩包解压进去 , 保证 index.html 的路径为：/nginx文件夹/nga/index.html</li>
+            <li>打开浏览器，访问 http://localhost:11451 ，看到界面则表示配置成功</li>
+          </ol>
+          <el-collapse>
+            <el-collapse-item title="nginx配置">
+              <nga-code-textarea :code="code.http" lang="nginx" />
+            </el-collapse-item>
+          </el-collapse>
+        </el-collapse-item>
       </el-collapse>
 
 
@@ -101,12 +126,95 @@
 
 <script>
 import {bbsCodeLibrary} from "@/assets/nga/bbscode";
+import NgaCodeTextarea from "@/components/nga/read/nga-code-textarea";
 
 export default {
   name: "Tips",
+  components: {NgaCodeTextarea},
   data() {
     return {
       bbsCodeLibrary,
+      code: {
+        http: `http:{
+    client_header_buffer_size 10240k;
+    large_client_header_buffers 6 10240k;
+    client_max_body_size 50m;
+
+
+    server {
+          listen       11451;
+          server_name  localhost;
+
+          location / {
+              root   nga;
+              index  index.html index.htm;
+              try_files $uri $uri/ /index.html;
+          }
+
+          location ^~ /nga-api/ {
+              proxy_pass https://bbs.nga.cn/;
+          }
+          location ^~ /attachments/ {
+              proxy_pass https://img.nga.178.com/attachments/;
+              proxy_set_header Referer https://img.nga.178.com;
+              #proxy_set_header Host $proxy_host;
+              #proxy_set_header :authority img.nga.178.com;
+              #proxy_set_header X-Real-IP $remote_addr;
+              #proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              #proxy_set_header REMOTE-HOST $remote_addr;
+              }
+          location ^~ /emote/ {
+              proxy_pass https://img4.nga.178.com/ngabbs/post/smile/;
+              proxy_set_header Referer https://img4.nga.178.com;
+              #proxy_set_header Host $proxy_host;
+              #proxy_set_header X-Real-IP $remote_addr;
+              #proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              #proxy_set_header REMOTE-HOST $remote_addr;
+              }
+          location ^~ /178/avatars/ {
+              proxy_pass http://pic1.178.com/avatars/;
+              proxy_set_header Host $proxy_host;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header Referer https://img.nga.178.com;
+              proxy_set_header REMOTE-HOST $remote_addr;
+              }
+          location ^~ /avatars/ {
+              proxy_pass https://img.nga.178.com/avatars/;
+              proxy_set_header Host $proxy_host;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header Referer https://img.nga.178.com;
+              proxy_set_header REMOTE-HOST $remote_addr;
+              }
+          location ^~ /icon/f/ {
+              proxy_pass https://img4.nga.178.com/proxy/cache_attach/ficon/;
+              proxy_set_header Host $proxy_host;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header Referer https://img.nga.178.com;
+              proxy_set_header REMOTE-HOST $remote_addr;
+              }
+          location ^~ /items/ {
+              proxy_pass https://img4.nga.178.com/ngabbs/nga_classic/items/;
+              proxy_set_header Host $proxy_host;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header Referer https://img.nga.178.com;
+              proxy_set_header REMOTE-HOST $remote_addr;
+              }
+          location ^~ /upload {
+              proxy_pass https://img8.nga.cn/attach.php;
+          }
+
+          error_page   500 502 503 504  /50x.html;
+          location = /50x.html {
+              root   html;
+          }
+      }
+}
+`,
+      }
     }
   },
   methods: {},

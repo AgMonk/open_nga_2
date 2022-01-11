@@ -2,7 +2,7 @@
 // noinspection JSUnusedLocalSymbols
 
 import {getFromCache} from "@/assets/utils/CacheUtils";
-import {searchByUser, searchInSet, searchInThread, threadByForum} from "@/assets/request/nga-request";
+import {searchInSet, searchInThread} from "@/assets/request/nga-request";
 
 export default {
     namespaced: true,
@@ -13,7 +13,6 @@ export default {
     },
     mutations: {},
     actions: {
-
         getSearchInThread: ({dispatch, commit, state}, {page, key, fid, recommend, content, force}) => {
             const param = {page, key, fid, recommend, content};
             return getFromCache({

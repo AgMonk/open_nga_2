@@ -3,11 +3,19 @@
     <!--  <el-container direction="horizontal">-->
     <el-header>
       <!--      移动端顶部按钮-->
-      <div v-if="clientMode==='移动端'" style="text-align: left">
-        <el-button size="mini" type="success" @click="dialogShow.mobile.subForums=true">子版</el-button>
-        <nga-search-dialog v-if="$route.name==='浏览版面主题'" :data="{fid:[forum.fid]}" mode="版面" size="mini" />
-        <nga-search-dialog v-if="$route.name==='浏览合集主题'" :data="{stid:[forum.toppedTid]}" mode="合集" size="mini" />
+      <div v-if="clientMode==='移动端'" class="space-between" style="text-align: left">
+        <span>
+          <el-button size="mini" type="success" @click="dialogShow.mobile.subForums=true">子版</el-button>
+          <nga-search-dialog v-if="$route.name==='浏览版面主题'" :data="{fid:[forum.fid]}" mode="版面" size="mini" />
+          <nga-search-dialog v-if="$route.name==='浏览合集主题'" :data="{stid:[forum.toppedTid]}" mode="合集" size="mini" />
+        </span>
 
+        <span>
+          <el-button size="mini" type="primary"
+                     @click="$router.push({name:'发帖',params:{action:'new'},query:{fid:forum.fid,stid:forum.setName?forum.toppedTid:undefined}})"
+          >发帖
+          </el-button>
+        </span>
       </div>
       <div>
         <my-router-link v-if="forum.toppedTid" :to="{name:'回复列表',params:{tid:forum.toppedTid,page:1}}">
@@ -43,10 +51,10 @@
       </div>
     </el-header>
     <el-main v-loading="loading" :element-loading-spinner="svg"
-             style="--el-main-padding:0"
              element-loading-background="rgba(0, 0, 0, 0.8)"
              element-loading-svg-view-box="-10, -10, 50, 50"
              element-loading-text="Loading..."
+             style="--el-main-padding:0"
     >
       <div v-if="showTopicTop" id="版头">
         <nga-content :content="topicTopContent" />
@@ -250,4 +258,9 @@ export default {
 </script>
 
 <style scoped>
+.space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 </style>

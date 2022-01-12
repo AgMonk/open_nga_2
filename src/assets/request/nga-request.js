@@ -872,7 +872,7 @@ export const readRequest = ({pid, tid, page, authorid}) => {
         const {currentPage, totalPage, total, pageSize} = res.data.pageData
         const replyCount = currentPage < totalPage ? pageSize : (total % pageSize)
         let index = 0;
-        let currentLevel = (page - 1) * pageSize
+        let currentLevel = (currentPage - 1) * pageSize
         while (replies.length < replyCount) {
             //    有回复卡审
             if (!replies[index] || replies[index].level !== currentLevel) {

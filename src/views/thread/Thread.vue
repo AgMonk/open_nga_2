@@ -1,7 +1,7 @@
 <template>
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
-    <el-header>
+    <el-header v-if="clientWidth>900">
       <nga-breadcrumb />
     </el-header>
 
@@ -13,10 +13,14 @@
 
 <script>
 import NgaBreadcrumb from "@/components/nga/nga-breadcrumb";
+import {mapState} from "vuex";
 
 export default {
   name: "Thread",
   components: {NgaBreadcrumb},
+  computed: {
+    ...mapState('client', [`clientWidth`]),
+  },
   data() {
     return {}
   },

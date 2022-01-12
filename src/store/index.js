@@ -9,6 +9,7 @@ import notice from "@/store/notice";
 import config from "@/store/config";
 import messages from "@/store/messages";
 import search from "@/store/search";
+import client from "@/store/client";
 
 export default createStore({
   state: {
@@ -18,6 +19,6 @@ export default createStore({
   actions: {
   },
   modules: {
-    read, users, breadcrumb, thread, history, forums, notice, config, messages, search
+    read, users, breadcrumb, thread, history, forums, notice, config, messages, search, client
   }
 })

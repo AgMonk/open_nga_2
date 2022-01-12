@@ -3,7 +3,7 @@
     <!--  <el-container direction="horizontal">-->
     <!--    <el-header></el-header>-->
 
-    <el-main>
+    <el-main style="--el-main-padding:3px">
       <el-tabs style="background:rgb(0 0 0 / 0%)" type="border-card">
         <el-tab-pane label="我的收藏" style="text-align: left">
           <nga-forum-avatar v-for="forum in favorForums" :forum="forum" />

@@ -15,13 +15,12 @@
 </template>
 
 <script>
-import NgaBreadcrumb from "@/components/nga/nga-breadcrumb";
 import NgaSearchForm from "@/components/nga/search/nga-search-form";
 
 
 export default {
   name: "Search",
-  components: {NgaSearchForm, NgaBreadcrumb},
+  components: {NgaSearchForm},
   data() {
     return {
       size: 'small',

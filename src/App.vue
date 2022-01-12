@@ -1,7 +1,7 @@
 <template>
   <my-navigation />
   <div :style="style">
-    <div style="text-align: left;margin-top: 2px;margin-bottom: 2px">
+    <div v-if="clientWidth>900" style="text-align: left;margin-top: 2px;margin-bottom: 2px">
       <el-button size="small" type="primary" @click="back"><span style="font-weight: bold">返回</span></el-button>
       <el-button size="small" type="primary" @click="forward"><span style="font-weight: bold">前进</span></el-button>
     </div>
@@ -50,22 +50,24 @@
 }
 </style>
 <script>
-import NgaBreadcrumb from "@/components/nga/nga-breadcrumb";
 import MyNavigation from "@/components/my/my-navigation";
 import {mapActions, mapMutations, mapState} from "vuex";
 import Notice from "@/views/Notice";
 import {keypressEvent, scrollMethods} from "@/assets/utils/DomUtils";
+import {getClientSize} from "@/assets/utils/ClientUtils";
 
 export default {
-  components: {Notice, MyNavigation, NgaBreadcrumb},
+  components: {Notice, MyNavigation},
   computed: {
     ...mapState('config', ["config"]),
+    ...mapState('client', [`clientWidth`]),
   },
   methods: {
     ...mapMutations('config', [`loadConfig`]),
     ...mapActions("users", [`loadCurrentUser`]),
     ...mapMutations("users", [`loadUsername`]),
     ...mapMutations("history", [`loadHistory`]),
+    ...mapMutations("client", [`init`]),
     back(e) {
       history.back()
     },
@@ -91,6 +93,7 @@ export default {
     }
   },
   async mounted() {
+    this.init();
     await this.loadUsername()
     await this.loadHistory()
     await this.loadCurrentUser()
@@ -98,6 +101,7 @@ export default {
     document.addEventListener('keypress', this.keypress)
 
     this.updateStyle(this.config)
+    console.log(getClientSize())
   },
   watch: {
     config(to) {

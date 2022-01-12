@@ -1,13 +1,15 @@
 <template>
-<span>
-  <el-tag :type="tagType">
-    {{ data.type }}
-  </el-tag>
- <el-link :download="filename" :href="'/attachments/'+data.url">
-    {{ filename }}
- </el-link>
-  ({{ data.size }}K)
-</span>
+  <el-tooltip :content="data.dsc" :disabled="!data.dsc" effect="light">
+    <span>
+      <el-tag :type="tagType">
+        {{ data.type }}
+      </el-tag>
+      <el-link :download="filename" :href="'/attachments/'+data.url">
+        {{ filename }}
+      </el-link>
+      ({{ data.size }}K)
+    </span>
+  </el-tooltip>
 </template>
 
 <script>

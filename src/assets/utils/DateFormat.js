@@ -23,6 +23,7 @@ Date.prototype.format = function (fmt) {
     return fmt;
 }
 
-export const second2String  = (timestamp) => {
+export const second2String = (timestamp) => {
+    timestamp = timestamp ? timestamp : new Date().getTime() / 1000
     return new Date(timestamp * 1000).format("yyyy-MM-dd hh:mm:ss")
 }

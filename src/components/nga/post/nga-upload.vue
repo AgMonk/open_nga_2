@@ -49,10 +49,10 @@
 
 <script>
 import {Briefcase, Delete, Loading, Plus, UploadFilled, ZoomIn} from '@element-plus/icons';
-import {encodeUTF8} from "@/assets/utils/StringUtils";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {isImage, isMp3, isMp4, isZip} from "@/assets/utils/FileUtils";
 import {delAttach} from "@/assets/request/nuke-request";
+import {second2String} from "@/assets/utils/DateFormat";
 
 export default {
   name: "nga-upload",
@@ -129,16 +129,7 @@ export default {
     beforeUpload(file) {
       console.log(file)
       // 把非数字、 字母的字符使用 UTF-8编码
-      let regExp = /[\W_]/
-      let name = file.name;
-      for (let i = name.length - 1; i >= 0; i--) {
-        let char = name[i];
-        if (regExp.exec(char)) {
-          name = name.substring(0, i)
-              + "%" + Number(encodeUTF8(char)).toString(16)
-              + name.substring(i + 1);
-        }
-      }
+      let name = encodeURI(file.name);
 
       let m = 1024 * 1024;
       // console.log(file)
@@ -146,7 +137,7 @@ export default {
 
       const filename = 'attachment_file0'
 
-      this.params[`${filename}_dscp`] = file.name;
+      this.params[`${filename}_dscp`] = `上传时间 ${second2String()}`;
       this.params[`${filename}_watermark`] = ``;
       this.params[`${filename}_img`] = 1;
       this.params[`${filename}_auto_size`] = file.size >= 4 * m ? 1 : 0;

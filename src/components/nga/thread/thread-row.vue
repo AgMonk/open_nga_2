@@ -4,7 +4,7 @@
       <nga-thread-link :data="data" />
       <nga-thread-type-tag :type="data.type" />
       <el-pagination
-          v-if="data.replies>19 && $route.name!=='已收藏主题'"
+          v-if="data.replies>19 && $route.name!=='已收藏主题' && clientMode==='PC端'"
           :total="data.replies+1"
           :page-size="20"
           :pager-count="5"
@@ -42,6 +42,7 @@ import NgaThreadLink from "@/components/nga/thread/nga-thread-link";
 import NgaThreadTypeTag from "@/components/nga/thread/nga-thread-type-tag";
 import MyTimestamp from "@/components/my/my-timestamp";
 import NgaContent from "@/components/nga/content/nga-content";
+import {mapState} from "vuex";
 
 export default {
   name: "thread-row",
@@ -49,10 +50,14 @@ export default {
   data() {
     return {}
   },
+  computed: {
+    ...mapState('client', [`clientMode`]),
+
+  },
   methods: {
     //判断是否为子主题
-    isType(mirror,type) {
-      return mirror && mirror.type && (mirror.type===type || type.includes(mirror.type));
+    isType(mirror, type) {
+      return mirror && mirror.type && (mirror.type === type || type.includes(mirror.type));
     },
   },
   mounted() {

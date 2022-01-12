@@ -9,8 +9,8 @@
       </div>
       <el-pagination v-if="pageData"
                      :current-page.sync="currentPage"
-                     :pager-count="5"
-                     layout="total,prev, pager, next,jumper"
+                     :layout="(clientMode==='PC端'?'total':'')+',prev, pager, next,jumper'"
+                     :pager-count="clientMode==='PC端'?5:3"
                      @current-change="currentChange"
                      :page-size="pageSize"
                      :total="total"
@@ -23,12 +23,12 @@
                 @selection-change="handleSelectionChange"
       >
         <el-table-column v-if="$route.name==='已收藏主题'" type="selection" />
-        <el-table-column v-if="$route.name!=='已收藏主题'" label="#" width="40px">
+        <el-table-column v-if="$route.name!=='已收藏主题' && clientMode==='PC端'" label="#" width="40px">
           <template #default="s">
             {{ s.$index + 1 }}
           </template>
         </el-table-column>
-        <el-table-column v-if="$route.name!=='已收藏主题'" label="回复" prop="replies" width="70px">
+        <el-table-column v-if="$route.name!=='已收藏主题' && clientMode==='PC端'" label="回复" prop="replies" width="70px">
           <template #default="s">
             <span v-if="s.row.mirror && ['版面','合集'].includes(s.row.mirror.type)">
               {{ s.row.mirror.type }}
@@ -39,10 +39,16 @@
         <el-table-column prop="subject" label="主题">
           <template #default="s">
             <thread-row :data="s.row" />
+            <div v-if="clientMode==='移动端'" style="display: flex; justify-content: space-between; align-items: center;">
+              <nga-user-link :uid="s.row.author.uid" />
+              <span @click="$router.push({name:'回复列表',params:{tid:s.row.tid,page:'e'}})">
+                <my-timestamp :time="s.row.timestamp.lastPost.time" />
+                ({{ s.row.replies }})</span>
+            </div>
           </template>
         </el-table-column>
 
-        <el-table-column v-if="$route.name!=='已收藏主题'" label="作者" prop="author.name" width="180">
+        <el-table-column v-if="$route.name!=='已收藏主题'&& clientMode==='PC端'" label="作者" prop="author.name" width="180">
           <template #default="s">
             <nga-user-link :uid="s.row.author.uid" />
             <div>
@@ -59,7 +65,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column v-if="$route.name!=='已收藏主题'" label="最后回复" prop="lastposter" width="180">
+        <el-table-column v-if="$route.name!=='已收藏主题' && clientMode==='PC端'" label="最后回复" prop="lastposter" width="180">
           <template #default="s">
             <div>
               <my-timestamp :time="s.row.timestamp.lastPost.time" />
@@ -70,8 +76,8 @@
       </el-table>
       <el-pagination v-if="pageData"
                      :current-page.sync="currentPage"
-                     :pager-count="5"
-                     layout="total,prev, pager, next,jumper"
+                     :layout="(clientMode==='PC端'?'total':'')+',prev, pager, next,jumper'"
+                     :pager-count="clientMode==='PC端'?5:3"
                      @current-change="currentChange"
                      :page-size="pageSize"
                      :total="total"
@@ -98,6 +104,7 @@ export default {
   components: {MyTimestamp, NgaUserLink, ThreadRow},
   computed: {
     ...mapState('config', ["config"]),
+    ...mapState('client', [`clientMode`]),
   },
   data() {
     return {

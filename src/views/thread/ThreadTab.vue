@@ -2,15 +2,22 @@
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
     <el-header>
+      <!--      移动端顶部按钮-->
+      <div v-if="clientMode==='移动端'" style="text-align: left">
+        <el-button size="mini" type="success" @click="dialogShow.mobile.subForums=true">子版</el-button>
+        <nga-search-dialog v-if="$route.name==='浏览版面主题'" :data="{fid:[forum.fid]}" mode="版面" size="mini" />
+        <nga-search-dialog v-if="$route.name==='浏览合集主题'" :data="{stid:[forum.toppedTid]}" mode="合集" size="mini" />
+
+      </div>
       <div>
         <my-router-link v-if="forum.toppedTid" :to="{name:'回复列表',params:{tid:forum.toppedTid,page:1}}">
           <h2 style="margin-top: 3px">
             {{ title }}
           </h2>
         </my-router-link>
-        <el-switch v-model="showTopicTop" active-text="显示版头" />
+        <el-switch v-if="clientMode==='PC端'" v-model="showTopicTop" active-text="显示版头" />
       </div>
-      <div style="text-align: left">
+      <div v-if="clientMode==='PC端'" style="text-align: left">
         <nga-search-dialog v-if="$route.name==='浏览版面主题'" :data="{fid:[forum.fid]}" mode="版面" />
         <nga-search-dialog v-if="$route.name==='浏览合集主题'" :data="{stid:[forum.toppedTid]}" mode="合集" />
         <el-button size="small" type="success" @click="get(true)">
@@ -36,6 +43,7 @@
       </div>
     </el-header>
     <el-main v-loading="loading" :element-loading-spinner="svg"
+             style="--el-main-padding:0"
              element-loading-background="rgba(0, 0, 0, 0.8)"
              element-loading-svg-view-box="-10, -10, 50, 50"
              element-loading-text="Loading..."
@@ -43,10 +51,22 @@
       <div v-if="showTopicTop" id="版头">
         <nga-content :content="topicTopContent" />
       </div>
-      <div v-if="forum && forum.children && forum.children.length>0">
-        <nga-sub-forum-area :forum="forum" @follow-changed="get(true)" />
+      <div v-if="clientMode==='PC端'&&forum && forum.children && forum.children.length>0">
+        <el-collapse id="subForums">
+          <el-collapse-item title="子版面/合集">
+            <nga-sub-forum-area :forum="forum" @follow-changed="get(true)" />
+          </el-collapse-item>
+        </el-collapse>
       </div>
       <thread-table v-if="threads" :pageData="pageData" :threads="threads" @favor-updated="get(true)" />
+
+
+      <!--      dialog-->
+
+      <el-dialog v-model="dialogShow.mobile.subForums" title="子版面/合集" width="90%">
+        <nga-sub-forum-area :forum="forum" @follow-changed="get(true)" />
+      </el-dialog>
+
     </el-main>
     <el-footer></el-footer>
   </el-container>
@@ -54,7 +74,7 @@
 </template>
 
 <script>
-import {mapActions, mapMutations} from "vuex";
+import {mapActions, mapMutations, mapState} from "vuex";
 import {setTitle} from "@/assets/request/ProjectUtils";
 import ThreadTable from "@/components/nga/thread/thread-table";
 import NgaForumAvatar from "@/components/nga/forum/nga-forum-avatar";
@@ -69,8 +89,16 @@ import NgaSearchDialog from "@/components/nga/search/nga-search-dialog";
 export default {
   name: "ThreadTab",
   components: {NgaSearchDialog, NgaContent, NgaSubForumArea, MyRouterLink, ThreadTable, NgaForumAvatar},
+  computed: {
+    ...mapState('client', [`clientMode`]),
+  },
   data() {
     return {
+      dialogShow: {
+        mobile: {
+          subForums: false,
+        }
+      },
       topicTopContent: "",
       showTopicTop: false,
       loading: false,

@@ -1,7 +1,7 @@
 <template>
   <span>
-    <el-button size="small" style="margin-right: 10px" type="primary" @click="show=true">搜索</el-button>
-    <el-dialog v-model="show" title="搜索条件">
+    <el-button :size="size" style="margin-right: 10px" type="primary" @click="show=true">搜索</el-button>
+    <el-dialog v-model="show" :width="clientMode==='PC端'?'50%':'90%'" title="搜索条件">
       <nga-search-form :data="data" :mode="mode" append-to-body />
     </el-dialog>
   </span>
@@ -9,6 +9,7 @@
 
 <script>
 import NgaSearchForm from "@/components/nga/search/nga-search-form";
+import {mapState} from "vuex";
 
 export default {
   name: "nga-search-dialog",
@@ -18,7 +19,9 @@ export default {
       show: false,
     }
   },
-  computed: {},
+  computed: {
+    ...mapState('client', [`clientMode`]),
+  },
   methods: {},
   mounted() {
   },
@@ -26,6 +29,7 @@ export default {
   props: {
     data: {type: Object},
     mode: {type: String, default: '版面'},
+    size: {default: 'small'},
   },
 }
 

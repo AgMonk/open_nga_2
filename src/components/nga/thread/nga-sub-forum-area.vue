@@ -1,8 +1,7 @@
 <template>
   <div v-if="forum && forum.children && forum.children.length>0">
-    <el-collapse id="subForums">
-      <el-collapse-item title="子版面/合集">
-        <!--        <nga-forum-avatar v-for="forum in forum.children" :forum="forum" />-->
+
+  <!--        <nga-forum-avatar v-for="forum in forum.children" :forum="forum" />-->
         <el-descriptions :column="4">
           <el-descriptions-item v-for="(item,i) in forum.children" :style="getRowStyle()({rowIndex:i})">
             <template #label>
@@ -22,8 +21,6 @@
             </span>
           </el-descriptions-item>
         </el-descriptions>
-      </el-collapse-item>
-    </el-collapse>
   </div>
 </template>
 

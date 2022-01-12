@@ -1,7 +1,7 @@
 <template>
   <my-navigation />
   <div :style="style">
-    <div v-if="clientWidth>900" style="text-align: left;margin-top: 2px;margin-bottom: 2px">
+    <div v-if="clientMode==='PC端'" style="text-align: left;margin-top: 2px;margin-bottom: 2px">
       <el-button size="small" type="primary" @click="back"><span style="font-weight: bold">返回</span></el-button>
       <el-button size="small" type="primary" @click="forward"><span style="font-weight: bold">前进</span></el-button>
     </div>
@@ -60,7 +60,7 @@ export default {
   components: {Notice, MyNavigation},
   computed: {
     ...mapState('config', ["config"]),
-    ...mapState('client', [`clientWidth`]),
+    ...mapState('client', [`clientMode`]),
   },
   methods: {
     ...mapMutations('config', [`loadConfig`]),

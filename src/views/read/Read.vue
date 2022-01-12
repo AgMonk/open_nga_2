@@ -2,7 +2,7 @@
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
     <!--    <el-header></el-header>-->
-    <el-header v-if="clientWidth>900">
+    <el-header v-if="clientMode==='PC端'">
       <nga-breadcrumb />
     </el-header>
 
@@ -22,7 +22,7 @@ export default {
   name: "Read",
   components: {NgaBreadcrumb},
   computed: {
-    ...mapState('client', [`clientWidth`]),
+    ...mapState('client', [`mode`]),
   },
   data() {
     return {}

@@ -877,26 +877,11 @@ export const readRequest = ({pid, tid, page, authorid}) => {
             //    有回复卡审
             if (!replies[index] || replies[index].level !== currentLevel) {
                 replies.splice(index, 0,
-                    {authorid: "#anony_[未知用户]", level: currentLevel, content: '[color=red][b][本条回复处于审核中或审核未通过][/b][/color]'})
+                    {authorid: "#anony_[未知用户]", level: currentLevel, content: '[color=red][b][本条回复未获取到数据，可能的状态：审核中 / 审核未通过 / 被版主隐藏][/b][/color]'})
             }
             currentLevel++;
             index++;
         }
-        // console.log(replies)
-        //
-        // console.log(copyObj(replies))
-        // if (replies.length > 0) {
-        //     let index = 0;
-        //     while (index < 20) {
-        //         const reply = replies[index]
-        //         if (reply.level !== currentLevel) {
-        //             replies.splice(index, 0, {authorid: '#anony_' + '未知', level: currentLevel})
-        //         }
-        //         index++;
-        //         currentLevel++;
-        //     }
-        // }
-        // console.log(copyObj(replies))
         return res;
     })
 }

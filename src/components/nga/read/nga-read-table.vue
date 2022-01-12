@@ -55,7 +55,7 @@
               </template>
 
               <div :style="getRowStyle()({rowIndex:i})">
-                <h2 v-if="row.subject" style="text-align: left">{{ row.subject }}</h2>
+                <h2 v-if="row.subject" style="text-align: left">{{ unEscape(row.subject) }}</h2>
                 <div v-if="row.gifts" style="text-align: left">
                   <el-divider content-position="left"><span class="divider">礼物</span></el-divider>
                   <span v-for="item in row.gifts">
@@ -127,6 +127,7 @@ import NgaContent from "@/components/nga/content/nga-content";
 import NgaAttachTag from "@/components/nga/read/nga-attach-tag";
 import NgaSignature from "@/components/nga/read/nga-signature";
 import {mapGetters, mapState} from "vuex";
+import {unEscape} from "@/assets/utils/StringUtils";
 
 export default {
   name: "nga-read-table",
@@ -149,6 +150,7 @@ export default {
   },
   methods: {
     ...mapGetters('config', [`getHeaderRowStyle`, `getRowStyle`]),
+    unEscape,
     report({tid, pid}) {
       ElMessageBox.prompt('请填写理由', '举报理由', {
         confirmButtonText: '确认',

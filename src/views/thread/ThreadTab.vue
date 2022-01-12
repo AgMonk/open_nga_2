@@ -15,6 +15,7 @@
                      @click="$router.push({name:'发帖',params:{action:'new'},query:{fid:forum.fid,stid:forum.setName?forum.toppedTid:undefined}})"
           >发帖
           </el-button>
+
         </span>
       </div>
       <div>
@@ -56,6 +57,7 @@
              element-loading-text="Loading..."
              style="--el-main-padding:0"
     >
+
       <div v-if="showTopicTop" id="版头">
         <nga-content :content="topicTopContent" />
       </div>
@@ -75,8 +77,17 @@
         <nga-sub-forum-area :forum="forum" @follow-changed="get(true)" />
       </el-dialog>
 
+
     </el-main>
-    <el-footer></el-footer>
+    <div v-loading="loading" style="text-align: right">
+      <el-affix v-if="clientMode==='移动端'" :offset="20" position="bottom">
+        <el-button size="small" type="primary" @click="get(true)">
+          <el-icon>
+            <refresh-right />
+          </el-icon>
+        </el-button>
+      </el-affix>
+    </div>
   </el-container>
 
 </template>
@@ -93,10 +104,11 @@ import {copyObj} from "@/assets/utils/ObjectUtils";
 import NgaSubForumArea from "@/components/nga/thread/nga-sub-forum-area";
 import NgaContent from "@/components/nga/content/nga-content";
 import NgaSearchDialog from "@/components/nga/search/nga-search-dialog";
+import {RefreshRight} from "@element-plus/icons";
 
 export default {
   name: "ThreadTab",
-  components: {NgaSearchDialog, NgaContent, NgaSubForumArea, MyRouterLink, ThreadTable, NgaForumAvatar},
+  components: {NgaSearchDialog, NgaContent, NgaSubForumArea, MyRouterLink, ThreadTable, NgaForumAvatar, RefreshRight},
   computed: {
     ...mapState('client', [`clientMode`]),
   },

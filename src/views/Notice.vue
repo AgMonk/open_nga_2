@@ -16,7 +16,7 @@
         append-to-body
         close-on-click-modal
         close-on-press-escape
-        size="60%"
+        :size="clientMode==='PC端'?'60%':'80%'"
         title="提示信息"
     >
       <el-button size="small" type="danger" @click="allRead">全部已读</el-button>
@@ -134,6 +134,7 @@ export default {
   },
   components: {MyRouterLink, NgaUserLink, Message},
   computed: {
+    ...mapState('client', [`clientMode`]),
     ...mapState('notice', [`replies`, `pm`, `approbation`])
   },
   methods: {

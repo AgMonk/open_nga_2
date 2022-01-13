@@ -8,7 +8,7 @@
              element-loading-background="rgba(0, 0, 0, 0.8)"
              element-loading-svg-view-box="-10, -10, 50, 50"
              element-loading-text="Loading..."
-             style="--el-main-padding:0;overflow-y:hidden;"
+
     >
       <div id="快捷按钮" style="margin-bottom: 10px">
         <template v-for="(code,i) in bbsCodeLibrary" :key="i">
@@ -348,5 +348,10 @@ export default {
 .quick-select {
   width: 100px;
   margin-left: 2px
+}
+
+.el-main {
+  --el-main-padding: 0;
+  overflow-y: hidden;
 }
 </style>

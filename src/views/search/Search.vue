@@ -3,7 +3,7 @@
     <!--  <el-container direction="horizontal">-->
     <!--    <el-header></el-header>-->
 
-    <el-main style="--el-main-padding:0;overflow-y:hidden;">
+    <el-main>
       <div id="搜索条件" style="text-align: left">
         <nga-search-form :data="params" :mode="mode" />
       </div>
@@ -69,5 +69,8 @@ export default {
 </script>
 
 <style scoped>
-
+.el-main {
+  --el-main-padding: 0;
+  overflow-y: hidden;
+}
 </style>

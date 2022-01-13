@@ -55,7 +55,6 @@
              element-loading-background="rgba(0, 0, 0, 0.8)"
              element-loading-svg-view-box="-10, -10, 50, 50"
              element-loading-text="Loading..."
-             style="--el-main-padding:0;overflow-y:hidden;"
     >
 
       <div v-if="showTopicTop" id="版头">
@@ -270,5 +269,8 @@ export default {
 </script>
 
 <style scoped>
-
+.el-main {
+  --el-main-padding: 0;
+  overflow-y: hidden;
+}
 </style>

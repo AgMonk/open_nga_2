@@ -3,7 +3,7 @@
     <!--<el-container direction="horizontal">-->
     <!--<el-header></el-header>-->
 
-    <el-main style="--el-main-padding:0;overflow-y:hidden;;">
+    <el-main>
       <el-pagination v-if="pageData && clientMode==='PC端'"
                      :current-page.sync="currentPage"
                      :layout="(clientMode==='PC端'?'total':'')+',prev, pager, next,jumper'"
@@ -286,4 +286,8 @@ export default {
   background: rgb(0 0 0 / 0%);
 }
 
+.el-main {
+  --el-main-padding: 0;
+  overflow-y: hidden;
+}
 </style>

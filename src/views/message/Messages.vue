@@ -2,7 +2,7 @@
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
     <el-header><h3>短消息</h3></el-header>
-    <el-main style="--el-main-padding:0;overflow-y:hidden;">
+    <el-main>
       <router-view />
     </el-main>
     <!--    <el-footer></el-footer>-->

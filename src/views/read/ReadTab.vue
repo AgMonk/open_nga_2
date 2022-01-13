@@ -24,7 +24,7 @@
     <el-main v-loading="loading" :element-loading-spinner="svg" element-loading-background="rgba(0, 0, 0, 0.8)"
              element-loading-svg-view-box="-10, -10, 50, 50"
              element-loading-text="Loading..."
-             style="--el-main-padding:0;overflow-y:hidden;"
+
     >
       <nga-read-table :page-data="pageData" :replies="replies" :thread="thread" />
     </el-main>
@@ -197,5 +197,8 @@ export default {
 </script>
 
 <style scoped>
-
+.el-main {
+  --el-main-padding: 0;
+  overflow-y: hidden;
+}
 </style>

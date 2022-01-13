@@ -3,7 +3,7 @@
     <!--  <el-container direction="horizontal">-->
 <!--    <el-header></el-header>-->
 
-    <el-main style="--el-main-padding:0;overflow-y:hidden;">
+    <el-main>
       <div style="text-align: left">
         <el-button v-if="$route.name==='已收藏主题'" type="danger" @click="delFavor">取消收藏</el-button>
       </div>
@@ -193,5 +193,10 @@ export default {
 
 .el-pager li {
   background: rgb(0 0 0 / 0%);
+}
+
+.el-main {
+  --el-main-padding: 0;
+  overflow-y: hidden;
 }
 </style>

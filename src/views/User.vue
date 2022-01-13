@@ -38,5 +38,8 @@ export default {
 </script>
 
 <style scoped>
-
+.el-main {
+  --el-main-padding: 0;
+  overflow-y: hidden;
+}
 </style>

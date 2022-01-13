@@ -4,15 +4,15 @@
     <!--  <el-container direction="horizontal">-->
 
     <el-main>
-      <el-tabs type="border-card">
+      <el-tabs style="background-color: rgb(0 0 0 / 0%)" type="border-card">
         <el-tab-pane label="个人中心">
-          <user-center/>
+          <user-center />
         </el-tab-pane>
         <el-tab-pane label="账号管理">
-          <my-accounts/>
+          <my-accounts />
         </el-tab-pane>
         <el-tab-pane label="配置">
-          <my-config/>
+          <my-config />
         </el-tab-pane>
       </el-tabs>
     </el-main>
@@ -44,5 +44,8 @@ export default {
 </script>
 
 <style scoped>
-
+.el-main {
+  --el-main-padding: 0;
+  overflow-y: hidden;
+}
 </style>

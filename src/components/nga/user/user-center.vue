@@ -3,7 +3,7 @@
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
     <el-main>
-      <el-descriptions border>
+      <el-descriptions :column="clientMode==='PC端'?4:2" border>
         <template #title>
           <nga-user-link v-if="data.uid" :uid="data.uid" style="font-size: 20px" />
         </template>
@@ -31,7 +31,7 @@
 
       <el-descriptions border :column="1">
         <template #title>
-          头像
+          <h3>头像</h3>
         </template>
         <el-descriptions-item v-if="data.avatar">
           <my-avatar v-for="(i) in data.avatar.length" :index="i-1" :list="data.avatar" />
@@ -43,7 +43,7 @@
       </el-descriptions>
       <el-descriptions border :column="1">
         <template #title>
-          签名
+          <h3>签名</h3>
         </template>
         <el-descriptions-item v-if="data.signature">
           <nga-signature :uid="data.uid"/>
@@ -77,6 +77,7 @@ export default {
     ...mapActions("users", [`getUserInfo`]),
   },
   computed: {
+    ...mapState('client', [`clientMode`]),
     ...mapState("users", [`currentUser`])
   },
   async mounted() {
@@ -106,5 +107,8 @@ export default {
 </script>
 
 <style scoped>
-
+.el-main {
+  --el-main-padding: 0;
+  overflow-y: hidden;
+}
 </style>

@@ -48,6 +48,12 @@
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 </style>
 <script>
 import MyNavigation from "@/components/my/my-navigation";

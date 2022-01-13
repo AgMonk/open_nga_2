@@ -66,9 +66,4 @@ export default {
 </script>
 
 <style scoped>
-.space-between {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 </style>

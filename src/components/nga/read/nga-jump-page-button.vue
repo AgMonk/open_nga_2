@@ -10,7 +10,7 @@
         <el-header height="350px">
           <el-row>
             <el-col v-for="i in Math.min(36,pageData.totalPage)" :span="6" style="margin-top: 3px">
-              <el-button size="small" type="primary" @click="jump(i)">{{ i }}</el-button>
+              <el-button size="small" type="primary" @click="jump(i)">{{ (i < 10 ? "0" : '') + i }}</el-button>
             </el-col>
           </el-row>
         </el-header>

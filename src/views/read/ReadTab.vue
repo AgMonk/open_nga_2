@@ -30,7 +30,7 @@
     </el-main>
 
 
-    <div v-loading="loading" style="text-align: right">
+    <div style="text-align: right">
       <el-affix v-if="clientMode==='移动端'" :offset="20" position="bottom">
         <div>
           <nga-jump-page-button :page-data="pageData" />

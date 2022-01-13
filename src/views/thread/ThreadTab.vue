@@ -1,7 +1,7 @@
 <template>
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
-    <el-header>
+    <el-header v-if="$route.name!=='已收藏主题'" height="80px">
       <!--      移动端顶部按钮-->
       <div v-if="clientMode==='移动端'" class="space-between" style="text-align: left">
         <span>

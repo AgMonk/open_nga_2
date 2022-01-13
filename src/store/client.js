@@ -9,7 +9,7 @@ export default {
         clientWidth: 0,
         clientHeight: 0,
         direction: '',
-        clientMode: '',
+        clientMode: 'PC端',
     },
     mutations: {
         init(state) {
@@ -19,7 +19,7 @@ export default {
                 state.clientWidth = clientWidth
                 state.direction = clientWidth >= clientHeight ? '横屏' : '竖屏';
                 state.clientMode = clientWidth > 900 ? 'PC端' : '移动端'
-            }, 2000)
+            }, 1000)
         },
         method(state, payload) {
 

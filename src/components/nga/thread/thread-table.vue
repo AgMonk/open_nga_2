@@ -56,7 +56,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column v-if="$route.name==='已收藏主题'" label="作者" prop="author.name" width="180">
+        <el-table-column v-if="$route.name==='已收藏主题'&& clientMode==='PC端'" label="作者" prop="author.name" width="180">
           <template #default="s">
             <nga-user-link :uid="s.row.reply?s.row.reply.authorId:s.row.author.uid" />
             <div>

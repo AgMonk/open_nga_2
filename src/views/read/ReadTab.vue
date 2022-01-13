@@ -33,6 +33,7 @@
     <div v-loading="loading" style="text-align: right">
       <el-affix v-if="clientMode==='移动端'" :offset="20" position="bottom">
         <div>
+          <nga-jump-page-button :page-data="pageData" />
           <el-button size="small" type="success" @click="$router.push({name:'发帖',params:{action:'reply'},query:{tid:thread.tid}})">
             <el-icon>
               <chat-square />
@@ -54,6 +55,7 @@
 
         </div>
       </el-affix>
+
     </div>
   </el-container>
 
@@ -68,10 +70,11 @@ import {keypressEvent, scrollYToTop} from "@/assets/utils/DomUtils";
 import MyRouterLink from "@/components/my/my-router-link";
 import NgaSearchDialog from "@/components/nga/search/nga-search-dialog";
 import {ArrowLeft, ChatSquare, RefreshRight} from "@element-plus/icons";
+import NgaJumpPageButton from "@/components/nga/read/nga-jump-page-button";
 
 export default {
   name: "ReadTab",
-  components: {NgaSearchDialog, MyRouterLink, NgaReadTable, RefreshRight, ChatSquare, ArrowLeft},
+  components: {NgaJumpPageButton, NgaSearchDialog, MyRouterLink, NgaReadTable, RefreshRight, ChatSquare, ArrowLeft},
   computed: {
     ...mapState('client', [`clientMode`]),
     ...mapState('config', ["config"]),
@@ -87,6 +90,7 @@ export default {
         pageSize: 20,
       },
       loading: false,
+      pageDialogShow: false,
       replies: [],
       thread: {},
       forum: {},

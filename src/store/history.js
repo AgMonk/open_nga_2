@@ -32,7 +32,7 @@ export default {
         },
         addHistoryThread(state, {tid, name}) {
             slf4j(`添加主题浏览记录 tid:${tid} name:${name}`)
-            state.threads = state.threads.filter(i => i.tid !== tid)
+            state.threads = state.threads.filter(i => i.tid !== parseInt(tid))
             state.threads.splice(0, 0, {tid: parseInt(tid), name})
         },
         addHistorySet(state, {stid, name, forumName}) {

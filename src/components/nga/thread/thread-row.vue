@@ -5,24 +5,20 @@
       <nga-thread-type-tag :type="data.type" />
       <el-pagination
           v-if="data.replies>19 && $route.name!=='已收藏主题' && clientMode==='PC端'"
-          :total="data.replies+1"
+          :default-current-page="0"
           :page-size="20"
           :pager-count="5"
-          :default-current-page="0"
-          style="display:inline-block"
-          small
+          :total="data.replies+1"
           layout="pager"
+          small
+          style="display:inline-block"
           @current-change="$router.push({name:'回复列表',params:{page:$event,tid:data.tid}})"
       />
       <div v-if="data.reply">
         <my-router-link :to="{name:'单个回复',params:{pid:data.reply.pid}}">[主题内的回复]</my-router-link>
         <my-timestamp :time="data.reply.timestamp.post.time" />
         <br>
-        <!--        <el-collapse>-->
-        <!--          <el-collapse-item title="回复内容(点击展开)">-->
         <nga-content :content="data.reply.content" />
-        <!--          </el-collapse-item>-->
-        <!--        </el-collapse>-->
       </div>
     </el-col>
     <el-col v-if="isType(data.mirror,[ '合集主题', '子版主题'])" :span="4" style="text-align: right">

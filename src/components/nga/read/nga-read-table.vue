@@ -6,10 +6,10 @@
     <el-main style="--el-main-padding:0">
       <el-pagination v-if="pageData"
                      :current-page.sync="currentPage"
+                     :layout="(clientMode==='PC端'?'total':'')+',prev, pager, next,jumper'"
                      :page-size="pageSize"
-                     :pager-count="5"
+                     :pager-count="clientMode==='PC端'?5:3"
                      :total="total"
-                     layout="total,prev, pager, next,jumper"
                      @current-change="currentChange"
       />
       <el-input v-model="destLevel" size="small" style="width:100px" />
@@ -19,14 +19,14 @@
       <div v-for="(row,i) in replies" :id="'P'+row.pid">
         <el-row :id="'L'+row.level" :key="i" :style="getRowStyle()({rowIndex:i})">
           <!--用户卡片-->
-          <el-col :span="6">
+          <el-col v-if="clientMode==='PC端'" :span="6">
             <nga-read-user-card :uid="row.authorid" />
           </el-col>
           <!--回复内容-->
-          <el-col :span="18">
+          <el-col :span="clientMode==='PC端'?18:24">
             <el-card class="box-card" style="height:100%">
               <template #header>
-                <div class="card-header">
+                <div v-if="clientMode==='PC端'" class="card-header">
                   <!--赞踩按钮-->
                   <span>
                     <nga-level-tag :reply="row" />
@@ -44,44 +44,49 @@
 
                   <span>
                     <my-router-link :to="{name:'发帖',params:{action:'quote'},query:{tid:thread.tid,pid:row.pid}}">
-                      <my-tag-with-tooltip disabled text="引用"/>
+                      <my-tag-with-tooltip disabled text="引用" />
                     </my-router-link>
                     <my-router-link :to="{name:'发帖',params:{action:'reply'},query:{tid:thread.tid,pid:row.pid}}">
-                      <my-tag-with-tooltip disabled text="回复"/>
+                      <my-tag-with-tooltip disabled text="回复" />
                     </my-router-link>
                     <nga-read-operation-button :fid="thread.fid" :reply="row" style="margin-left: 10px" />
                   </span>
                 </div>
+                <div v-if="clientMode==='移动端'">
+                  <nga-read-user-card-mobile :uid="row.authorid" />
+                </div>
               </template>
 
               <div :style="getRowStyle()({rowIndex:i})">
-                <h2 v-if="row.subject" style="text-align: left">{{ unEscape(row.subject) }}</h2>
-                <div v-if="row.gifts" style="text-align: left">
-                  <el-divider content-position="left"><span class="divider">礼物</span></el-divider>
-                  <span v-for="item in row.gifts">
-                    <el-image :src="`/items/5_${item.id}.png`" style="max-width: 32px;max-height: 32px" />
-                    X {{ item.count }}
-                  </span>
-                </div>
+                <h3 v-if="row.subject" style="text-align: left">{{ unEscape(row.subject) }}</h3>
+                <nga-reply-header-mobile :row="row" />
                 <nga-content :content="row.content" :mode="row.mode" />
+                <nga-reply-footer-mobile v-if="row.authorid && !(''+row.authorid).startsWith('#anony')" :row="row" :thread="thread" />
               </div>
 
 
               <div v-if="row.hotReply && row.hotReply.length>0" id="热评区">
                 <el-divider content-position="left"><span class="divider">热评区({{ row.hotReply.length }})</span></el-divider>
                 <div v-for="(hot,i) in row.hotReply">
-                  <nga-comment-card :contentStyle="getRowStyle()({rowIndex:i})" :reply="hot" />
+                  <nga-comment-card :contentStyle="getRowStyle()({rowIndex:i})" :reply="hot" :thread="thread" />
                 </div>
               </div>
               <div v-if="row.comment && row.comment.length>0" id="评论区">
                 <el-divider content-position="left"><span class="divider">评论区({{ row.comment.length }})</span></el-divider>
                 <div v-for="(hot,i) in row.comment">
-                  <nga-comment-card :contentStyle="getRowStyle()({rowIndex:i})" :reply="hot" />
+                  <nga-comment-card :contentStyle="getRowStyle()({rowIndex:i})" :reply="hot" :thread="thread" />
                 </div>
               </div>
               <div v-if="row.attachs && row.attachs.length>0" id="附件区" style="text-align: left">
                 <el-divider content-position="left">附件区({{ row.attachs.length }})</el-divider>
-                <nga-attach-tag v-for="img in row.attachs" :data="img"/>
+                <nga-attach-tag v-for="img in row.attachs" :data="img" />
+              </div>
+              <div v-if="row.gifts" style="text-align: left">
+                <el-divider v-if="clientMode==='PC端'" content-position="left"><span class="divider">礼物</span></el-divider>
+                <span v-for="item in row.gifts">
+                  <el-image :src="`/items/5_${item.id}.png`" :style="giftSize[clientMode]" />
+                  X {{ item.count }}
+                </span>
               </div>
               <!--              <div v-if="users[row.authorid] && users[row.authorid].signature" style="text-align: left">-->
               <!--                <el-collapse>-->
@@ -98,10 +103,10 @@
 
       <el-pagination v-if="pageData"
                      :current-page.sync="currentPage"
+                     :layout="(clientMode==='PC端'?'total':'')+',prev, pager, next,jumper'"
                      :page-size="pageSize"
-                     :pager-count="5"
+                     :pager-count="clientMode==='PC端'?5:3"
                      :total="total"
-                     layout="total,prev, pager, next,jumper"
                      @current-change="currentChange"
       />
     </el-main>
@@ -128,15 +133,31 @@ import NgaAttachTag from "@/components/nga/read/nga-attach-tag";
 import NgaSignature from "@/components/nga/read/nga-signature";
 import {mapGetters, mapState} from "vuex";
 import {unEscape} from "@/assets/utils/StringUtils";
+import NgaReadUserCardMobile from "@/components/nga/read/nga-read-user-card-mobile";
+import NgaReplyFooterMobile from "@/components/nga/read/nga-reply-footer-mobile";
+import NgaReplyHeaderMobile from "@/components/nga/read/nga-reply-header-mobile";
 
 export default {
   name: "nga-read-table",
   components: {
+    NgaReplyFooterMobile,
+    NgaReplyHeaderMobile,
+    NgaReadUserCardMobile,
     NgaSignature,
     NgaAttachTag,
-    NgaContent, NgaReadOperationButton, NgaCommentCard, NgaThreadTypeTag, MyRouterLink, MyTagWithTooltip, NgaLevelTag, NgaScoreTag, NgaReadUserCard, Setting
+    NgaContent,
+    NgaReadOperationButton,
+    NgaCommentCard,
+    NgaThreadTypeTag,
+    MyRouterLink,
+    MyTagWithTooltip,
+    NgaLevelTag,
+    NgaScoreTag,
+    NgaReadUserCard,
+    Setting
   },
   computed: {
+    ...mapState('client', [`clientMode`]),
     ...mapState('users', ["users"])
   },
   data() {
@@ -146,6 +167,17 @@ export default {
       total: 100,
       totalPage: 100,
       destLevel: '',
+      giftSize: {
+        'PC端': {
+          'max-width': '32px',
+          'max-height': '32px',
+        },
+        '移动端': {
+          'max-width': '16px',
+          'max-height': '16px',
+        },
+
+      }
     }
   },
   methods: {
@@ -277,4 +309,5 @@ export default {
 .el-pager li {
   background: rgb(0 0 0 / 0%);
 }
+
 </style>

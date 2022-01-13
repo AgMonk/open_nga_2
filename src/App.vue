@@ -100,8 +100,6 @@ export default {
     await this.loadConfig()
     document.addEventListener('keypress', this.keypress)
 
-    window.onresize((e) => console.log(e))
-
     this.updateStyle(this.config)
     console.log(getClientSize())
   },

@@ -1,12 +1,12 @@
 <template>
-  <my-tag-with-tooltip v-if="reply.score" disabled >
-    <el-icon @click="agree(1)">
-      <circle-check/>
+  <my-tag-with-tooltip v-if="reply.score" disabled>
+    <el-icon class="score-ele" @click="agree(1)">
+      <circle-check />
     </el-icon>
-    <span>{{ reply.score.agree }}</span>
-    <span v-if="reply.score.disagree>0">/{{ reply.score.disagree }}</span>
-    <el-icon @click="agree(-1)">
-      <circle-close/>
+    <span class="score-ele">{{ reply.score.agree }}</span>
+    <span v-if="reply.score.disagree>0" class="score-ele">/{{ reply.score.disagree }}</span>
+    <el-icon class="score-ele" @click="agree(-1)">
+      <circle-close />
     </el-icon>
   </my-tag-with-tooltip>
 </template>
@@ -49,5 +49,7 @@ export default {
 </script>
 
 <style scoped>
-
+.score-ele {
+  margin-right: 5px;
+}
 </style>

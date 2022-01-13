@@ -1,7 +1,7 @@
 <template>
   <el-container direction="vertical">
     <!--  <el-container direction="horizontal">-->
-    <el-header style="margin-top: 3px">
+    <el-header v-if="clientMode==='PC端'" style="margin-top: 3px">
       <el-tooltip :disabled="!forum || !forum.reputationLevel" effect="light">
         <template #content>
           <span v-for="(item,i) in forum.reputationLevel">
@@ -28,6 +28,33 @@
     >
       <nga-read-table :page-data="pageData" :replies="replies" :thread="thread" />
     </el-main>
+
+
+    <div v-loading="loading" style="text-align: right">
+      <el-affix v-if="clientMode==='移动端'" :offset="20" position="bottom">
+        <div>
+          <el-button size="small" type="success" @click="$router.push({name:'发帖',params:{action:'reply'},query:{tid:thread.tid}})">
+            <el-icon>
+              <chat-square />
+            </el-icon>
+          </el-button>
+        </div>
+        <div style="margin-top: 5px">
+          <el-button size="small" type="primary" @click="keypress({key:'Q'})">
+            <el-icon>
+              <arrow-left />
+            </el-icon>
+          </el-button>
+
+          <el-button size="small" type="primary" @click="get(true)">
+            <el-icon>
+              <refresh-right />
+            </el-icon>
+          </el-button>
+
+        </div>
+      </el-affix>
+    </div>
   </el-container>
 
 </template>
@@ -40,11 +67,13 @@ import {ElMessage} from "element-plus";
 import {keypressEvent, scrollYToTop} from "@/assets/utils/DomUtils";
 import MyRouterLink from "@/components/my/my-router-link";
 import NgaSearchDialog from "@/components/nga/search/nga-search-dialog";
+import {ArrowLeft, ChatSquare, RefreshRight} from "@element-plus/icons";
 
 export default {
   name: "ReadTab",
-  components: {NgaSearchDialog, MyRouterLink, NgaReadTable},
+  components: {NgaSearchDialog, MyRouterLink, NgaReadTable, RefreshRight, ChatSquare, ArrowLeft},
   computed: {
+    ...mapState('client', [`clientMode`]),
     ...mapState('config', ["config"]),
   },
   data() {

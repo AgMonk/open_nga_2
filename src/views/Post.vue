@@ -5,7 +5,7 @@
       <h2>::{{ title[params.action] }}::</h2>
     </el-header>
 
-    <el-main style="--el-main-padding:0">
+    <el-main style="--el-main-padding:0;overflow-y:hidden;">
       <nga-post-ui v-if="showPostUi"
                    :attachs="preData.attachs"
                    :auth="preData.auth"

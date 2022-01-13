@@ -24,7 +24,7 @@
     <el-main v-loading="loading" :element-loading-spinner="svg" element-loading-background="rgba(0, 0, 0, 0.8)"
              element-loading-svg-view-box="-10, -10, 50, 50"
              element-loading-text="Loading..."
-             style="--el-main-padding:0"
+             style="--el-main-padding:0;overflow-y:hidden;"
     >
       <nga-read-table :page-data="pageData" :replies="replies" :thread="thread" />
     </el-main>
@@ -41,6 +41,9 @@
           </el-button>
         </div>
         <div style="margin-top: 5px">
+          <el-button size="small" type="primary" @click="jump(pageData.currentPage-1)">上</el-button>
+          <el-button size="small" type="primary" @click="jump(pageData.currentPage+1)">下</el-button>
+
           <el-button size="small" type="primary" @click="keypress({key:'Q'})">
             <el-icon>
               <arrow-left />
@@ -139,6 +142,12 @@ export default {
       await this.$nextTick(() => {
         this.loading = false
       })
+    },
+    jump(page) {
+      page = page < 1 ? 1 : page;
+      page = page > this.pageData.totalPage ? this.pageData.totalPage : page;
+      this.$router.push({params: {page}})
+      this.show = false;
     },
     keypress(e) {
       const methods = {

@@ -3,7 +3,7 @@
     <!--  <el-container direction="horizontal">-->
     <!--    <el-header></el-header>-->
 
-    <el-main style="--el-main-padding:0">
+    <el-main style="--el-main-padding:0;overflow-y:hidden;">
       <div id="搜索条件" style="text-align: left">
         <nga-search-form :data="params" :mode="mode" />
       </div>

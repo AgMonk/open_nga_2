@@ -13,13 +13,15 @@ export default {
     },
     mutations: {
         init(state) {
-            setInterval(() => {
+            let check = () => {
                 const {clientWidth, clientHeight} = getClientSize();
                 state.clientHeight = clientHeight
                 state.clientWidth = clientWidth
                 state.direction = clientWidth >= clientHeight ? '横屏' : '竖屏';
                 state.clientMode = clientWidth > 900 ? 'PC端' : '移动端'
-            }, 1000)
+            }
+            check()
+            setInterval(check, 1000)
         },
         method(state, payload) {
 

@@ -5,7 +5,9 @@
       <nga-breadcrumb />
     </el-header>
 
-    <el-main style="--el-main-padding:0"><router-view/></el-main>
+    <el-main style="--el-main-padding:0;overflow-y:hidden;">
+      <router-view />
+    </el-main>
     <el-footer></el-footer>
   </el-container>
 

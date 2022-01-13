@@ -3,8 +3,8 @@
     <!--<el-container direction="horizontal">-->
     <!--<el-header></el-header>-->
 
-    <el-main style="--el-main-padding:0">
-      <el-pagination v-if="pageData"
+    <el-main style="--el-main-padding:0;overflow-y:hidden;;">
+      <el-pagination v-if="pageData && clientMode==='PC端'"
                      :current-page.sync="currentPage"
                      :layout="(clientMode==='PC端'?'total':'')+',prev, pager, next,jumper'"
                      :page-size="pageSize"
@@ -12,8 +12,10 @@
                      :total="total"
                      @current-change="currentChange"
       />
-      <el-input v-model="destLevel" size="small" style="width:100px" />
-      <el-button size="small" type="success" @click="jumpLevel">跳转楼层</el-button>
+      <span v-if="pageData && clientMode==='PC端'">
+        <el-input v-model="destLevel" size="small" style="width:100px" />
+        <el-button size="small" type="success" @click="jumpLevel">跳转楼层</el-button>
+      </span>
 
       <!--回复列表-->
       <div v-for="(row,i) in replies" :id="'P'+row.pid">
@@ -73,8 +75,7 @@
 
         </el-row>
       </div>
-
-      <el-pagination v-if="pageData"
+      <el-pagination v-if="pageData && clientMode==='PC端'"
                      :current-page.sync="currentPage"
                      :layout="(clientMode==='PC端'?'total':'')+',prev, pager, next,jumper'"
                      :page-size="pageSize"

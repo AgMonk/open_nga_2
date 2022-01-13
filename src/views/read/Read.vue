@@ -22,7 +22,7 @@ export default {
   name: "Read",
   components: {NgaBreadcrumb},
   computed: {
-    ...mapState('client', [`mode`]),
+    ...mapState('client', [`clientMode`]),
   },
   data() {
     return {}

@@ -7,10 +7,7 @@
           <template #content>
             <el-descriptions :column="2">
               <el-descriptions-item v-if="user.reputation" label="声望">
-                <el-tag v-if="user.reputation.value<0" size="small" type="danger">{{ user.reputation.name }}({{ user.reputation.value }})</el-tag>
-                <el-tag v-else-if="user.reputation.value<300" size="small" type="warning">{{ user.reputation.name }}({{ user.reputation.value }})</el-tag>
-                <el-tag v-else-if="user.reputation.value<600" size="small">{{ user.reputation.name }}({{ user.reputation.value }})</el-tag>
-                <el-tag v-else size="small" type="success">{{ user.reputation.name }}({{ user.reputation.value }})</el-tag>
+                <nga-user-reputation-tag :reputation="user.reputation" />
               </el-descriptions-item>
               <el-descriptions-item v-if="user.groupId" label="威望等级">
                 <el-tag size="small">{{ user.groupName }}({{ user.groupId }})</el-tag>
@@ -41,10 +38,9 @@
     </template>
     <span v-if="!disableAvatar && !(''+uid).startsWith('#anony_')">
       <!--    非匿名用户 -->
-      <span v-if="user.avatar && user.avatar.length>0">
+      <span v-if="user && user.avatar">
         <my-avatar :list="user.avatar" />
       </span>
-
     </span>
 
   </el-card>
@@ -55,10 +51,11 @@ import NgaUserLink from "@/components/nga/user/nga-user-link";
 import {mapState} from "vuex";
 import NgaMoneyText from "@/components/nga/user/nga-money-text";
 import MyAvatar from "@/components/nga/user/my-avatar";
+import NgaUserReputationTag from "@/components/nga/user/nga-user-reputation-tag";
 
 export default {
   name: "nga-read-user-card",
-  components: {MyAvatar, NgaMoneyText, NgaUserLink},
+  components: {NgaUserReputationTag, MyAvatar, NgaMoneyText, NgaUserLink},
 
   data() {
     return {

@@ -5,14 +5,15 @@
       <h2>::{{ title[params.action] }}::</h2>
     </el-header>
 
-    <el-main>
+    <el-main style="--el-main-padding:0">
       <nga-post-ui v-if="showPostUi"
                    :attachs="preData.attachs"
                    :auth="preData.auth"
                    :content="preData.content"
                    :fid="preData.forum.fid"
                    :preParam="params"
-                   focus/>
+                   focus
+      />
     </el-main>
     <el-footer></el-footer>
   </el-container>

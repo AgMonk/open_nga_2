@@ -1,17 +1,22 @@
 <template>
-  <el-image
-      v-if="list && list.length>0"
-      :infinite="false"
-      :initial-index="i"
-      :preview-src-list="list"
-      :src="list[i]"
-      class="nga-avatar"
-      hide-on-click-modal
-      style="max-width: 200px"
-      @error="errorHandler"
-  />
+    <el-image
+        v-if="clientMode==='PC端'"
+        :infinite="false"
+        :initial-index="i"
+        :preview-src-list="list"
+        :src="list[i]"
+        class="nga-avatar"
+        hide-on-click-modal
+        style="max-width: 200px"
+        @error="errorHandler"
+    />
+    <el-avatar v-else
+               :src="list[i]"
+    />
 </template>
 <script>
+
+import {mapState} from "vuex";
 
 export default {
   name: "my-avatar",
@@ -20,6 +25,10 @@ export default {
       random: 0,
       i: 0,
     }
+  },
+  computed: {
+    ...mapState('client', [`clientMode`]),
+
   },
   methods: {
     errorHandler(e) {
@@ -33,7 +42,7 @@ export default {
     },
   },
   mounted() {
-    this.random = Math.floor(Math.random() * this.list.length);
+    this.random = Math.floor(Math.random() * this.list.length)
     this.i = this.index ? this.index : this.random
   },
   watch: {},
@@ -43,7 +52,6 @@ export default {
     },
     index: {
       type: Number,
-      default: 0,
     }
   },
 }

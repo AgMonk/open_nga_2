@@ -34,7 +34,7 @@
           头像
         </template>
         <el-descriptions-item v-if="data.avatar">
-          <my-avatar v-for="(i) in data.avatar.length-1" :list="data.avatar" :index="i" />
+          <my-avatar v-for="(i) in data.avatar.length" :index="i-1" :list="data.avatar" />
         </el-descriptions-item>
         <el-descriptions-item v-else>
           无

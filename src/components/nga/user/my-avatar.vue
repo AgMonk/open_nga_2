@@ -43,7 +43,7 @@ export default {
   },
   mounted() {
     this.random = Math.floor(Math.random() * this.list.length)
-    this.i = this.index ? this.index : this.random
+    this.i = !isNaN(this.index) ? this.index : this.random
   },
   watch: {},
   props: {

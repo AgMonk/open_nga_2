@@ -5,7 +5,7 @@
       <el-button size="small" type="primary" @click="back"><span style="font-weight: bold">返回</span></el-button>
       <el-button size="small" type="primary" @click="forward"><span style="font-weight: bold">前进</span></el-button>
     </div>
-      <router-view />
+    <router-view />
   </div>
   <notice />
 

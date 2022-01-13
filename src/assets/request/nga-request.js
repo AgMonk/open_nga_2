@@ -606,7 +606,9 @@ const transformResponse = [
             if (error) {
                 const array = obj2Array(error)
                 if (!array[0].includes("发贴完毕")) {
-                    ElMessage.error(array[0])
+                    if (!array[0].includes("无此用户")) {
+                        ElMessage.error(array[0])
+                    }
                     throw array
                 }
             }

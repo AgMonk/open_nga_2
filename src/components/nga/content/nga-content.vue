@@ -25,6 +25,9 @@ export default {
   methods: {
     unEscape,
     parse(s) {
+      if (!s) {
+        return [];
+      }
       this.contentArray = parseBbsCode(s)
       // console.log(this.contentArray)
       this.code = s.split('<br/>')

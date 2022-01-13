@@ -1,5 +1,5 @@
 <template>
-  <el-container direction="vertical">
+  <el-container id="replies" direction="vertical">
     <!--  <el-container direction="horizontal">-->
     <el-header v-if="clientMode==='PC端'" style="margin-top: 3px">
       <el-tooltip :disabled="!forum || !forum.reputationLevel" effect="light">
@@ -26,11 +26,14 @@
              element-loading-text="Loading..."
 
     >
-      <nga-read-table :page-data="pageData" :replies="replies" :thread="thread" />
+      <el-scrollbar ref="scrollbar" :style="clientMode==='PC端'?'':(`height:${window.innerHeight-60-16}px`)">
+        <el-switch v-if="clientMode==='移动端'" v-model="config.autoRefresh" active-text="自动刷新(3min)" @change="setConfig({key:'autoRefresh',value:$event})" />
+        <nga-read-table :page-data="pageData" :replies="replies" :thread="thread" />
+      </el-scrollbar>
     </el-main>
 
 
-    <div style="text-align: right">
+    <div style="text-align: right;height:0">
       <el-affix v-if="clientMode==='移动端'" :offset="20" position="bottom">
         <div>
           <nga-jump-page-button :page-data="pageData" />
@@ -41,8 +44,8 @@
           </el-button>
         </div>
         <div style="margin-top: 5px">
-          <el-button size="small" type="primary" @click="jump(pageData.currentPage-1)">上</el-button>
-          <el-button size="small" type="primary" @click="jump(pageData.currentPage+1)">下</el-button>
+          <!--          <el-button size="small" type="primary" @click="jump(pageData.currentPage-1)">上</el-button>-->
+          <!--          <el-button size="small" type="primary" @click="jump(pageData.currentPage+1)">下</el-button>-->
 
           <el-button size="small" type="primary" @click="keypress({key:'Q'})">
             <el-icon>
@@ -85,7 +88,7 @@ export default {
   data() {
     return {
       refreshInterval: '',
-
+      window,
       svg: `<path class="path" d=" M 30 15 L 28 17 M 25.61 25.61 A 15 15, 0, 0, 1, 15 30 A 15 15, 0, 1, 1, 27.99 7.5 L 15 15 " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/> `,
       pageData: {
         total: 100,
@@ -97,6 +100,13 @@ export default {
       replies: [],
       thread: {},
       forum: {},
+      scroll: {
+        moving: false,
+        startX: 0,
+        startY: 0,
+        endX: 0,
+        endY: 0,
+      },
     }
   },
   methods: {
@@ -164,11 +174,42 @@ export default {
       }
       keypressEvent(e, methods)
     },
+    scrollEvent(e) {
+      const {changedTouches, targetTouches, type} = e
+      const {clientX, clientY, screenX, screenY} = changedTouches[0]
+      if (type === 'touchstart') {
+        this.scroll.moving = true;
+        this.scroll.startX = clientX
+        this.scroll.startY = clientY;
+      }
+      if (type === 'touchend' && this.scroll.moving) {
+        this.scroll.moving = false;
+        this.scroll.endX = clientX
+        this.scroll.endY = clientY;
+
+        console.log(this.scroll)
+        const {startX, endX, endY, startY} = this.scroll
+        const rangX = endX - startX;
+        const rangY = endY - startY;
+        const {innerWidth, innerHeight} = window
+        if (Math.abs(rangX) > innerWidth / 3 && Math.abs(rangY) < innerHeight / 10) {
+          if (rangX > 0) {
+            console.log("左划")
+            this.jump(this.pageData.currentPage - 1)
+          } else {
+            console.log("右划")
+            this.jump(this.pageData.currentPage + 1)
+          }
+        }
+      }
+    }
   },
   mounted() {
     setTitle(this.$route.name)
     this.get(false)
     document.addEventListener('keypress', this.keypress)
+    document.addEventListener('touchstart', this.scrollEvent)
+    document.addEventListener('touchend', this.scrollEvent)
     this.refreshInterval = setInterval(() => {
       if (this.config.autoRefresh) {
         this.get(true)
@@ -178,6 +219,8 @@ export default {
   },
   unmounted() {
     document.removeEventListener('keypress', this.keypress)
+    document.removeEventListener('touchstart', this.scrollEvent)
+    document.removeEventListener('touchend', this.scrollEvent)
     clearInterval(this.refreshInterval)
   },
   watch: {
@@ -186,6 +229,7 @@ export default {
       if (to.path.startsWith('/read')) {
         if (!to.hash) {
           scrollYToTop()
+          this.$refs['scrollbar'].setScrollTop(0)
         }
         this.get(false, to)
       }

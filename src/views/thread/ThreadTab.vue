@@ -241,7 +241,7 @@ export default {
     document.addEventListener('keypress', this.keypress)
     this.get(false)
 
-    console.log(this.$route)
+    // console.log(this.$route)
 
     this.orderByPostDateDesc = this.$route.query.orderByPostDateDesc === '1'
     this.recommend = this.$route.query.recommend === '1'

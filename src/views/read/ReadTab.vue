@@ -131,7 +131,7 @@ export default {
       this.forum = data.forum;
       this.thread = data.thread;
 
-      console.log(this.forum)
+      // console.log(this.forum)
       //请求用户数据
       data.userData.users
           .filter(user => !isNaN(user.uid))

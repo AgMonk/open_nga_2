@@ -62,7 +62,6 @@ import MyNavigation from "@/components/my/my-navigation";
 import {mapActions, mapMutations, mapState} from "vuex";
 import Notice from "@/views/Notice";
 import {keypressEvent, scrollMethods} from "@/assets/utils/DomUtils";
-import {getClientSize} from "@/assets/utils/ClientUtils";
 import CurrentUserAvatar from "@/views/CurrentUserAvatar";
 
 export default {
@@ -111,7 +110,7 @@ export default {
     document.addEventListener('keypress', this.keypress)
 
     this.updateStyle(this.config)
-    console.log(getClientSize())
+    // console.log(getClientSize())
   },
   watch: {
     config(to) {

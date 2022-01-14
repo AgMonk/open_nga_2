@@ -35,7 +35,7 @@
               <div :style="getRowStyle()({rowIndex:i})">
                 <h3 v-if="row.subject" style="text-align: left">{{ unEscape(row.subject) }}</h3>
                 <nga-reply-header-mobile :row="row" />
-                <nga-content :content="row.content" :mode="row.mode" />
+                <nga-content :content="row.content" :mode="row.mode" :seed="row.seed" />
                 <nga-reply-footer-mobile v-if="row.authorid && !(''+row.authorid).includes('未知用户')"
                                          :row="row"
                                          :thread="thread"

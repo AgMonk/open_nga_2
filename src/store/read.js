@@ -36,6 +36,11 @@ export default {
                     })
                 }
 
+                replies.forEach(reply => {
+                    const {rawAid, tid, pid} = reply
+                    reply.seed = rawAid + tid + pid
+                })
+
                 return res.data
             })
         },

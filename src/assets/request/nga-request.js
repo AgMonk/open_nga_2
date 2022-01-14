@@ -289,7 +289,8 @@ export const handleAttachs = reply => {
 const handleReply = reply => {
     handleThreadType(reply)
 
-    const {postdatetimestamp, score, score_2, alterinfo, hotreply, from_client, comment, "14": gifts} = reply
+    const {postdatetimestamp, score, score_2, alterinfo, hotreply, from_client, comment, "14": gifts, authorid, tid, pid} = reply
+    reply.rawAid = authorid
 
     // 时间戳
     const timestamp = {}
@@ -477,7 +478,7 @@ export const handleUserData = (__U, data) => {
             handleAnonymousName(replies, parseInt(id), username);
             handleAnonymousName(replies.flatMap(i => i.hotReply), parseInt(id), username);
             handleAnonymousName(replies.flatMap(i => i.comment), parseInt(id), username);
-            console.log(replies)
+            // console.log(replies)
 
         }
         //    用户组

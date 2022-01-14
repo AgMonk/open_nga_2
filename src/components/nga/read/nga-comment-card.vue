@@ -25,7 +25,7 @@
       </div>
     </template>
     <div :style="contentStyle">
-      <nga-content :content="reply.content" />
+      <nga-content :content="reply.content" :seed="reply.seed" />
       <nga-reply-footer-mobile v-if="reply.authorid && !(''+reply.authorid).includes('未知用户')"
                                :row="reply"
                                :thread="thread"

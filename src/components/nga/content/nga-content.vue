@@ -1,6 +1,6 @@
 <template>
   <div v-if="mode==='render'" class="content">
-    <nga-content-render :data="contentArray" />
+    <nga-content-render :data="contentArray" :seed="replySeed" />
   </div>
   <div v-if="mode==='code'" class="content">
     <div v-for="item in code">{{ item }}</div>
@@ -20,6 +20,7 @@ export default {
     return {
       contentArray: [],
       code: [],
+      replySeed: {},
     }
   },
   methods: {
@@ -29,7 +30,7 @@ export default {
         return [];
       }
       this.contentArray = parseBbsCode(s)
-      // console.log(this.contentArray)
+      this.replySeed = {seed: this.seed}
       this.code = s.split('<br/>')
       return this.contentArray
     }
@@ -46,6 +47,7 @@ export default {
   props: {
     content: {required: true},
     mode: {type: String, default: 'render'},
+    seed: {type: Number},
   },
 }
 

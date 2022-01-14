@@ -12,6 +12,8 @@ import NgaCodeTextarea from "@/components/nga/read/nga-code-textarea";
 import NgaThreadLink from "@/components/nga/thread/nga-thread-link";
 import NgaContentCarousel from "@/components/nga/content/nga-content-carousel";
 import NgaContentTd from "@/components/nga/content/nga-content-td";
+import "@/assets/nga/nga-dice";
+import NgaDiceTag from "@/components/nga/read/nga-dice-tag";
 
 export default {
   name: "nga-content-render",
@@ -25,6 +27,7 @@ export default {
     NgaThreadLink,
     NgaContentCarousel,
     NgaContentTd,
+    NgaDiceTag,
   },
   render() {
     // console.log(this.data)
@@ -76,7 +79,7 @@ export default {
               array.push(<span style="white-space: pre-line">{children.substring(startIndex, r.index)}</span>)
               //插入图片
               const emote = searchEmotes(r[0])[0];
-              array.push(<nga-emote-image data={emote}/>)
+              array.push(<nga-emote-image data={emote} />)
               //  更新起始位置
               startIndex = r.index + r[0].length;
             }
@@ -96,23 +99,26 @@ export default {
         raw: ({raw}) => {
           return <span>{raw}</span>
         },
+        dice: ({children}) => {
+          return <nga-dice-tag seed={this.seed} data={children[0].raw} />
+        },
         url: ({children, props}) => {
           // console.log("url")
           // console.log(children)
           // console.log(props)
           if (!props) {
-            return <nga-content-link createText src={children[0].children}/>
+            return <nga-content-link createText src={children[0].children} />
           }
           return <nga-content-link src={props}>{this.render(children)}</nga-content-link>
         },
         img: ({children}) => {
-          return <nga-content-img src={children[0].raw}/>
+          return <nga-content-img src={children[0].raw} />
         },
         code: ({children, props}) => {
-          return <nga-code-textarea code={children} lang={props}/>
+          return <nga-code-textarea code={children} lang={props} />
         },
-        r: ({children}) => <span style='display: block;float: right;'>{this.render(children)}</span>,
-        l: ({children}) => <span style='display: block;float: left;'>{this.render(children)}</span>,
+        r: ({children}) => <span style="display: block;float: right;">{this.render(children)}</span>,
+        l: ({children}) => <span style="display: block;float: left;">{this.render(children)}</span>,
       }
     }
   },
@@ -134,7 +140,8 @@ export default {
   },
   watch: {},
   props: {
-    data: {type: Object, required: true}
+    data: {type: Object, required: true},
+    seed: {type: Object,},
   },
 }
 

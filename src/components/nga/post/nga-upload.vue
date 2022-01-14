@@ -137,7 +137,7 @@ export default {
 
       const filename = 'attachment_file0'
 
-      this.params[`${filename}_dscp`] = `upload @ ${second2String()}`;
+      this.params[`${filename}_dscp`] = `upload @ ${second2String(new Date().getTime() / 1000)}`;
       this.params[`${filename}_watermark`] = ``;
       this.params[`${filename}_img`] = 1;
       this.params[`${filename}_auto_size`] = file.size >= 4 * m ? 1 : 0;

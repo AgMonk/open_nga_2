@@ -18,11 +18,24 @@ export default {
                 requestMethod: () => readRequest({pid, tid, page, authorid}),
                 expires: 3 * 60,
                 force
-            }).then(res => {
+            }).then(async res => {
                 //保存用户信息
                 res.data.userData.users.forEach(user => {
                     commit("users/saveUser", user, {root: true})
                 })
+
+                const {replies} = res.data
+                const comments = replies.filter(i => i.comment_to_id);
+                const commentPid = Array.from(new Set(comments.map((i => i.comment_to_id))))
+
+                for (const pid1 of commentPid) {
+                    const map = pid1 === -1 ? await dispatch('getComment', {tid, force}) : await dispatch('getComment', {pid: pid1, force})
+                    console.log(map)
+                    comments.forEach(i => {
+                        Object.assign(i, map[i.pid])
+                    })
+                }
+
                 return res.data
             })
         },
@@ -32,7 +45,18 @@ export default {
                 return res.replies[0].content
             })
         },
-
+        //请求一个回复的评论区
+        getComment: ({dispatch, commit, state}, {tid, pid, force}) => {
+            return dispatch('getReplies', {tid, pid, force}).then(res => {
+                const a = {}
+                res.replies[0].comment.forEach(i => {
+                    delete i.subject
+                    delete i.level
+                    a[i.pid] = i
+                })
+                return a
+            })
+        },
         method: ({dispatch, commit, state}, payload) => {
 
         },

@@ -66,6 +66,9 @@ export const parseAvatar = (avatar) => {
                 return p + name;
             })
 
+        } else if (avatar.includes('/attachments')) {
+            avatar = [avatar.substring(avatar.indexOf('/attachments'))]
+            return avatar
         } else if (avatar.includes('pic1.178.com')) {
             avatar = avatar
                 .replace(/\?t=\d+/g, "")

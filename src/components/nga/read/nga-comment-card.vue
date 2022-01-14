@@ -4,6 +4,7 @@
       <div v-if="clientMode==='PC端'" class="card-header">
         <span>
           <nga-user-link :uid="reply.authorid" />
+          <nga-level-tag :reply="reply" />
           <nga-score-tag :reply="reply" />
           <my-tag-with-tooltip v-if="reply.timestamp" disabled>{{ reply.timestamp.post }}</my-tag-with-tooltip>
           <my-tag-with-tooltip v-if="reply.timestamp && reply.timestamp.edit" disabled>最后编辑:{{ reply.timestamp.edit }}</my-tag-with-tooltip>
@@ -25,7 +26,10 @@
     </template>
     <div :style="contentStyle">
       <nga-content :content="reply.content" />
-      <nga-reply-footer-mobile v-if="reply.authorid && !(''+reply.authorid).startsWith('#anony')" :row="reply" :thread="thread" />
+      <nga-reply-footer-mobile v-if="reply.authorid && !(''+reply.authorid).includes('未知用户')"
+                               :row="reply"
+                               :thread="thread"
+      />
 
     </div>
   </el-card>
@@ -42,10 +46,22 @@ import NgaContent from "@/components/nga/content/nga-content";
 import NgaReplyFooterMobile from "@/components/nga/read/nga-reply-footer-mobile";
 import {mapState} from "vuex";
 import NgaReadUserCardMobile from "@/components/nga/read/nga-read-user-card-mobile";
+import NgaLevelTag from "@/components/nga/read/nga-level-tag";
 
 export default {
   name: "nga-comment-card",
-  components: {NgaReadUserCardMobile, NgaReplyFooterMobile, NgaContent, NgaReadOperationButton, MyRouterLink, NgaUserLink, MyTagWithTooltip, NgaScoreTag, NgaReadUserCard},
+  components: {
+    NgaLevelTag,
+    NgaReadUserCardMobile,
+    NgaReplyFooterMobile,
+    NgaContent,
+    NgaReadOperationButton,
+    MyRouterLink,
+    NgaUserLink,
+    MyTagWithTooltip,
+    NgaScoreTag,
+    NgaReadUserCard
+  },
   computed: {
     ...mapState('client', [`clientMode`]),
   },

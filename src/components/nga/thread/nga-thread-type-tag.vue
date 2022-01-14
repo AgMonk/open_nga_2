@@ -7,7 +7,7 @@
 <my-tag-with-tooltip v-if="type.notVerified" tooltip="经过了人工审核，且被判定为不通过" size="small" type="danger"><b>审核不通过</b></my-tag-with-tooltip>
 <my-tag-with-tooltip v-if="type.verifying" tooltip="正在人工审核.." size="small" type="danger"><b>审核中</b></my-tag-with-tooltip>
 <my-tag-with-tooltip v-if="type.selfReply" tooltip="主题只能作者自己回复" size="small" type="success">自回</my-tag-with-tooltip>
-<my-tag-with-tooltip v-if="type.isComment" tooltip="这是一条评论" size="small">评论</my-tag-with-tooltip>
+<my-tag-with-tooltip v-if="type.isComment" size="small" tooltip="这是一条评论" type="danger">评论</my-tag-with-tooltip>
   </span>
 </template>
 

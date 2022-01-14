@@ -36,7 +36,10 @@
                 <h3 v-if="row.subject" style="text-align: left">{{ unEscape(row.subject) }}</h3>
                 <nga-reply-header-mobile :row="row" />
                 <nga-content :content="row.content" :mode="row.mode" />
-                <nga-reply-footer-mobile v-if="row.authorid && !(''+row.authorid).startsWith('#anony')" :row="row" :thread="thread" />
+                <nga-reply-footer-mobile v-if="row.authorid && !(''+row.authorid).includes('未知用户')"
+                                         :row="row"
+                                         :thread="thread"
+                />
               </div>
 
 

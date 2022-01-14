@@ -7,6 +7,8 @@
       <my-tag-with-tooltip v-if="row.timestamp" disabled>{{ row.timestamp.post }}</my-tag-with-tooltip>
       <my-tag-with-tooltip v-if="row.timestamp && row.timestamp.edit" disabled>最后编辑:{{ row.timestamp.edit }}</my-tag-with-tooltip>
       <my-tag-with-tooltip v-if="row.reply_to" :route="{name:'单个回复',params:{pid:row.reply_to}}" disabled type="warning">回复目标</my-tag-with-tooltip>
+      <my-tag-with-tooltip v-if="row.comment_to_id && row.comment_to_id>0" :route="{name:'单个回复',params:{pid:row.comment_to_id}}" disabled type="warning">回复目标</my-tag-with-tooltip>
+      <my-tag-with-tooltip v-if="row.comment_to_id===-1" :route="{name:'回复列表',params:{tid:row.tid,page:1}}" disabled type="warning">回复主题</my-tag-with-tooltip>
       <nga-thread-type-tag :type="row.type" />
       <my-tag-with-tooltip v-if="$route.hash===`#P${row.pid}` || $route.hash===`#L${row.level}`"
                            size="small"

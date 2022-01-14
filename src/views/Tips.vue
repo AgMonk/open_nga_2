@@ -7,6 +7,16 @@
 
     <el-main>
       <el-collapse accordion>
+        <el-collapse-item style="text-align: left" title="云端">
+          <ol>
+            <li>以下地址均可以访问本站，数据、配置不互通，可以用来分别登陆多个账号：
+              <span v-for="i in 4">
+                <el-link :href="`http://47.102.208.73:1145${i-1}/`" target="_blank">[入口_{{ i }}]</el-link>
+                &nbsp;&nbsp;
+              </span>
+            </li>
+          </ol>
+        </el-collapse-item>
         <el-collapse-item style="text-align: left" title="移动端">
           <h4>主题内</h4>
           <ol>

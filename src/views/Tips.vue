@@ -91,7 +91,7 @@
             <li>如果你使用Pixiv-Nginx，配置文件在conf文件夹中，如果使用官方nginx请参考官方说明</li>
             <li>启动nginx.exe，如果之前已经启动，需要使用 cmd 命令行 到 nginx文件夹下 执行该命令重启 让配置生效 <b style="color:red">.\nginx.exe -s reload</b></li>
             <li>也可以使用Powershell执行该命令，打开方法：在nginx文件夹下的空白处，按住Shift+右键，在菜单中选择"在此处打开Powershell窗口"</li>
-            <li>在nginx文件夹下创建一个文件夹 nga , 下载本UI的压缩包解压进去 , 保证 index.html 的路径为：/nginx文件夹/nga/index.html</li>
+            <li>在nginx文件夹下创建一个文件夹 nga , <a download="open-nga.zip" href="/files/nga.zip">[下载本UI的压缩包]</a> 解压进去 , 保证 index.html 的路径为：/nginx文件夹/nga/index.html</li>
             <li>打开浏览器，访问 http://localhost:11451 ，看到界面则表示配置成功</li>
           </ol>
           <el-collapse>

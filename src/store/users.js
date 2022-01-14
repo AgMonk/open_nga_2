@@ -49,7 +49,7 @@ export default {
     state: {
         users: {},
         accounts: [],
-        currentUser: {},
+        currentUser: undefined,
     },
     mutations: {
         loadUsername: (state) => {

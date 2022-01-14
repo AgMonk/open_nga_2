@@ -8,6 +8,7 @@
     <router-view />
   </div>
   <notice />
+  <current-user-avatar v-if="currentUser" />
 
   <el-link href="https://github.com/AgMonk/open_nga_2" target="_blank">[GitHub]</el-link>
   <el-backtop :bottom="100">
@@ -62,12 +63,14 @@ import {mapActions, mapMutations, mapState} from "vuex";
 import Notice from "@/views/Notice";
 import {keypressEvent, scrollMethods} from "@/assets/utils/DomUtils";
 import {getClientSize} from "@/assets/utils/ClientUtils";
+import CurrentUserAvatar from "@/views/CurrentUserAvatar";
 
 export default {
-  components: {Notice, MyNavigation},
+  components: {CurrentUserAvatar, Notice, MyNavigation},
   computed: {
     ...mapState('config', ["config"]),
     ...mapState('client', [`clientMode`]),
+    ...mapState("users", [`currentUser`]),
   },
   methods: {
     ...mapMutations('config', [`loadConfig`]),

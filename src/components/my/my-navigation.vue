@@ -23,17 +23,8 @@ export default {
       routes: [
         {path: '/home', name: '社区'},
         {path: '/search', name: '搜索'},
-        {
-          path: '/my', name: '我的',
-          children: [
-            {path: "my-post", name: "我的主题"},
-            {path: "my-post?searchpost=1", name: "我的回复"},
-            {path: "messages/list/1", name: "短消息"},
-            {path: "config", name: "配置"},
-            {path: "favor/1", name: "收藏"},
-            {path: "tips", name: "关于"},
-          ]
-        },
+        {path: "/config", name: "配置"},
+        {path: "/tips", name: "关于"},
       ],
       activeIndex: "",
       url: "",

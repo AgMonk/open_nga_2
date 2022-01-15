@@ -77,6 +77,12 @@ function simpleParser(tagName, code) {
     return new BbsTag(tagName, codeObj.props, bbsCodeParser(codeObj.innerCode), code);
 }
 
+function collapseParser(tagName, code) {
+    let codeObj = splitCode(tagName, code);
+    codeObj.innerCode = codeObj.innerCode.replace(/\[dice].+?\[\/dice]/g, '[dice]本UI暂无法正确显示折叠内的Roll点结果，请到官方界面查看[/dice]')
+    return new BbsTag(tagName, codeObj.props, bbsCodeParser(codeObj.innerCode), code);
+}
+
 function codeParser(tagName, code) {
     let codeObj = splitCode(tagName, code);
     return new BbsTag(tagName, codeObj.props, codeObj.innerCode, code);
@@ -89,7 +95,7 @@ let tagParser = {
     "flash": (code) => simpleParser("flash", code),
     "attach": (code) => simpleParser("attach", code),
     "quote": (code) => simpleParser("quote", code),
-    "collapse": (code) => simpleParser("collapse", code),
+    "collapse": (code) => collapseParser("collapse", code),
     "img": (code) => simpleParser("img", code),
     "del": (code) => simpleParser("del", code),
     "b": (code) => simpleParser("b", code),

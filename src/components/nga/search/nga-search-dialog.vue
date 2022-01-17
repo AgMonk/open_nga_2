@@ -1,6 +1,6 @@
 <template>
   <span>
-    <el-button :size="size" style="margin-right: 10px" type="primary" @click="show=true">搜索</el-button>
+    <el-button :size="size" style="margin-right: 10px" type="primary" @click="showDialog">搜索</el-button>
     <el-dialog v-model="show" :width="clientMode==='PC端'?'50%':'90%'" title="搜索条件">
       <nga-search-form :data="data" :mode="mode" append-to-body />
     </el-dialog>
@@ -22,7 +22,14 @@ export default {
   computed: {
     ...mapState('client', [`clientMode`]),
   },
-  methods: {},
+  methods: {
+    showDialog() {
+      this.show = true;
+      this.$nextTick(() => {
+        document.getElementById('search-input').focus()
+      })
+    }
+  },
   mounted() {
   },
   watch: {},

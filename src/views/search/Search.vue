@@ -57,6 +57,7 @@ export default {
   },
   mounted() {
     this.update(this.$route)
+    document.getElementById('search-input').focus()
   },
   watch: {
     $route(to) {

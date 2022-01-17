@@ -22,7 +22,7 @@
       <el-checkbox v-model="params.content" :size="size" />
     </el-form-item>
     <el-form-item label="关键字">
-      <el-input v-model="params.key" :size="size" placeholder="搜索关键字" style="width:200px" @keyup.enter="search" />
+      <el-input id="search-input" v-model="params.key" :size="size" placeholder="搜索关键字" style="width:200px" @keyup.enter="search" />
     </el-form-item>
     <el-form-item>
       <el-button :size="size" type="primary" @click="search">搜索</el-button>

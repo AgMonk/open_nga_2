@@ -262,7 +262,7 @@ export default {
         //  找到代码
         const {code, prop} = bbsCode
         const startText = prop ? `[${code}=${prop}]` : `[${code}]`;
-        const endText = `[/${code}]`
+        const endText = code === '*' ? '' : `[/${code}]`;
         this.addText(dom, {
           startText, endText,
           startPosition: dom.selectionStart - text.length,

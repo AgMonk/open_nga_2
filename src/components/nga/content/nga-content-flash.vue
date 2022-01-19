@@ -1,15 +1,20 @@
 <template>
-  <div>
-    <video-player v-if="type==='mp4'" :options="playerOptions" :playsline="false" class="video-player vjs-custom-skin"></video-player>
+  <div :style="'width:'+width">
+    <h4 v-if="title">{{ title }}</h4>
+    <video-player :options="playerOptions" :playsline="false" class="video-player vjs-custom-skin"></video-player>
   </div>
 </template>
 
 <script>
+import {parseUrl} from "@/assets/utils/StringUtils";
+
 export default {
   name: "nga-content-flash",
   data() {
     return {
-      show: false,
+      type: '',
+      title: "",
+      width: "100%",
       playerOptions: {
         playbackRates: [0.7, 1.0, 1.5, 2.0], // 播放速度
         autoplay: false, // 如果true,浏览器准备好时开始回放。
@@ -38,15 +43,34 @@ export default {
   computed: {},
   methods: {
     update(src) {
-      // this.show=false;
-      console.log(src)
-      if (src.startsWith('./')) {
-        src = '/attachments' + src.substring(1)
+      if (!src.startsWith('./')) {
+        console.error('地址非法：' + src)
+        return;
       }
-      this.playerOptions.sources = [{
-        type: 'video/mp4', // 这里的种类支持很多种：基本视频格式、直播、流媒体等，具体可以参看git网址项目
-        src // url地址
-      }]
+      src = '/attachments' + src.substring(1)
+      console.log(src)
+      const {url, query} = parseUrl(src)
+      const type = url.substring(url.lastIndexOf('.') + 1);
+      this.type = type;
+      console.log(query)
+      if (query && query.filename) {
+        this.title = query.filename
+      }
+      if (type === 'mp4') {
+        this.width = '50%'
+        this.playerOptions.sources = [{
+          type: 'video/mp4', // 这里的种类支持很多种：基本视频格式、直播、流媒体等，具体可以参看git网址项目
+          src // url地址
+        }]
+      }
+      if (type === 'mp3') {
+        this.width = '400px'
+        this.playerOptions.sources = [{
+          type: 'audio/mp3', // 这里的种类支持很多种：基本视频格式、直播、流媒体等，具体可以参看git网址项目
+          src // url地址
+        }]
+      }
+
       // this.playerOptions.poster=src+'.thumb.jpg'
 
 
@@ -63,7 +87,6 @@ export default {
   },
   props: {
     url: {},
-    type: {default: 'mp4'},
   },
 }
 

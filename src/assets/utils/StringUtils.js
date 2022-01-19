@@ -34,3 +34,24 @@ export const encodeUTF8 = (str) => {
     }
     return back;
 }
+
+//解析query参数
+export const queryString2Obj = (query) => {
+    const o = {}
+    if (query) {
+        query.split('&').forEach(item => {
+            const [key, value] = item.split('=')
+            o[key] = decodeURI(value);
+        })
+    }
+    return o;
+}
+
+//解析url
+export const parseUrl = (fullUrl) => {
+    const [url, query] = fullUrl.split('?')
+    return {
+        url,
+        query: queryString2Obj(query)
+    }
+}

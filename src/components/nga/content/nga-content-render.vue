@@ -15,6 +15,7 @@ import NgaContentTd from "@/components/nga/content/nga-content-td";
 import "@/assets/nga/nga-dice";
 import NgaDiceTag from "@/components/nga/read/nga-dice-tag";
 import NgaContentFlash from "@/components/nga/content/nga-content-flash";
+import {parseUrl} from "@/assets/utils/StringUtils";
 
 export default {
   name: "nga-content-render",
@@ -47,6 +48,16 @@ export default {
         li: ({children}) => <li>{this.render(children)}</li>,
         del: ({children}) => <del>{this.render(children)}</del>,
         flash: ({children}) => <nga-content-flash url={children[0].raw} />,
+        attach: ({children}) => {
+          const {url, query} = parseUrl(children[0].raw)
+          const type = url.substring(url.lastIndexOf('.') + 1);
+          if (['mp3', 'mp4'].includes(type)) {
+            return <nga-content-flash url={children[0].raw} />
+          }
+          if ('zip' === type) {
+            return <el-link download={query.filename} href={'/attachments' + url.substring(1)} type="danger">[下载附件]</el-link>
+          }
+        },
         color: ({children, props}) => <span style={'color: ' + props}>{this.render(children)}</span>,
         size: ({children, props}) => <span style={"font-size:" + props}>{this.render(children)}</span>,
         align: ({children, props}) => <span style={"text-align:" + props}>{this.render(children)}</span>,

@@ -14,6 +14,7 @@ import NgaContentCarousel from "@/components/nga/content/nga-content-carousel";
 import NgaContentTd from "@/components/nga/content/nga-content-td";
 import "@/assets/nga/nga-dice";
 import NgaDiceTag from "@/components/nga/read/nga-dice-tag";
+import NgaContentFlash from "@/components/nga/content/nga-content-flash";
 
 export default {
   name: "nga-content-render",
@@ -28,6 +29,7 @@ export default {
     NgaContentCarousel,
     NgaContentTd,
     NgaDiceTag,
+    NgaContentFlash,
   },
   render() {
     // console.log(this.data)
@@ -44,6 +46,7 @@ export default {
         i: ({children}) => <i>{this.render(children)}</i>,
         li: ({children}) => <li>{this.render(children)}</li>,
         del: ({children}) => <del>{this.render(children)}</del>,
+        flash: ({children}) => <nga-content-flash url={children[0].raw} />,
         color: ({children, props}) => <span style={'color: ' + props}>{this.render(children)}</span>,
         size: ({children, props}) => <span style={"font-size:" + props}>{this.render(children)}</span>,
         align: ({children, props}) => <span style={"text-align:" + props}>{this.render(children)}</span>,

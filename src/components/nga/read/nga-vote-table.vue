@@ -9,7 +9,12 @@
           <el-input v-model="s.row.betting" :size="size" class="no-number" type="number" @change="bettingChange" />
         </template>
       </el-table-column>
-      <el-table-column label="选项" prop="text" />
+      <el-table-column label="选项" prop="text">
+        <template #default="s">
+          {{ s.row.text }}
+          <el-tag v-if="s.row.win" :size="size" effect="dark" type="danger">胜出</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column v-if="vote.config.totalCount>0" label="投票" prop="count">
         <template #default="s">
           <b>{{ s.row.count }}</b>

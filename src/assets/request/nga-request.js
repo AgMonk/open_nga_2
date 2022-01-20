@@ -295,7 +295,6 @@ const handleReply = reply => {
 
     //投票数据
     if (vote) {
-        console.log(vote)
         const array = vote.split('~');
         console.log(array)
         const optionObj = {}
@@ -329,6 +328,10 @@ const handleReply = reply => {
                     case 'max':
                     case 'opt':
                         config[i0] = parseInt(i1);
+                        break;
+                    case 'done':
+                        optionObj[i1].win = true;
+                        config.disabled = true;
                         break;
                     case 'priv':
                         config[i0] = i1;

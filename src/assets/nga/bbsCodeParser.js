@@ -183,7 +183,7 @@ function bbsCodeParser(code) {
 
 //    删除指定标签附近的多余换行符 <br/>
 function delBrTag(code, tagName) {
-    return code
+    return ('' + code)
         .replace(new RegExp("<br\/>\\[" + tagName + "]", "g"), "[" + tagName + "]")
         .replace(new RegExp("<br\/>\\[\/" + tagName + "]", "g"), "[/" + tagName + "]")
 }

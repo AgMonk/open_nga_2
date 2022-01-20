@@ -20,7 +20,7 @@ export default {
   computed: {},
   methods: {},
   mounted() {
-    console.log(this.props)
+    // console.log(this.props)
     const widthPattern = /width(\d+)/
     const widthMatch = widthPattern.exec(this.props)
     if (widthMatch) {

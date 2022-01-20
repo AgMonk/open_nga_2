@@ -31,7 +31,7 @@ export default {
       }
       this.contentArray = parseBbsCode(s)
       this.replySeed = {seed: this.seed}
-      this.code = s.split('<br/>')
+      this.code = ('' + s).split('<br/>')
       return this.contentArray
     }
   },

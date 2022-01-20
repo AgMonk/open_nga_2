@@ -37,7 +37,7 @@
       </div>
       <div>
         <el-divider content-position="left">源代码</el-divider>
-        <my-copy-button v-if="reply.content" :copy-text="reply.content.replace(/<br\/>/g,'\n')" size="small" text="复制" />
+        <my-copy-button v-if="reply.content" :copy-text="(''+reply.content).replace(/<br\/>/g,'\n')" size="small" text="复制" />
         <el-switch v-model="reply.mode" active-text="源代码" active-value="code" inactive-value="render" style="margin-left: 5px" />
       </div>
     </template>

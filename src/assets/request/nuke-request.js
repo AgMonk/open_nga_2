@@ -272,3 +272,11 @@ export const delFavor = ({tidarray, page = 1}) => nukeRequest({
     , tidarray
     , page
 })
+// 投票/菠菜
+export const vote = ({tid, voteid}) => nukeRequest({
+    __lib: "vote",
+    __act: "vote",
+    tid,
+    voteid,
+    raw: 3,
+})

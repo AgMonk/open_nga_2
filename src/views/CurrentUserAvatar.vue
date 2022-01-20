@@ -28,21 +28,29 @@ export default {
   methods: {
     command(e) {
       this.$router.push(e)
+    },
+    update(user) {
+      console.log(user)
+      const {avatar, uid} = user
+      let random = Math.floor(Math.random() * avatar.length)
+      this.avatarUrl = avatar[random]
+      this.dropdownItems = [
+        {name: "用户中心", toRoute: {name: '用户中心', params: {uid}}},
+        {name: "我的主题", toRoute: {name: '搜索用户发言', params: {authorid: uid, page: 1}}},
+        {name: "我的回复", toRoute: {name: '搜索用户发言', params: {authorid: uid, page: 1}, query: {searchpost: 1}}},
+        {name: "短消息", toRoute: {name: '短消息列表', params: {page: 1}}},
+        {name: "收藏", toRoute: {name: '已收藏主题', params: {page: 1}}},
+      ]
     }
   },
   mounted() {
-    const {avatar, uid} = this.currentUser
-    let random = Math.floor(Math.random() * avatar.length)
-    this.avatarUrl = avatar[random]
-    this.dropdownItems = [
-      {name: "用户中心", toRoute: {name: '用户中心', params: {uid}}},
-      {name: "我的主题", toRoute: {name: '搜索用户发言', params: {authorid: uid, page: 1}}},
-      {name: "我的回复", toRoute: {name: '搜索用户发言', params: {authorid: uid, page: 1}, query: {searchpost: 1}}},
-      {name: "短消息", toRoute: {name: '短消息列表', params: {page: 1}}},
-      {name: "收藏", toRoute: {name: '已收藏主题', params: {page: 1}}},
-    ]
+    this.update(this.currentUser)
   },
-  watch: {},
+  watch: {
+    currentUser(to) {
+      this.update(to)
+    }
+  },
   props: {},
 }
 

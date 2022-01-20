@@ -289,8 +289,68 @@ export const handleAttachs = reply => {
 const handleReply = reply => {
     handleThreadType(reply)
 
-    const {postdatetimestamp, score, score_2, alterinfo, hotreply, from_client, comment, "14": gifts, authorid, tid, pid} = reply
+    const {postdatetimestamp, score, score_2, alterinfo, hotreply, from_client, comment, "14": gifts, authorid, tid, pid, vote} = reply
     reply.rawAid = authorid
+
+
+    //投票数据
+    if (vote) {
+        console.log(vote)
+        const array = vote.split('~');
+        console.log(array)
+        const optionObj = {}
+        const config = {}
+        let totalCount = 0, totalMoney = 0;
+        let totalUser = 0;
+        for (let i = 0; i < array.length; i += 2) {
+            const i0 = array[i]
+            const i1 = array[i + 1]
+            const i0a = i0.replace('_', '')
+            if (!isNaN(i0)) {
+                optionObj[i0] = {id: parseInt(i0), text: i1}
+            } else if (!isNaN(i0a)) {
+                const [count, money, t] = i1.split(',')
+                optionObj[i0a].count = parseInt(count);
+                optionObj[i0a].money = parseInt(money);
+                totalCount += parseInt(count);
+                totalMoney += parseInt(money);
+                totalUser = t > 0 ? parseInt(t) : totalUser;
+            } else {
+                switch (i0) {
+                    case 'max_select':
+                        config.maxSelect = parseInt(i1);
+                        break
+                    case 'end':
+                        config[i0] = second2String(i1);
+                        config.disabled = new Date().getTime() / 1000 - i1 > 0
+                        break;
+                    case 'type':
+                    case 'min':
+                    case 'max':
+                    case 'opt':
+                        config[i0] = parseInt(i1);
+                        break;
+                    case 'priv':
+                        config[i0] = i1;
+                        break;
+                }
+            }
+        }
+        for (let key in optionObj) {
+            if (optionObj.hasOwnProperty(key)) {
+                const item = optionObj[key]
+                item.countPercent = totalCount > 0 ? item.count / totalCount * 100 : 0
+                item.moneyPercent = totalMoney > 0 ? item.money / totalMoney * 100 : 0
+            }
+        }
+        config.totalMoney = totalMoney;
+        config.totalCount = totalCount;
+        config.totalUser = totalUser;
+
+        const o = {options: obj2Array(optionObj), config}
+        console.log(o)
+        reply.vote = o
+    }
 
     // 时间戳
     const timestamp = {}

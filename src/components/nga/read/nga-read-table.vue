@@ -13,7 +13,7 @@
                      @current-change="currentChange"
       />
       <span v-if="pageData && clientMode==='PC端'">
-        <el-input v-model="destLevel" size="small" style="width:100px" />
+        <el-input v-model="destLevel" class="no-number" size="small" style="width:100px" type="number" />
         <el-button size="small" type="success" @click="jumpLevel">跳转楼层</el-button>
       </span>
 
@@ -66,6 +66,13 @@
                   X {{ item.count }}
                 </span>
               </div>
+              <div v-if="row.vote" id="投票区" style="text-align: left">
+                <el-divider v-if="clientMode==='PC端'" content-position="left"><span class="divider">投票区</span></el-divider>
+                <nga-vote-config :config="row.vote.config" />
+
+                <nga-vote-table v-if="row.vote" :tid="thread.tid" :vote="row.vote" />
+
+              </div>
               <!--              <div v-if="users[row.authorid] && users[row.authorid].signature" style="text-align: left">-->
               <!--                <el-collapse>-->
               <!--                  <el-collapse-item title="[签名区]">-->
@@ -94,46 +101,34 @@
 
 <script>
 import NgaReadUserCard from "@/components/nga/read/nga-read-user-card";
-import NgaScoreTag from "@/components/nga/read/nga-score-tag";
-import NgaLevelTag from "@/components/nga/read/nga-level-tag";
-import MyTagWithTooltip from "@/components/my/my-tag-with-tooltip";
-import MyRouterLink from "@/components/my/my-router-link";
-import {Setting} from '@element-plus/icons'
-import NgaThreadTypeTag from "@/components/nga/thread/nga-thread-type-tag";
 import {keypressEvent, scrollToId} from "@/assets/utils/DomUtils";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {report} from "@/assets/request/nuke-request";
 import NgaCommentCard from "@/components/nga/read/nga-comment-card";
-import NgaReadOperationButton from "@/components/nga/read/nga-read-operation-button";
 import NgaContent from "@/components/nga/content/nga-content";
 import NgaAttachTag from "@/components/nga/read/nga-attach-tag";
-import NgaSignature from "@/components/nga/read/nga-signature";
 import {mapGetters, mapState} from "vuex";
 import {unEscape} from "@/assets/utils/StringUtils";
 import NgaReadUserCardMobile from "@/components/nga/read/nga-read-user-card-mobile";
 import NgaReplyFooterMobile from "@/components/nga/read/nga-reply-footer-mobile";
 import NgaReplyHeaderMobile from "@/components/nga/read/nga-reply-header-mobile";
 import NgaReplyHeaderPc from "@/components/nga/read/nga-reply-header-pc";
+import NgaVoteConfig from "@/components/nga/read/nga-vote-config";
+import NgaVoteTable from "@/components/nga/read/nga-vote-table";
 
 export default {
   name: "nga-read-table",
   components: {
+    NgaVoteTable,
+    NgaVoteConfig,
     NgaReplyHeaderPc,
     NgaReplyFooterMobile,
     NgaReplyHeaderMobile,
     NgaReadUserCardMobile,
-    NgaSignature,
     NgaAttachTag,
     NgaContent,
-    NgaReadOperationButton,
     NgaCommentCard,
-    NgaThreadTypeTag,
-    MyRouterLink,
-    MyTagWithTooltip,
-    NgaLevelTag,
-    NgaScoreTag,
-    NgaReadUserCard,
-    Setting
+    NgaReadUserCard
   },
   computed: {
     ...mapState('client', [`clientMode`]),

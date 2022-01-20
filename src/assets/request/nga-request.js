@@ -97,7 +97,7 @@ const handleColor = thread => {
     if (titleFont) {
         const colorData = titleFont.substring(0, 5)
         const fontData = titleFont.substring(5)
-        let color = 'black';
+        let color = undefined;
         const bold = fontData[0] === '1'
         const italic = fontData[1] === '1'
         const lineThrough = fontData[2] === '1'

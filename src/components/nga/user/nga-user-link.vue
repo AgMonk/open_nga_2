@@ -1,5 +1,6 @@
 <template>
   <span v-if="(''+uid).startsWith('#anony_')">匿名用户{{(''+uid).substring(7,13)}}</span>
+  <span v-else-if="uid==='[未知用户]'">未知用户</span>
   <el-tooltip v-else :disabled="disabled" effect="light" placement="right">
     <template #content>
       <el-button :size="size" :type="type"

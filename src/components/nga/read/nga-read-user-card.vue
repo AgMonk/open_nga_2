@@ -3,7 +3,7 @@
     <template #header>
       <div class="card-header">
         <nga-user-link :uid="uid" />
-        <el-tooltip v-if="!(''+uid).startsWith('#anony_')" effect="light">
+        <el-tooltip v-if="hasUserInfo(uid)" effect="light">
           <template #content>
             <el-descriptions :column="2">
               <el-descriptions-item v-if="user.reputation" label="声望">
@@ -36,7 +36,7 @@
         </el-tooltip>
       </div>
     </template>
-    <span v-if="!disableAvatar && !(''+uid).startsWith('#anony_')">
+    <span v-if="!disableAvatar && hasUserInfo(uid)">
       <!--    非匿名用户 -->
       <span v-if="user && user.avatar">
         <my-avatar :list="user.avatar" />
@@ -52,6 +52,7 @@ import {mapState} from "vuex";
 import NgaMoneyText from "@/components/nga/user/nga-money-text";
 import MyAvatar from "@/components/nga/user/my-avatar";
 import NgaUserReputationTag from "@/components/nga/user/nga-user-reputation-tag";
+import {hasUserInfo} from "@/assets/request/nga-request";
 
 export default {
   name: "nga-read-user-card",
@@ -66,6 +67,7 @@ export default {
     ...mapState("users", [`users`]),
   },
   methods: {
+    hasUserInfo,
     update(e) {
       this.user = this.users[e]
     },

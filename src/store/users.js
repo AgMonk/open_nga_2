@@ -7,6 +7,7 @@ import {checkStorageSize, delCache, getCache, putCache} from "@/assets/utils/Sto
 import {ElMessage} from "element-plus";
 import {slf4j} from "@/assets/utils/LogUtils";
 import {obj2Array} from "@/assets/utils/ObjectUtils";
+import {getAnonyName} from "@/assets/request/anonyName";
 
 const splitter = ',';
 
@@ -70,6 +71,11 @@ export default {
             }
         },
         saveUser: (state, user) => {
+            const {uid} = user
+            if (('' + uid).startsWith('#anony_')) {
+                console.log(user)
+                user.username = getAnonyName(uid);
+            }
             saveU(state, user);
             // console.log(state.users[uid])
             putCache("Username", stringifyUsername(obj2Array(state.users)))

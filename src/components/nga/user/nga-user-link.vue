@@ -1,7 +1,7 @@
 <template>
   <span v-if="(''+uid).startsWith('#anony_')">
     <el-tag effect="dark" size="mini" type="danger">匿名</el-tag>
-    {{ users[uid].username }}
+    {{ getAnonyName(uid) }}
   </span>
   <span v-else-if="uid==='[未知用户]'">未知用户</span>
   <el-tooltip v-else :disabled="disabled" effect="light" placement="right">
@@ -41,6 +41,7 @@
 import MyRouterLink from "@/components/my/my-router-link";
 import {mapState} from "vuex";
 import {ElMessage} from "element-plus";
+import {getAnonyName} from "@/assets/request/anonyName";
 
 export default {
   name: "nga-user-link",
@@ -55,6 +56,7 @@ export default {
     ...mapState("users",[`users`]),
   },
   methods: {
+    getAnonyName,
     open(url) {
       window.open(url)
     },

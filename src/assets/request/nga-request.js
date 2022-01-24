@@ -4,7 +4,6 @@ import {copyObj, obj2Array} from "@/assets/utils/ObjectUtils";
 import {parseThreadTypeBit, parseTitleFont} from "@/assets/request/bitUtils";
 import {unEscape} from "@/assets/utils/StringUtils";
 import {ElMessage} from "element-plus";
-import {getAnonyName} from "@/assets/request/anonyName";
 
 // 配合Form-Data传递参数
 export const transformRequest = [
@@ -532,11 +531,11 @@ export const handleUserData = (__U, data) => {
         //匿名用户
         if (id < 0 && replies) {
             const {username} = user;
-            console.log(getAnonyName(username))
+            // console.log(getAnonyName(username))
 
             user.uid = username
             //生成中文匿名用户名
-            user.username = getAnonyName(username);
+            // user.username = getAnonyName(username);
 
             const handleAnonymousName = (array, uid, username) => {
                 if (array && array.length > 0) {

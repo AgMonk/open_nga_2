@@ -31,6 +31,8 @@ export default {
         return {name: '浏览版面主题', params: {fid: data.mirror.fid, page: 1}}
       } else if (this.isType(data.mirror, '合集')) {
         return {name: '浏览合集主题', params: {stid: data.tid, page: 1}}
+      } else if (this.isType(data.mirror, '镜像')) {
+        return {name: '回复列表', params: {tid: data.mirror.from, page: 1}}
       }
       return {name: '回复列表', params: {tid: data.tid, page: 1}}
     },

@@ -3,6 +3,8 @@
     <el-col :span="isType(data.mirror,[ '合集主题', '子版主题'])?20:24">
       <nga-thread-link :data="data" />
       <nga-thread-type-tag :type="data.type" />
+      <my-tag-with-tooltip v-if="data.mirror&& data.mirror.type==='镜像'" size="small" tooltip="镜像自其他版面的主题">镜像</my-tag-with-tooltip>
+
       <el-pagination
           v-if="data.replies>19 && $route.name!=='已收藏主题' && clientMode==='PC端'"
           :default-current-page="0"
@@ -39,10 +41,11 @@ import NgaThreadTypeTag from "@/components/nga/thread/nga-thread-type-tag";
 import MyTimestamp from "@/components/my/my-timestamp";
 import NgaContent from "@/components/nga/content/nga-content";
 import {mapState} from "vuex";
+import MyTagWithTooltip from "@/components/my/my-tag-with-tooltip";
 
 export default {
   name: "thread-row",
-  components: {NgaContent, MyTimestamp, NgaThreadTypeTag, NgaThreadLink, MyRouterLink},
+  components: {NgaContent, MyTimestamp, NgaThreadTypeTag, NgaThreadLink, MyRouterLink, MyTagWithTooltip},
   data() {
     return {}
   },

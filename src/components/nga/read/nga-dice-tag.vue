@@ -37,6 +37,9 @@ export default {
             tempSeed = seed;
             results.push({range, result: r})
           }
+        } else if (!isNaN(item)) {
+          const n = parseInt(item)
+          sum += n;
         }
       })
       this.seed.seed = tempSeed

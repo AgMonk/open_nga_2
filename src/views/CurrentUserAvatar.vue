@@ -29,11 +29,16 @@ export default {
     command(e) {
       this.$router.push(e)
     },
+    setAvatar(avatar) {
+      if (avatar) {
+        let random = Math.floor(Math.random() * avatar.length)
+        this.avatarUrl = avatar[random]
+      }
+    },
     update(user) {
       console.log(user)
       const {avatar, uid} = user
-      let random = Math.floor(Math.random() * avatar.length)
-      this.avatarUrl = avatar[random]
+      this.setAvatar(avatar)
       this.dropdownItems = [
         {name: "用户中心", toRoute: {name: '用户中心', params: {uid}}},
         {name: "我的主题", toRoute: {name: '搜索用户发言', params: {authorid: uid, page: 1}}},

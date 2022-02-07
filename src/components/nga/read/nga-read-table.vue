@@ -215,7 +215,29 @@ export default {
   updated() {
     const hash = this.$route.hash.substring(1)
     this.$nextTick(() => {
-      setTimeout(() => scrollToId(hash), 200)
+      setTimeout(() => {
+        const success = scrollToId(hash)
+        if (hash && !success) {
+          console.error(`滚动不成功 hash = ${hash}`)
+          const pattern = /^P(\d+)$/
+          const match = pattern.exec(hash)
+          if (match) {
+            console.log(match)
+            ElMessageBox.confirm("滚动不成功，似乎是卡审核了，是否直接回复该回复？", {
+              title: '滚动不成功',
+              type: 'warning',
+              confirmButtonText: '回复',
+              cancelButtonText: '取消',
+            }).then(() => {
+              const to = {name: '发帖', params: {action: 'reply'}, query: {tid: this.thread.tid, pid: match[1]}}
+              this.$router.push(to)
+            }).catch(reason => {
+              ElMessage.info("已取消")
+              console.log(reason)
+            })
+          }
+        }
+      }, 200)
     })
   },
   mounted() {

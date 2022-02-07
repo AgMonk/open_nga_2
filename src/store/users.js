@@ -83,6 +83,7 @@ export default {
         loadAccounts: (state) => {
             state.accounts = getCache("accounts")
             state.accounts = state.accounts ? state.accounts : []
+            state.accounts.sort((a, b) => a.uid.localeCompare(b.uid))
             slf4j("加载所有账号信息")
             console.log(state.accounts)
         },

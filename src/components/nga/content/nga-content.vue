@@ -3,7 +3,7 @@
     <nga-content-render :data="contentArray" :seed="replySeed" />
   </div>
   <div v-if="mode==='code'" class="content">
-    <div v-for="item in code">{{ item }}</div>
+    <div v-for="item in code">{{ unEscape(item) }}</div>
   </div>
 
 </template>

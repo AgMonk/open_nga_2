@@ -223,6 +223,15 @@ export default {
           const match = pattern.exec(hash)
           if (match) {
             console.log(match)
+
+            let clearHash = true;
+
+            setTimeout(() => {
+              if (clearHash) {
+                this.$router.push({hash: ''})
+              }
+            }, 30 * 1000)
+
             ElMessageBox.confirm("滚动不成功，似乎是卡审核了，是否直接回复该回复？", {
               title: '滚动不成功',
               type: 'warning',
@@ -230,10 +239,13 @@ export default {
               cancelButtonText: '取消',
             }).then(() => {
               const to = {name: '发帖', params: {action: 'reply'}, query: {tid: this.thread.tid, pid: match[1]}}
-              this.$router.push(to)
+              this.$router.push(to);
+              clearHash = false;
             }).catch(reason => {
               ElMessage.info("已取消")
               console.log(reason)
+              clearHash = false;
+              this.$router.push({hash: ''})
             })
           }
         }

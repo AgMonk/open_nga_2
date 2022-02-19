@@ -46,10 +46,19 @@
           <h3>签名</h3>
         </template>
         <el-descriptions-item v-if="data.signature">
-          <nga-signature :uid="data.uid"/>
+          <nga-signature :uid="data.uid" />
         </el-descriptions-item>
         <el-descriptions-item v-else>
           无
+        </el-descriptions-item>
+      </el-descriptions>
+      <el-descriptions :column="1" border>
+        <template #title>
+          <h3>发言</h3>
+        </template>
+        <el-descriptions-item align="left">
+          <el-button size="small" type="success" @click="$router.push({name:'搜索用户发言',params:{page:1,authorid:data.uid}})">用户主题</el-button>
+          <el-button size="small" type="success" @click="$router.push({name:'搜索用户发言',params:{page:1,authorid:data.uid},query:{searchpost:1}})">用户回复</el-button>
         </el-descriptions-item>
       </el-descriptions>
     </el-main>
@@ -64,10 +73,11 @@ import MyAvatar from "@/components/nga/user/my-avatar";
 import NgaUserLink from "@/components/nga/user/nga-user-link";
 import NgaMoneyText from "@/components/nga/user/nga-money-text";
 import NgaSignature from "@/components/nga/read/nga-signature";
+import MyTagWithTooltip from "@/components/my/my-tag-with-tooltip";
 
 export default {
   name: "user-center",
-  components: {NgaSignature, NgaMoneyText, NgaUserLink, MyAvatar},
+  components: {MyTagWithTooltip, NgaSignature, NgaMoneyText, NgaUserLink, MyAvatar},
   data() {
     return {
       data: {},

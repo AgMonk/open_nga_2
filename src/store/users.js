@@ -113,7 +113,8 @@ export default {
             setCookies(cookie, 90, "/nga-api")
             let map = getCookieMap(cookie)
             const uid = map.ngaPassportUid;
-            const info = await dispatch("getUserInfo", uid)
+            const info = await getUserInfo(uid);
+            // const info = await dispatch("getUserInfo", uid)
             console.log(info)
             if (info && (info.email || info.phone)) {
                 //    登陆成功

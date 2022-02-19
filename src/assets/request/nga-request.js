@@ -943,7 +943,7 @@ export const readRequest = ({pid, tid, page, authorid}) => {
     }).then(res => {
         const replies = res.data.replies;
         const {currentPage, totalPage, total, pageSize} = res.data.pageData
-        const replyCount = currentPage < totalPage ? pageSize : (total % pageSize)
+        const replyCount = (currentPage < totalPage || total % pageSize === 0) ? pageSize : (total % pageSize)
         let index = 0;
         let currentLevel = (currentPage - 1) * pageSize
         while (replies.length < replyCount) {

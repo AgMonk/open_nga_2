@@ -128,6 +128,9 @@ export default {
 
                 ElMessage.success(`登陆成功 [${info.username}]`)
                 return info
+            } else {
+                console.error(`登陆不成功`)
+                throw {map, info}
             }
         },
         method: ({dispatch, commit, state}, payload) => {

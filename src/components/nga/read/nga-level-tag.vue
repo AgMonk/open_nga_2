@@ -37,10 +37,10 @@ export default {
   components: {MyCopyButton, MyTagWithTooltip},
   methods: {
     getBbsCode(reply) {
-      if (reply.level === 0) {
+      if (reply.level === 0 && this.$route.name !== '单个回复') {
         return `[tid=${reply.tid}]这个帖子[/tid]`
       }
-      return `[pid=${reply.pid}]${reply.level}楼[/pid]`
+      return `[pid=${reply.pid}]这个回复[/pid]`
     },
     open(url) {
       window.open(url)

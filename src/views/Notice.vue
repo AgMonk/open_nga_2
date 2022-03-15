@@ -4,10 +4,11 @@
         v-if="replies.length+pm.length+approbation.length>0"
         :value="unread.total"
         :type="unread.total>0?'danger':'success'"
-        style="position: fixed; bottom: 0; left: 0;">
+        style="position: fixed; bottom: 10px; left: 10px;"
+    >
       <el-button @click="showDrawer=true;update()">
         <el-icon>
-          <message/>
+          <message />
         </el-icon>
       </el-button>
     </el-badge>

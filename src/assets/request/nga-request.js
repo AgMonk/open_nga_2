@@ -2,7 +2,7 @@ import axios from "axios";
 import {second2String} from "@/assets/utils/DateFormat";
 import {copyObj, obj2Array} from "@/assets/utils/ObjectUtils";
 import {parseThreadTypeBit, parseTitleFont} from "@/assets/request/bitUtils";
-import {unEscape} from "@/assets/utils/StringUtils";
+import {decodeUTF8, unEscape} from "@/assets/utils/StringUtils";
 import {ElMessage} from "element-plus";
 
 // 配合Form-Data传递参数
@@ -278,7 +278,8 @@ export const handleAttachs = reply => {
                 return {
                     url: attachurl,
                     dsc: dscp,
-                    filename: decodeURI(url_utf8_org_name),
+                    filename: decodeUTF8(url_utf8_org_name),
+                    // filename: decodeURI(url_utf8_org_name),
                     name,
                     ext, size, type,
                 }

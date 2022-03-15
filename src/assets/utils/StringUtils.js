@@ -55,3 +55,17 @@ export const parseUrl = (fullUrl) => {
         query: queryString2Obj(query)
     }
 }
+
+
+export const decodeUTF8 = (string) => {
+    let t = string;
+    const pattern = /%.{2}%.{2}%.{2}/g
+    let res;
+    while (res = pattern.exec(string)) {
+        try {
+            t = t.replace(res[0], decodeURI(res[0]))
+        } catch (e) {
+        }
+    }
+    return t;
+}

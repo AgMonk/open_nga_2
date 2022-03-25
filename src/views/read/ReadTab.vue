@@ -77,6 +77,7 @@ import MyRouterLink from "@/components/my/my-router-link";
 import NgaSearchDialog from "@/components/nga/search/nga-search-dialog";
 import {ArrowLeft, ChatSquare, RefreshRight} from "@element-plus/icons";
 import NgaJumpPageButton from "@/components/nga/read/nga-jump-page-button";
+import {autoRetry} from "@/assets/utils/RequestUtils";
 
 export default {
   name: "ReadTab",
@@ -115,6 +116,9 @@ export default {
     ...mapMutations('config', [`setConfig`]),
     ...mapMutations('breadcrumb', [`setWithRead`]),
     ...mapActions("users", [`getUserInfo`]),
+    getRes(force) {
+      return this.get(force).catch(reason => autoRetry(reason, () => this.getRes(force)))
+    },
     async get(force) {
       this.loading = true;
       const {pid, tid, page, authorid} = Object.assign({}, this.$route.query, this.$route.params)
@@ -161,7 +165,7 @@ export default {
     },
     keypress(e) {
       const methods = {
-        r: () => this.get(true),
+        r: () => this.getRes(true),
         R: () => this.$router.push({name: '发帖', params: {action: 'reply'}, query: {tid: this.thread.tid}}),
         Q: () => {
           const {subForum, fid} = this.thread
@@ -206,13 +210,13 @@ export default {
   },
   mounted() {
     setTitle(this.$route.name)
-    this.get(false)
+    this.getRes(false)
     document.addEventListener('keypress', this.keypress)
     document.addEventListener('touchstart', this.scrollEvent)
     document.addEventListener('touchend', this.scrollEvent)
     this.refreshInterval = setInterval(() => {
       if (this.config.autoRefresh) {
-        this.get(true)
+        this.getRes(true)
       }
     }, 1000 * 60 * 3);
 
@@ -231,7 +235,7 @@ export default {
           scrollYToTop()
           this.$refs['scrollbar'].setScrollTop(0)
         }
-        this.get(false, to)
+        this.getRes(false, to)
       }
     }
   },

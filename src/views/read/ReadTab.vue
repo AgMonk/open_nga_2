@@ -14,7 +14,7 @@
       <nga-search-dialog v-if="thread.subForum" :data="{stid:[thread.subForum.tid]}" mode="合集" />
       <nga-search-dialog v-else :data="{fid:[thread.fid]}" mode="版面" />
       <el-button size="small" style="margin-right: 10px" type="success" @click="get(true)">刷新</el-button>
-      <my-router-link :to="{name:'发帖',params:{action:'reply'},query:{tid:thread.tid}}">
+      <my-router-link :to="{name:'发帖',params:{action:'reply'},query:{tid:$route.params.tid}}">
         <el-button size="small" type="primary">回复</el-button>
       </my-router-link>
       <el-switch v-model="config.autoRefresh" active-text="自动刷新(3min)" @change="setConfig({key:'autoRefresh',value:$event})" />
@@ -97,6 +97,7 @@ export default {
         pageSize: 20,
       },
       loading: false,
+      autoRetry: true,
       pageDialogShow: false,
       replies: [],
       thread: {},
@@ -117,7 +118,11 @@ export default {
     ...mapMutations('breadcrumb', [`setWithRead`]),
     ...mapActions("users", [`getUserInfo`]),
     getRes(force) {
-      return this.get(force).catch(reason => autoRetry(reason, () => this.getRes(force)))
+      return this.get(force).catch(reason => {
+        if (this.autoRetry) {
+          autoRetry(reason, () => this.getRes(force))
+        }
+      })
     },
     async get(force) {
       this.loading = true;

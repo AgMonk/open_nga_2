@@ -2,7 +2,7 @@ import axios from "axios";
 import {second2String} from "@/assets/utils/DateFormat";
 import {copyObj, obj2Array} from "@/assets/utils/ObjectUtils";
 import {parseThreadTypeBit, parseTitleFont} from "@/assets/request/bitUtils";
-import {decodeUTF8, unEscape} from "@/assets/utils/StringUtils";
+import {decodeUTF8, htmlDecode, unEscape} from "@/assets/utils/StringUtils";
 import {ElMessage} from "element-plus";
 
 // 配合Form-Data传递参数
@@ -292,8 +292,9 @@ const handleReply = reply => {
 
     const {postdatetimestamp, score, score_2, alterinfo, hotreply, from_client, comment, "14": gifts, authorid, tid, pid, vote} = reply
     reply.rawAid = authorid
-
-
+    console.log(reply.content)
+    reply.content = htmlDecode(unEscape(reply.content))
+    console.log(reply.content)
     //投票数据
     if (vote) {
         const array = vote.split('~');

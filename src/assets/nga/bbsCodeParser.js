@@ -4,7 +4,7 @@
 // let debug = true;
 import {unEscape} from "@/assets/utils/StringUtils";
 
-let debug = false;
+let debug = true;
 
 // 标签构造函数
 function BbsTag(type, props, children, raw) {
@@ -205,6 +205,8 @@ export const parseBbsCode = (code) => {
         .replace(/\[list]\[\/li]/g, "[ul]")
         .replace(/\[\/list]/g, "[/li][/ul]")
         .replace(/\[list]/g, "[ul][li]")
+        .replace(/\n/g, "<br/>")
+
 
     //处理 random block 标签
     if (code.includes("[randomblock]")) {

@@ -1,5 +1,5 @@
 import {handleAttachs, requestUnity} from "@/assets/request/nga-request";
-import {unEscape} from "@/assets/utils/StringUtils";
+import {htmlDecode, unEscape} from "@/assets/utils/StringUtils";
 
 export const postRequest = (data) => requestUnity({
     url: "post.php",
@@ -9,7 +9,7 @@ export const postRequest = (data) => requestUnity({
     handleAttachs(data)
     const r = {
         attachUrl: data.attach_url,
-        content: unEscape(data.content),
+        content: htmlDecode(unEscape(data.content)),
         forum: data.forum,
         auth: data.auth,
         attachs: data.attachs,

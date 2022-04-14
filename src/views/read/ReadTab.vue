@@ -119,6 +119,7 @@ export default {
     ...mapActions("users", [`getUserInfo`]),
     getRes(force) {
       return this.get(force).catch(reason => {
+        this.loading = false;
         if (this.autoRetry) {
           autoRetry(reason, () => this.getRes(force))
         }

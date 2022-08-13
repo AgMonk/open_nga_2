@@ -9,11 +9,7 @@ export const autoRetry = (reason, method) => {
         ElMessage.info("请求超时，稍后自动重试")
         setTimeout(() => method(), 3000)
     }
-    if (message.includes('Unexpected end of JSON input')) {
-        console.slf4j("请求出错，稍后自动重试")
-        ElMessage.info("请求出错，稍后自动重试")
-        setTimeout(() => method(), 15000)
-    } else {
+    else {
         console.log(m)
         ElMessage.error(m)
         throw reason

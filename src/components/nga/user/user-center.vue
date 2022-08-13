@@ -23,6 +23,7 @@
         <el-descriptions-item v-if="data.groupId" label="用户组">{{ data.groupName }}({{ data.groupId }})</el-descriptions-item>
         <el-descriptions-item v-if="data.email" label="email">{{ data.email }}</el-descriptions-item>
         <el-descriptions-item v-if="data.phone" label="手机">{{ data.phone }}</el-descriptions-item>
+        <el-descriptions-item v-if="data.ipLoc" label="IP属地">{{ data.ipLoc }}</el-descriptions-item>
         <template v-if="data.timestamp">
           <el-descriptions-item v-if="data.timestamp.reg" label="注册时间">{{ data.timestamp.reg.value }}</el-descriptions-item>
           <el-descriptions-item v-if="data.timestamp.mute" label="被禁言"><span style="color:red;font-weight: bold">{{ data.timestamp.mute.value }}</span></el-descriptions-item>

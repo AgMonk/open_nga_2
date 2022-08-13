@@ -128,7 +128,7 @@ export const getUserInfo = (uid) => nukeRequest({
     // console.log(nukeData)
     //    用户信息
     // noinspection JSUnusedLocalSymbols
-    const {audit_stat, group, groupid, medal, more_info, regdate, uid, avatar, email, money, phone, sign, rvrc, posts, username, muteTime, verified} = nukeData
+    const {audit_stat,ipLoc, group, groupid, medal, more_info, regdate, uid, avatar, email, money, phone, sign, rvrc, posts, username, muteTime, verified} = nukeData
 
     const user = {
         uid,
@@ -145,6 +145,9 @@ export const getUserInfo = (uid) => nukeRequest({
     }
     if (email) {
         user.email = email;
+    }
+    if (ipLoc) {
+        user.ipLoc = ipLoc;
     }
     if (phone) {
         user.phone = phone;

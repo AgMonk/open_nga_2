@@ -15,6 +15,7 @@
                            tooltip="跳转链接指向的回复"
                            type="danger"
       ><b>这个回复</b></my-tag-with-tooltip>
+      <user-ip-location :uid="row.authorid" />
     </span>
 
     <span>
@@ -39,10 +40,12 @@ import MyTagWithTooltip from "@/components/my/my-tag-with-tooltip";
 import NgaLevelTag from "@/components/nga/read/nga-level-tag";
 import NgaScoreTag from "@/components/nga/read/nga-score-tag";
 import {mapState} from "vuex";
+import UserIpLocation from "@/components/nga/user/user-ip-location";
 
 export default {
   name: "nga-reply-header-pc",
   components: {
+    UserIpLocation,
     NgaReadOperationButton,
     NgaCommentCard,
     NgaThreadTypeTag,

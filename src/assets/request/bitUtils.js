@@ -24,19 +24,25 @@ export const parseBitData = (num) => {
 }
 
 export const parseTitleFont = (data) => {
+    //将字串使用base64解码，并切割为单字节数组
     const s = window.atob(data).split("");
+    //将各字节转换为8位二进制数组（补齐位数）
     const array = s
         .map(i => bin2UInt(i).toString(2))
         .map(i => ('00000000' + i).slice(-8));
-
     const res = {}
+    //以5为步长循环该数组（如果为合集主题array长度为10，否则为5）
     for (let i = 0; i < array.length - 1; i += 5) {
+        //首字节表示数据类型
         const type = parseInt(array[i], 2) === 2 ? "stid" : 'bit'
+        //将后续4个字节数据拼接并转换为十进制数
         let bit = parseInt(array.slice(i + 1, i + 5).join(''), 2)
         if (type === 'stid') {
+            //如果数据类型为1 ， 表示bit为集合id
             res.stid = bit;
         }
         if (type === 'bit') {
+            //如果是字体数据，把数据转换为2进制字符串，并反向方便后续处理
             res.titleFont = bit.toString(2).split("").reverse().join('')
         }
     }

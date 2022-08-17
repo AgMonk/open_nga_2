@@ -317,7 +317,9 @@ export default {
       console.log(res)
       const {tid, text, pid} = res;
       ElMessage.success(text)
-      await this.$router.push({name: '回复列表', params: {tid, page: 'e'}, hash: pid ? `#P${pid}` : undefined})
+      await this.$router.push({name: '回复列表', params: {tid, page: 'e'}, hash: pid ? `#P${pid}` : undefined}).finally(()=>{
+        this.loading = false
+      })
     },
   },
   mounted() {

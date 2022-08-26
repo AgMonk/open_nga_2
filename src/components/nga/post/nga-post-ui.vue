@@ -289,7 +289,7 @@ export default {
 
       }
     },
-    async sendPost() {
+     sendPost() {
       if (this.loading) {
         return;
       }
@@ -313,11 +313,12 @@ export default {
       if (anony) {
         data.anony = 1
       }
-      const res = await postRequest(data)
-      console.log(res)
-      const {tid, text, pid} = res;
-      ElMessage.success(text)
-      await this.$router.push({name: '回复列表', params: {tid, page: 'e'}, hash: pid ? `#P${pid}` : undefined}).finally(()=>{
+      postRequest(data).then(res=>{
+        console.log(res)
+        const {tid, text, pid} = res;
+        ElMessage.success(text)
+        this.$router.push({name: '回复列表', params: {tid, page: 'e'}, hash: pid ? `#P${pid}` : undefined})
+      }).finally(()=>{
         this.loading = false
       })
     },

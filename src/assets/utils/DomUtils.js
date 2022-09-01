@@ -11,7 +11,7 @@ export const setTextareaSelection = (textarea, start, end) => {
 export const setSelection = (dom, i1, i2) => {
     dom.focus()
     setTimeout(() => {
-    dom.focus()
+        dom.focus()
         dom.selectionStart = i1;
         dom.selectionEnd = i2;
     }, 50)

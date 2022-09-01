@@ -292,9 +292,9 @@ const handleReply = reply => {
 
     const {postdatetimestamp, score, score_2, alterinfo, hotreply, from_client, comment, "14": gifts, authorid, tid, pid, vote} = reply
     reply.rawAid = authorid
-    console.log(reply.content)
+    // console.log(reply.content)
     reply.content = htmlDecode(unEscape(reply.content))
-    console.log(reply.content)
+    // console.log(reply.content)
     //投票数据
     if (vote) {
         const array = vote.split('~');

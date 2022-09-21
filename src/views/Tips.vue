@@ -139,7 +139,8 @@ export default {
           }
 
           location ^~ /nga-api/ {
-              proxy_pass https://bbs.nga.cn/;
+                 proxy_pass https://nga.178.com/;
+                #proxy_pass https://bbs.nga.cn/;
           }
           location ^~ /attachments/ {
               proxy_pass https://img.nga.178.com/attachments/;

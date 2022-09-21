@@ -11,7 +11,7 @@
         <el-divider content-position="left">打开</el-divider>
         <el-button size="small"
                    type="primary"
-                   @click="reply.pid?open(`https://bbs.nga.cn/read.php?pid=${reply.pid}&to`):open(`https://bbs.nga.cn/read.php?tid=${reply.tid}`)"
+                   @click="reply.pid?open(`${domain}read.php?pid=${reply.pid}&to`):open(`${domain}read.php?tid=${reply.tid}`)"
         >官方地址
         </el-button>
 
@@ -31,6 +31,7 @@
 <script>
 import MyTagWithTooltip from "@/components/my/my-tag-with-tooltip";
 import MyCopyButton from "@/components/my/my-copy-button";
+import {domain} from "@/assets/request/nga-request";
 
 export default {
   name: 'nga-agree-button',
@@ -45,6 +46,11 @@ export default {
     open(url) {
       window.open(url)
     },
+  },
+  data(){
+    return {
+      domain
+    }
   },
   props: {
     reply: {

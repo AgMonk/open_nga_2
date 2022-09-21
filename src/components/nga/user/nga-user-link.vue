@@ -23,7 +23,7 @@
       </el-button>
       <br>
       <el-button :size="size" :type="type" style="margin-top: 3px"
-                 @click="open(`https://bbs.nga.cn/nuke.php?func=ucp&uid=${uid}`)"
+                 @click="open(`${domain}nuke.php?func=ucp&uid=${uid}`)"
       >打开官方用户中心
       </el-button>
 
@@ -42,6 +42,7 @@ import MyRouterLink from "@/components/my/my-router-link";
 import {mapState} from "vuex";
 import {ElMessage} from "element-plus";
 import {getAnonyName} from "@/assets/request/anonyName";
+import {domain} from "@/assets/request/nga-request";
 
 export default {
   name: "nga-user-link",
@@ -50,6 +51,7 @@ export default {
     return {
       size: "small",
       type: "primary",
+      domain
     }
   },
   computed: {

@@ -1,9 +1,9 @@
 <template>
   <el-tooltip effect="light">
     <template #content>
-      <el-link v-if="isType(data.mirror, '版面')" :href="`https://bbs.nga.cn/thread.php?fid=${data.mirror.fid}`" target="_blank">打开官方</el-link>
-      <el-link v-else-if="isType(data.mirror, '合集')" :href="`https://bbs.nga.cn/thread.php?stid=${data.tid}`" target="_blank">打开官方</el-link>
-      <el-link v-else :href="`https://bbs.nga.cn/read.php?tid=${data.tid}`" target="_blank">打开官方</el-link>
+      <el-link v-if="isType(data.mirror, '版面')" :href="`${domain}thread.php?fid=${data.mirror.fid}`" target="_blank">打开官方</el-link>
+      <el-link v-else-if="isType(data.mirror, '合集')" :href="`${domain}thread.php?stid=${data.tid}`" target="_blank">打开官方</el-link>
+      <el-link v-else :href="`${domain}read.php?tid=${data.tid}`" target="_blank">打开官方</el-link>
     </template>
     <my-router-link :style="data.titleFont?data.titleFont.style:undefined" :to="getRoute(data)">
       <span v-if="!$slots.defalut">{{ text ? text : data.subject }}</span>
@@ -14,12 +14,15 @@
 
 <script>
 import MyRouterLink from "@/components/my/my-router-link";
+import {domain} from "@/assets/request/nga-request";
 
 export default {
   name: "nga-thread-link",
   components: {MyRouterLink},
   data() {
-    return {}
+    return {
+      domain
+    }
   },
   methods: {
     //判断是否为子主题

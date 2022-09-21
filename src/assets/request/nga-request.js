@@ -5,6 +5,10 @@ import {parseThreadTypeBit, parseTitleFont} from "@/assets/request/bitUtils";
 import {decodeUTF8, htmlDecode, unEscape} from "@/assets/utils/StringUtils";
 import {ElMessage} from "element-plus";
 
+
+export const domain = "https://nga.178.com/"
+// export const domain = "https://bbs.nga.cn/"
+
 // 配合Form-Data传递参数
 export const transformRequest = [
     (data) => {
